@@ -37,9 +37,9 @@ def load_config(config_path="config.yaml"):
     # Create experiment result sub-directories (unified naming scheme)
     result_subdirs = [
         # Prep scripts
-        'prep01_features',
-        'prep02_labels',
-        'prep03_splits',
+        'prep01_windows',
+        'prep02_features',
+        'prep03_labels',
         # Paper 1 experiments
         'exp101_lodo_loso',
         'exp102_calib_sweep',

@@ -2,7 +2,7 @@
 # Universal BCI Hypnosis Depth Classification v2.1 — Global Configuration
 # ============================================================================
 # Naming convention:
-#   prep_*.py   : Preprocessing / Feature / Label (shared prerequisite)
+#   prep_*.py   : Preprocessing / Feature / Label / Split generation
 #   exp1xx_*.py : Offline experiments (Paper 1)
 #   rt2xx_*.py  : Online real-time experiments (Paper 2)
 #   utils_*.py  : Shared utility scripts (not experiments)
@@ -107,38 +107,31 @@ channel_mapping:
 # Feature extraction (63 dimensions, feature-order locked)
 # ---------------------------------------------------------------------------
 # Feature vector layout (63 dims):
-#   [0:42]   = 7 DASM pairs x 6 freq bands (delta,theta,alpha,beta,gamma,all)
-#   [42:63]  = 21 log-bandpower (3 bands: theta,alpha,beta x 7 channels)
-#   Feature order is LOCKED via FEATURE_ORDER list to prevent inconsistency.
+#   [0:42]   = 14 channels x 3 bands Log-Bandpower (Theta, Alpha, Beta)
+#   [42:63]  = 7 asymmetry pairs x 3 bands DASM
+#   Feature order is LOCKED via FEAT_NAMES list to prevent inconsistency.
 # ---------------------------------------------------------------------------
 features:
   fs_target: 128          # resample all to 128 Hz
-  window_sec: 2.0         # 2s window (= 256 samples @ 128Hz)
-  stride_sec: 2.0         # stride = 256 (non-overlapping for clean split)
-  nperseg: 256            # Welch segment = 2s
+  window_sec: 2.0         # 2s window (= 256 samples @ 128Hz) per Paper §3.2
+  step_sec: 1.0           # 1s step (50% overlap) per Paper §3.2
+  nperseg: 128            # Welch segment = 1s (= fs_target * window_sec / 2)
 
   bands:
-    delta: [1, 4]
     theta: [4, 8]
     alpha: [8, 13]
     beta:  [13, 30]
-    gamma: [30, 45]
 
-  # Feature order (LOCKED):
-  # Block 1: DASM = logP(left) - logP(right) for 7 asymmetry pairs x 6 band definitions
-  #   6 band defs: delta, theta, alpha, beta, gamma, broadband(1-45Hz)
-  # Block 2: log-bandpower for theta, alpha, beta x 7 channels (AF3,F3,F7,FC5,T7,P7,O1)
+  # Bandpower: log10(trapz(PSD)) for all 14 EPOC channels
+  # DASM: logBP(left) - logBP(right) for 7 asymmetry pairs
   asymmetry_pairs:
     - ["AF3", "AF4"]
-    - ["F3",  "F4"]
     - ["F7",  "F8"]
+    - ["F3",  "F4"]
     - ["FC5", "FC6"]
     - ["T7",  "T8"]
     - ["P7",  "P8"]
     - ["O1",  "O2"]
-
-  bp_channels: ["AF3", "F3", "F7", "FC5", "T7", "P7", "O1"]
-  bp_bands: ["theta", "alpha", "beta"]
 
 # ---------------------------------------------------------------------------
 # Label mapping: dataset-specific -> 3-class hypnosis depth
@@ -181,7 +174,7 @@ label_mapping:
     label_type: "proxy_emotion"
     rules:
       awake:  "emotion == 1"
-      light:  "emotion == 0"
+      light: "emotion == 0"
       deep:   "emotion == -1"
     justification: "Positive emotion ~ alert; negative ~ withdrawal (proxy for depth)"
   SEED_IV:
@@ -197,7 +190,7 @@ label_mapping:
     label_type: "proxy_arousal"
     rules:
       awake:  "arousal >= 6.5"
-      light:  "3.5 <= arousal < 6.5"
+      light: "3.5 <= arousal < 6.5"
       deep:   "arousal < 3.5"
     justification: "Continuous arousal discretized to 3 levels"
   ds004572:
@@ -213,7 +206,7 @@ label_mapping:
     label_type: "true_hypnosis"
     rules:
       awake:  "phase in ['pre', 'post']"
-      light:  "phase == 'during'"
+      light: "phase == 'during'"
       deep:   null
     justification: "Protocol phase as label; deep may not exist in this dataset"
 
@@ -223,7 +216,7 @@ label_mapping:
 model:
   rf:
     n_estimators: 500
-    max_depth: 20
+    max_depth: null
     min_samples_leaf: 5
     class_weight: "balanced"
     n_jobs: -1
@@ -233,9 +226,9 @@ model:
 # ---------------------------------------------------------------------------
 experiment:
   n_seeds: 20
-  seeds: [42, 123, 256, 512, 1024, 2048, 3090, 4096, 5000, 6174,
-          7777, 8192, 9001, 9999, 10007, 11111, 12345, 13579, 24680, 31415]
-  calib_ratios: [0, 0.01, 0.02, 0.05, 0.10, 0.20]
+  seeds: [42, 123, 456, 789, 2024, 1111, 2222, 3333, 4444, 5555,
+          6666, 7777, 8888, 9999, 1234, 2345, 3456, 4567, 5678, 6789]
+  calib_ratios: [0, 0.05, 0.10, 0.20, 0.30, 0.50]
   default_calib_ratio: 0.20
   significance_level: 0.05
   n_bootstrap: 10000
@@ -263,10 +256,10 @@ epoc:
   device: "EPOC+"
   channels: 14
   fs: 128
-  window_sec: 2.0       # aligned with offline
-  step_sec: 2.0
-  buffer_sec: 60.0
-  calib_minutes: 3
+  window_sec: 2.0       # 2s window for feature extraction (256 samples)
+  step_sec: 1.0         # 1s step → 50% overlap for real-time
+  buffer_sec: 60.0      # ring buffer
+  calib_minutes: 3      # calibration phase per class
   protocol:
     phases:
       - name: "awake_baseline"

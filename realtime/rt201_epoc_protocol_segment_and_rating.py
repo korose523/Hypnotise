@@ -115,7 +115,7 @@ class HypnosisProtocol:
         phase = self.get_phase_at(t_sec)
         return phase.label if phase else -1
 
-    def segment_eeg(self, eeg_data, fs, window_sec=2.0, stride_sec=2.0):
+    def segment_eeg(self, eeg_data, fs, window_sec=2.0, stride_sec=1.0):
         """
         Segment continuous EEG into phase-labeled windows.
 
@@ -242,7 +242,7 @@ def simulate_protocol_run(protocol, duration_factor=1.0, out_dir=None):
 
     # Segment
     windows, labels, timestamps, phase_names = protocol.segment_eeg(
-        eeg_data, fs, window_sec=2.0, stride_sec=2.0
+        eeg_data, fs, window_sec=2.0, stride_sec=1.0
     )
 
     # Simulate ratings

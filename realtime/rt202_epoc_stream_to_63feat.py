@@ -117,7 +117,7 @@ class RealtimeFeatureExtractor:
         self.config = config
         self.fs = config['features']['fs_target']
         self.window_sec = config['features']['window_sec']
-        self.stride_sec = config['features']['stride_sec']
+        self.stride_sec = config['features']['step_sec']
         self.nperseg = config['features']['nperseg']
         self.n_channels = 14
         self.n_features = 63

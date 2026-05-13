@@ -32,9 +32,9 @@ from shared.logger import setup_logger
 
 
 def load_prep_data(dataset_name, prep_dir):
-    """Load features and labels from prep01/prep02 output."""
-    feat_path = prep_dir / 'prep01_features' / f'{dataset_name}_features.npz'
-    label_path = prep_dir / 'prep02_labels' / f'{dataset_name}_labels.npz'
+    """Load features and labels from prep02/prep03 output."""
+    feat_path = prep_dir / 'prep02_features' / f'{dataset_name}_features.npz'
+    label_path = prep_dir / 'prep03_labels' / f'{dataset_name}_labels.npz'
 
     if not feat_path.exists() or not label_path.exists():
         return None, None, None

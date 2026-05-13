@@ -6,11 +6,13 @@ Required metrics per evaluation:
   - Per-class Precision / Recall / F1 (Awake / Light / Deep)
   - Confusion Matrix (3x3)
   - Cohen's Kappa
+  - AUC-ROC (one-vs-rest)
 
 Statistical tests:
   - Paired t-test (parametric)
   - Wilcoxon signed-rank test (non-parametric, preferred)
   - Bootstrap 95% CI (distribution-free)
+  - Cohen's d effect size
 """
 
 import numpy as np
@@ -18,7 +20,7 @@ from sklearn.metrics import (
     accuracy_score, balanced_accuracy_score,
     f1_score, precision_score, recall_score,
     confusion_matrix, cohen_kappa_score,
-    classification_report
+    roc_auc_score,
 )
 
 
@@ -31,8 +33,8 @@ def compute_all_metrics(y_true, y_pred, y_proba=None):
     Compute the full set of evaluation metrics.
 
     Args:
-        y_true: ndarray (n_samples,) — true labels (0, 1, 2)
-        y_pred: ndarray (n_samples,) — predicted labels
+        y_true:  ndarray (n_samples,) — true labels (0, 1, 2)
+        y_pred:  ndarray (n_samples,) — predicted labels
         y_proba: ndarray (n_samples, n_classes), optional — predicted probabilities
 
     Returns:
@@ -56,17 +58,35 @@ def compute_all_metrics(y_true, y_pred, y_proba=None):
     metrics['confusion_matrix'] = confusion_matrix(y_true, y_pred).tolist()
 
     # Per-class metrics
+    n_classes = len(np.unique(np.concatenate([y_true, y_pred])))
     for i, class_name in enumerate(CLASS_NAMES):
-        metrics[f'{class_name}_precision'] = float(precision_score(
-            y_true, y_pred, labels=[i], average='macro', zero_division=0))
-        metrics[f'{class_name}_recall'] = float(recall_score(
-            y_true, y_pred, labels=[i], average='macro', zero_division=0))
-        metrics[f'{class_name}_f1'] = float(f1_score(
-            y_true, y_pred, labels=[i], average='macro', zero_division=0))
+        if i < n_classes:
+            # Fixed: Use labels=[i], average=None to get per-class metrics
+            metrics[f'{class_name}_precision'] = float(precision_score(
+                y_true, y_pred, labels=[i], average=None, zero_division=0)[0])
+            metrics[f'{class_name}_recall'] = float(recall_score(
+                y_true, y_pred, labels=[i], average=None, zero_division=0)[0])
+            metrics[f'{class_name}_f1'] = float(f1_score(
+                y_true, y_pred, labels=[i], average=None, zero_division=0)[0])
 
-    # Probabilistic metrics (if available)
-    if y_proba is not None:
-        metrics['y_proba'] = y_proba
+    # AUC-ROC (one-vs-rest)
+    if y_proba is not None and len(np.unique(y_true)) > 1:
+        try:
+            if y_proba.ndim == 1 or y_proba.shape[1] == 2:
+                # Binary case: use positive class probability
+                metrics['auc_roc'] = float(roc_auc_score(
+                    y_true, y_proba[:, 1] if y_proba.ndim == 2 else y_proba,
+                    multi_class='ovr', average='macro'
+                ))
+            else:
+                metrics['auc_roc'] = float(roc_auc_score(
+                    y_true, y_proba, multi_class='ovr', average='macro'
+                ))
+        except (ValueError, IndexError):
+            metrics['auc_roc'] = float('nan')
+
+    # Kappa alias
+    metrics['kappa'] = metrics['cohens_kappa']
 
     return metrics
 
@@ -82,6 +102,8 @@ def print_metrics(metrics, title="Results"):
     print(f"  Macro-F1:          {metrics['macro_f1']:.4f}")
     print(f"  Weighted-F1:       {metrics['weighted_f1']:.4f}")
     print(f"  Cohen's Kappa:     {metrics['cohens_kappa']:.4f}")
+    if 'auc_roc' in metrics:
+        print(f"  AUC-ROC:           {metrics['auc_roc']:.4f}")
 
     print(f"\n  Per-class metrics:")
     print(f"  {'Class':<20} {'Precision':>10} {'Recall':>10} {'F1':>10}")
@@ -95,7 +117,7 @@ def print_metrics(metrics, title="Results"):
     print(f"\n  Confusion Matrix:")
     cm = np.array(metrics['confusion_matrix'])
     print(f"  {'':>12}", end='')
-    for name in CLASS_NAMES:
+    for name in CLASS_NAMES[:cm.shape[1]]:
         print(f" {name:>12}", end='')
     print()
     for i, row in enumerate(cm):
@@ -122,18 +144,21 @@ def aggregate_seeds(results_list):
     metric_keys = [
         'accuracy', 'balanced_accuracy', 'macro_f1', 'weighted_f1', 'cohens_kappa'
     ]
+    if results_list and 'auc_roc' in results_list[0]:
+        metric_keys.append('auc_roc')
+
     per_class_keys = [f'{cn}_{m}' for cn in CLASS_NAMES for m in ['precision', 'recall', 'f1']]
     all_keys = metric_keys + per_class_keys
 
     aggregated = {}
     for key in all_keys:
-        values = [r[key] for r in results_list if key in r]
+        values = [r[key] for r in results_list if key in r and not isinstance(r[key], str)]
         if values:
             aggregated[f'{key}_mean'] = float(np.mean(values))
             aggregated[f'{key}_std'] = float(np.std(values, ddof=1))
 
     # Aggregate confusion matrices
-    if 'confusion_matrix' in results_list[0]:
+    if results_list and 'confusion_matrix' in results_list[0]:
         cms = [np.array(r['confusion_matrix']) for r in results_list]
         aggregated['confusion_matrix_mean'] = np.mean(cms, axis=0).tolist()
 
@@ -216,14 +241,16 @@ def wilcoxon_test(method_a_results, method_b_results, metric='balanced_accuracy'
     try:
         W_stat, p_value = stats.wilcoxon(a_values, b_values, alternative='two-sided')
     except ValueError:
-        # All differences are zero
         W_stat, p_value = 0, 1.0
 
     # Effect size (r = Z / sqrt(N))
-    diff = np.array(a_values) - np.array(b_values)
-    n = len(diff)
-    mean_rank = np.mean(np.abs(np.sort(diff)))
-    r_effect = (W_stat - n * (n + 1) / 4) / (n * (n + 1) / 4 + 1e-10)
+    n = min_len
+    from scipy.stats import norm
+    # Wilcoxon statistic W to Z-score approximation
+    mean_W = n * (n + 1) / 4
+    std_W = np.sqrt(n * (n + 1) * (2 * n + 1) / 24)
+    Z = (W_stat - mean_W) / (std_W + 1e-10)
+    r_effect = Z / np.sqrt(n + 1e-10)
 
     return {
         'W_statistic': float(W_stat),
@@ -234,36 +261,43 @@ def wilcoxon_test(method_a_results, method_b_results, metric='balanced_accuracy'
     }
 
 
-def bootstrap_ci(values, n_bootstrap=10000, alpha=0.05, metric_name=''):
+def bootstrap_ci(values, n_bootstrap=10000, alpha=0.05, ci=0.95, metric_name=''):
     """
-    Compute bootstrap 95% confidence interval.
+    Compute bootstrap confidence interval.
 
     Args:
-        values: array-like, metric values across seeds
+        values:      array-like, metric values across seeds
         n_bootstrap: int, number of bootstrap iterations
-        alpha: float, significance level (default 0.05 for 95% CI)
+        alpha:       float, significance level (legacy parameter)
+        ci:          float, confidence interval width (default 0.95)
         metric_name: str, optional label
 
     Returns:
-        dict: mean, std, ci_lower, ci_upper, ci_width
+        dict: mean, std, lower, upper, width
     """
     values = np.asarray(values)
     rng = np.random.RandomState(42)
+
+    # Use ci parameter for confidence interval
+    # alpha_eff is the significance level (e.g., 0.05 for 95% CI)
+    alpha_eff = 1.0 - ci
 
     boot_means = np.zeros(n_bootstrap)
     for i in range(n_bootstrap):
         sample = rng.choice(values, size=len(values), replace=True)
         boot_means[i] = np.mean(sample)
 
-    ci_lower = float(np.percentile(boot_means, 100 * alpha / 2))
-    ci_upper = float(np.percentile(boot_means, 100 * (1 - alpha / 2)))
+    ci_lower = float(np.percentile(boot_means, 100 * alpha_eff / 2))
+    ci_upper = float(np.percentile(boot_means, 100 * (1 - alpha_eff / 2)))
 
     return {
         'metric': metric_name,
         'mean': float(np.mean(values)),
         'std': float(np.std(values, ddof=1)),
         'n': len(values),
+        'lower': ci_lower,
+        'upper': ci_upper,
         'ci_lower': ci_lower,
         'ci_upper': ci_upper,
-        'ci_width': float(ci_upper - ci_lower),
+        'width': float(ci_upper - ci_lower),
     }
