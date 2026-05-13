@@ -34,12 +34,27 @@ def load_config(config_path="config.yaml"):
     for d in required_keys:
         Path(cfg[d]).mkdir(parents=True, exist_ok=True)
 
-    # Create experiment result sub-directories
+    # Create experiment result sub-directories (unified naming scheme)
     result_subdirs = [
-        'exp10_stats', 'exp11_lodo', 'exp12_baselines',
-        'exp13_wfsc_ablation', 'exp14_transfer_matrix',
-        'rt00_pipeline_check', 'rt01_realtime', 'rt02_online_eval',
-        'rt03_realtime_ablation',
+        # Prep scripts
+        'prep01_features',
+        'prep02_labels',
+        'prep03_splits',
+        # Paper 1 experiments
+        'exp101_lodo_loso',
+        'exp102_calib_sweep',
+        'exp103_mahal_vs_fixed',
+        'exp104_eegnet',
+        'exp105_da_baselines',
+        'exp106_legacy',
+        'exp107_stats',
+        'exp108_shap',
+        # Paper 2 realtime
+        'rt201_protocol',
+        'rt202_stream',
+        'rt203_inference',
+        'rt204_wfsc_calib',
+        'rt205_eval',
     ]
     for subdir in result_subdirs:
         (Path(cfg['output_dir']) / subdir).mkdir(parents=True, exist_ok=True)

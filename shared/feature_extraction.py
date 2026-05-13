@@ -1,21 +1,25 @@
 """
 feature_extraction.py — 14-channel mapping + 63-dimensional feature extraction.
 
-Feature vector (63 dims):
-  [0:35]  = 5 bands x 7 DASM (differential asymmetry) pairs
-  [35:55] = 5 bands x 4 regional mean powers
-  [55:60] = 5 bands x 1 global mean power
-  [60]    = theta/beta ratio (global)
-  [61]    = alpha/theta ratio (global)
-  [62]    = alpha peak frequency (global)
+Feature vector layout (63 dims, ORDER LOCKED via FEATURE_ORDER):
+  [0:42]   = 7 DASM pairs x 6 band definitions
+             (delta, theta, alpha, beta, gamma, broadband 1-45Hz)
+             DASM[i] = log(1+P_left) - log(1+P_right)
+  [42:63]  = 21 log-bandpower (theta, alpha, beta x 7 channels)
+             BP_channels: AF3, F3, F7, FC5, T7, P7, O1
+             log(1 + mean_PSD(band))
+
+Channels are always in EPOC+ order: AF3, F7, F3, FC5, T7, P7, O1,
+                                        O2, P8, T8, FC6, F4, F8, AF4
 """
 
 import numpy as np
 from scipy.signal import welch
+from scipy.interpolate import interp1d
 
 
 # ---------------------------------------------------------------------------
-# 10-20 standard electrode coordinates (x, y) for nearest-neighbor mapping
+# 10-20 standard electrode coordinates (normalized 2D, nose=up)
 # ---------------------------------------------------------------------------
 STANDARD_1020_COORDS = {
     'Fp1': (-0.31, 0.95), 'Fp2': (0.31, 0.95),
@@ -25,23 +29,110 @@ STANDARD_1020_COORDS = {
     'Fz': (0.0, 0.59),
     'FC5': (-0.71, 0.41), 'FC6': (0.71, 0.41),
     'FC1': (-0.24, 0.41), 'FC2': (0.24, 0.41),
+    'FT7': (-0.85, 0.30), 'FT8': (0.85, 0.30),
     'T7': (-1.0, 0.0),    'T8': (1.0, 0.0),
+    'TP7': (-0.85, -0.30),'TP8': (0.85, -0.30),
     'C3': (-0.55, 0.0),   'C4': (0.55, 0.0),
     'Cz': (0.0, 0.0),
+    'C5': (-0.71, 0.0),   'C6': (0.71, 0.0),
+    'C1': (-0.24, 0.0),   'C2': (0.24, 0.0),
     'CP5': (-0.71, -0.41),'CP6': (0.71, -0.41),
     'CP1': (-0.24, -0.41),'CP2': (0.24, -0.41),
     'P7': (-0.81, -0.59), 'P8': (0.81, -0.59),
     'P3': (-0.55, -0.59), 'P4': (0.55, -0.59),
     'Pz': (0.0, -0.59),
+    'P9': (-0.90, -0.59), 'P10': (0.90, -0.59),
     'PO3': (-0.41, -0.81),'PO4': (0.41, -0.81),
+    'PO7': (-0.60, -0.81),'PO8': (0.60, -0.81),
     'O1': (-0.31, -0.95), 'O2': (0.31, -0.95),
     'Oz': (0.0, -0.95),
+    'Iz': (0.0, -1.0),
+    # Fpz / FPz variants
+    'Fpz': (0.0, 0.95), 'FPz': (0.0, 0.95),
+    # FCz variant
+    'FCz': (0.0, 0.41),
+    # Extra electrodes that may appear in SEED/SEED_IV/FACED
+    'F1': (-0.41, 0.59), 'F2': (0.41, 0.59),
+    'F5': (-0.71, 0.59), 'F6': (0.71, 0.59),
+    'F9': (-0.90, 0.50), 'F10': (0.90, 0.50),
+    'FT9': (-0.95, 0.15), 'FT10': (0.95, 0.15),
+    'TP9': (-0.95, -0.15), 'TP10': (0.95, -0.15),
+    'P1': (-0.41, -0.59), 'P2': (0.41, -0.59),
+    'P5': (-0.71, -0.59), 'P6': (0.71, -0.59),
+    'PO5': (-0.55, -0.85), 'PO6': (0.55, -0.85),
+    'PO9': (-0.70, -0.90), 'PO10': (0.70, -0.90),
+    'I1': (-0.20, -1.0), 'I2': (0.20, -1.0),
+    'CB1': (-0.5, -1.0), 'CB2': (0.5, -1.0),
 }
 
 EPOC_CHANNELS = [
     'AF3', 'F7', 'F3', 'FC5', 'T7', 'P7', 'O1',
     'O2', 'P8', 'T8', 'FC6', 'F4', 'F8', 'AF4'
 ]
+
+# ---------------------------------------------------------------------------
+# Feature order (LOCKED) — must be consistent across ALL experiments
+# ---------------------------------------------------------------------------
+ASYM_PAIRS = [
+    ('AF3', 'AF4'), ('F3', 'F4'), ('F7', 'F8'),
+    ('FC5', 'FC6'), ('T7', 'T8'), ('P7', 'P8'), ('O1', 'O2')
+]
+
+BAND_DEFS = {
+    'delta':    (1, 4),
+    'theta':    (4, 8),
+    'alpha':    (8, 13),
+    'beta':     (13, 30),
+    'gamma':    (30, 45),
+    'broadband': (1, 45),
+}
+
+# Bandpower channels (left-hemisphere + midline for asymmetric capture)
+BP_CHANNELS = ['AF3', 'F3', 'F7', 'FC5', 'T7', 'P7', 'O1']
+BP_BANDS = ['theta', 'alpha', 'beta']
+
+def _build_feature_order():
+    """Build the locked feature order list. Do not modify."""
+    order = []
+    # Block 1: DASM — 7 pairs x 6 bands = 42
+    for pair in ASYM_PAIRS:
+        for band_name in ['delta', 'theta', 'alpha', 'beta', 'gamma', 'broadband']:
+            order.append(f"DASM_{pair[0]}-{pair[1]}_{band_name}")
+    # Block 2: log-bandpower — 3 bands x 7 channels = 21
+    for band_name in BP_BANDS:
+        for ch in BP_CHANNELS:
+            order.append(f"logBP_{band_name}_{ch}")
+    assert len(order) == 63, f"Feature order must be 63, got {len(order)}"
+    return order
+
+FEATURE_ORDER = _build_feature_order()
+
+
+def resample_to_target(eeg_data, orig_fs, target_fs=128):
+    """
+    Resample EEG data to target sampling rate via linear interpolation.
+
+    Args:
+        eeg_data: ndarray (n_channels, n_samples)
+        orig_fs: float, original sampling rate
+        target_fs: float, target sampling rate (default 128 Hz)
+
+    Returns:
+        resampled: ndarray (n_channels, n_target_samples)
+    """
+    if orig_fs == target_fs:
+        return eeg_data
+
+    n_channels, n_samples = eeg_data.shape
+    orig_time = np.linspace(0, 1, n_samples, endpoint=False)
+    target_time = np.linspace(0, 1, int(n_samples * target_fs / orig_fs), endpoint=False)
+
+    resampled = np.zeros((n_channels, len(target_time)))
+    for ch in range(n_channels):
+        interp_func = interp1d(orig_time, eeg_data[ch], kind='linear', fill_value='extrapolate')
+        resampled[ch] = interp_func(target_time)
+
+    return resampled
 
 
 def map_channels_to_14(data, source_channels, target_channels=None):
@@ -69,7 +160,6 @@ def map_channels_to_14(data, source_channels, target_channels=None):
     mapping_info = {}
     mapped_indices = []
 
-    # Build case-insensitive lookup for 10-20 coords
     coord_lookup = {k.lower(): k for k in STANDARD_1020_COORDS}
 
     for tch in target_channels:
@@ -109,49 +199,17 @@ class FeatureExtractor:
     """
     Extract 63-dimensional features from 14-channel EEG.
 
-    Feature vector layout (63 dims):
-      [0:35]  = 5 bands x 7 DASM pairs
-      [35:55] = 5 bands x 4 regional mean powers
-      [55:60] = 5 bands x 1 global mean power
-      [60]    = theta/beta ratio (global)
-      [61]    = alpha/theta ratio (global)
-      [62]    = alpha peak frequency (global)
+    Feature vector layout (63 dims, ORDER LOCKED):
+      [0:42]   = 7 DASM pairs x 6 band definitions
+      [42:63]  = 3 bands x 7 channels log-bandpower
     """
 
-    BANDS = {
-        'delta': (1, 4),
-        'theta': (4, 8),
-        'alpha': (8, 13),
-        'beta':  (13, 30),
-        'gamma': (30, 45),
-    }
-
-    BAND_NAMES = ['delta', 'theta', 'alpha', 'beta', 'gamma']
-
-    ASYM_PAIRS = [
-        ('AF3', 'AF4'), ('F3', 'F4'), ('F7', 'F8'),
-        ('FC5', 'FC6'), ('T7', 'T8'), ('P7', 'P8'), ('O1', 'O2')
-    ]
-
-    REGIONS = {
-        'frontal':   ['AF3', 'AF4', 'F3', 'F4', 'F7', 'F8'],
-        'temporal':  ['T7', 'T8', 'FC5', 'FC6'],
-        'parietal':  ['P7', 'P8'],
-        'occipital': ['O1', 'O2'],
-    }
-
     def __init__(self, fs=128, nperseg=None):
-        """
-        Args:
-            fs: int, sampling frequency in Hz (default 128)
-            nperseg: int, Welch segment length (default 2*fs)
-        """
         self.fs = fs
         self.nperseg = nperseg if nperseg else min(256, 2 * fs)
 
-    def _compute_band_power(self, freqs, psd, band):
+    def _compute_band_power(self, freqs, psd, fmin, fmax):
         """Compute mean power in a frequency band."""
-        fmin, fmax = band
         idx = np.where((freqs >= fmin) & (freqs <= fmax))[0]
         if len(idx) == 0:
             return 0.0
@@ -168,97 +226,45 @@ class FeatureExtractor:
             features: ndarray (63,) — 63-dimensional feature vector
         """
         features = np.zeros(63)
-        ch_names = EPOC_CHANNELS
-        n_channels = eeg_window.shape[0]
+        n_channels = min(eeg_window.shape[0], 14)
 
-        # Compute PSD for each channel
+        # Compute PSD for all 14 channels
         psd_dict = {}
         for i in range(n_channels):
             freqs, psd = welch(eeg_window[i], fs=self.fs, nperseg=self.nperseg)
-            psd_dict[ch_names[i]] = {'freqs': freqs, 'psd': psd}
+            psd_dict[EPOC_CHANNELS[i]] = {'freqs': freqs, 'psd': psd}
 
-        # Feature block 1: DASM (5 bands x 7 pairs = 35)
+        # Feature block 1: DASM (7 pairs x 6 bands = 42)
         idx = 0
-        for band_name in self.BAND_NAMES:
-            band = self.BANDS[band_name]
-            for ch_l, ch_r in self.ASYM_PAIRS:
-                psd_l = self._compute_band_power(
-                    psd_dict[ch_l]['freqs'], psd_dict[ch_l]['psd'], band)
-                psd_r = self._compute_band_power(
-                    psd_dict[ch_r]['freqs'], psd_dict[ch_r]['psd'], band)
-                features[idx] = np.log1p(psd_l) - np.log1p(psd_r)
+        for ch_l, ch_r in ASYM_PAIRS:
+            for band_name in ['delta', 'theta', 'alpha', 'beta', 'gamma', 'broadband']:
+                fmin, fmax = BAND_DEFS[band_name]
+                p_l = self._compute_band_power(
+                    psd_dict[ch_l]['freqs'], psd_dict[ch_l]['psd'], fmin, fmax)
+                p_r = self._compute_band_power(
+                    psd_dict[ch_r]['freqs'], psd_dict[ch_r]['psd'], fmin, fmax)
+                features[idx] = np.log1p(p_l) - np.log1p(p_r)
                 idx += 1
 
-        # Feature block 2: Regional mean powers (5 bands x 4 regions = 20)
-        for band_name in self.BAND_NAMES:
-            band = self.BANDS[band_name]
-            for region_name, region_chs in self.REGIONS.items():
-                powers = [
-                    self._compute_band_power(
-                        psd_dict[ch]['freqs'], psd_dict[ch]['psd'], band)
-                    for ch in region_chs
-                ]
-                features[idx] = np.mean(powers)
+        # Feature block 2: log-bandpower (3 bands x 7 channels = 21)
+        for band_name in BP_BANDS:
+            fmin, fmax = BAND_DEFS[band_name]
+            for ch in BP_CHANNELS:
+                bp = self._compute_band_power(
+                    psd_dict[ch]['freqs'], psd_dict[ch]['psd'], fmin, fmax)
+                features[idx] = np.log1p(bp)
                 idx += 1
-
-        # Feature block 3: Global mean powers (5 bands x 1 = 5)
-        for band_name in self.BAND_NAMES:
-            band = self.BANDS[band_name]
-            powers = [
-                self._compute_band_power(
-                    psd_dict[ch]['freqs'], psd_dict[ch]['psd'], band)
-                for ch in ch_names
-            ]
-            features[idx] = np.mean(powers)
-            idx += 1
-
-        # Feature 60: theta/beta ratio
-        theta_power = np.mean([
-            self._compute_band_power(
-                psd_dict[ch]['freqs'], psd_dict[ch]['psd'], self.BANDS['theta'])
-            for ch in ch_names
-        ])
-        beta_power = np.mean([
-            self._compute_band_power(
-                psd_dict[ch]['freqs'], psd_dict[ch]['psd'], self.BANDS['beta'])
-            for ch in ch_names
-        ])
-        features[60] = theta_power / (beta_power + 1e-10)
-
-        # Feature 61: alpha/theta ratio
-        alpha_power = np.mean([
-            self._compute_band_power(
-                psd_dict[ch]['freqs'], psd_dict[ch]['psd'], self.BANDS['alpha'])
-            for ch in ch_names
-        ])
-        features[61] = alpha_power / (theta_power + 1e-10)
-
-        # Feature 62: Alpha peak frequency
-        alpha_powers = []
-        alpha_freqs = []
-        for ch in ch_names:
-            freqs = psd_dict[ch]['freqs']
-            psd = psd_dict[ch]['psd']
-            alpha_mask = (freqs >= 8) & (freqs <= 13)
-            if np.any(alpha_mask):
-                alpha_powers.append(psd[alpha_mask])
-                alpha_freqs.append(freqs[alpha_mask])
-        if alpha_powers:
-            all_powers = np.concatenate(alpha_powers)
-            all_freqs = np.concatenate(alpha_freqs)
-            peak_idx = np.argmax(all_powers)
-            features[62] = all_freqs[peak_idx]
 
         return features
 
-    def extract_windows(self, eeg_data, window_sec=4.0, overlap=0.5):
+    def extract_windows(self, eeg_data, window_sec=2.0, stride_sec=2.0):
         """
         Extract feature vectors from a continuous EEG signal using sliding windows.
 
         Args:
             eeg_data: ndarray (14, n_total_samples) — 14 channels
             window_sec: float, window duration in seconds
-            overlap: float, overlap ratio (0-1)
+            stride_sec: float, stride between consecutive windows in seconds
 
         Returns:
             features: ndarray (n_windows, 63) — feature matrix
@@ -266,10 +272,10 @@ class FeatureExtractor:
         fs = self.fs
         n_samples = eeg_data.shape[1]
         window_size = int(window_sec * fs)
-        step = int(window_size * (1 - overlap))
+        stride = int(stride_sec * fs)
 
         features_list = []
-        for start in range(0, n_samples - window_size + 1, step):
+        for start in range(0, n_samples - window_size + 1, stride):
             window = eeg_data[:, start:start + window_size]
             feat = self.extract_features(window)
             features_list.append(feat)

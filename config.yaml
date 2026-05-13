@@ -1,11 +1,17 @@
 # ============================================================================
-# Universal BCI Hypnosis Depth Classification — Global Configuration
+# Universal BCI Hypnosis Depth Classification v2.1 — Global Configuration
+# ============================================================================
+# Naming convention:
+#   prep_*.py   : Preprocessing / Feature / Label (shared prerequisite)
+#   exp1xx_*.py : Offline experiments (Paper 1)
+#   rt2xx_*.py  : Online real-time experiments (Paper 2)
+#   utils_*.py  : Shared utility scripts (not experiments)
 # ============================================================================
 
 project:
   name: "universal_bci_hypnosis"
-  version: "2.0"
-  description: "Three-level hypnosis depth classification (Awake/Light/Deep)"
+  version: "2.1"
+  description: "Three-level hypnosis depth classification (Awake/Light/Deep) — Unified Pipeline"
 
 # ---------------------------------------------------------------------------
 # Data paths (modify to your local paths)
@@ -17,8 +23,8 @@ data_paths:
   SEED: "data/SEED/"                    # contains ExtractedFeatures/
   SEED_IV: "data/SEED_IV/"             # contains eeg_feature_smooth/
   FACED: "data/FACED/"                 # contains EEG_Features/
-  ds004572: "data/ds004572/"           # BIDS format
-  ds006437: "data/ds006437/"           # BIDS format
+  ds004572: "data/ds004572/"           # BIDS format (real hypnosis)
+  ds006437: "data/ds006437/"           # BIDS format (real hypnosis)
 
 output_dir: "results"
 splits_dir: "splits"
@@ -27,7 +33,7 @@ logs_dir: "logs"
 processed_dir: "processed"
 
 # ---------------------------------------------------------------------------
-# 14-channel mapping (target: Emotiv EPOC+ montage)
+# 14-channel mapping (target: Emotiv EPOC+ montage via 10-20 system)
 # ---------------------------------------------------------------------------
 channel_mapping:
   target_channels:
@@ -62,30 +68,66 @@ channel_mapping:
                         "C4","T8","CP6","CP2","P4","P8","PO4","O2"]
   SEED:
     mapping_type: "nearest_1020"
+    original_channels: ["Fp1","Fpz","Fp2","AF3","AF4","F3","F4","F7",
+                        "F8","FC5","FC1","FC2","FC6","T7","C3","Cz",
+                        "C4","T8","CP5","CP1","CP2","CP6","P3","Pz",
+                        "P4","P7","P8","PO3","PO4","O1","Oz","O2",
+                        "FT7","FT8","TP7","TP8","PO7","PO8","F1","F2",
+                        "F5","F6","C5","C6","C1","C2","CP3","CP4",
+                        "P1","P2","P5","P6","PO5","PO6","FT9","FT10",
+                        "F9","F10","TP9","TP10","P9","P10","FPz","FCz"]
   SEED_IV:
     mapping_type: "nearest_1020"
+    original_channels: ["Fp1","Fpz","Fp2","AF3","AF4","F3","F4","F7",
+                        "F8","FC5","FC1","FC2","FC6","T7","C3","Cz",
+                        "C4","T8","CP5","CP1","CP2","CP6","P3","Pz",
+                        "P4","P7","P8","PO3","PO4","O1","Oz","O2",
+                        "FT7","FT8","TP7","TP8","PO7","PO8","F1","F2",
+                        "F5","F6","C5","C6","C1","C2","CP3","CP4",
+                        "P1","P2","P5","P6","PO5","PO6","FT9","FT10",
+                        "F9","F10","TP9","TP10","P9","P10","FPz","FCz"]
   FACED:
     mapping_type: "nearest_1020"
+    original_channels: ["Fp1","Fpz","Fp2","AF3","AF4","F3","F4","F7",
+                        "F8","FC5","FC1","FC2","FC6","T7","C3","Cz",
+                        "C4","T8","CP5","CP1","CP2","CP6","P3","Pz",
+                        "P4","P7","P8","PO3","PO4","O1","Oz","O2",
+                        "FT7","FT8","TP7","TP8","PO7","PO8"]
   ds004572:
     mapping_type: "nearest_1020"
+    original_channels: ["Fp1","Fp2","F3","F4","C3","C4","P3","P4",
+                        "O1","O2","F7","F8","T7","T8","P7","P8",
+                        "Fz","Cz","Pz","Oz","AF3","AF4","FC5","FC6"]
   ds006437:
     mapping_type: "nearest_1020"
+    original_channels: ["Fp1","Fp2","Fz","F3","F4","Cz","C3","C4",
+                        "Pz","P3","P4","Oz","O1","O2"]
 
 # ---------------------------------------------------------------------------
-# Feature extraction (63 dimensions)
+# Feature extraction (63 dimensions, feature-order locked)
+# ---------------------------------------------------------------------------
+# Feature vector layout (63 dims):
+#   [0:42]   = 7 DASM pairs x 6 freq bands (delta,theta,alpha,beta,gamma,all)
+#   [42:63]  = 21 log-bandpower (3 bands: theta,alpha,beta x 7 channels)
+#   Feature order is LOCKED via FEATURE_ORDER list to prevent inconsistency.
 # ---------------------------------------------------------------------------
 features:
-  window_sec: 4.0
-  overlap: 0.5          # 50% overlap
-  fs_target: 128        # resample all to 128 Hz
+  fs_target: 128          # resample all to 128 Hz
+  window_sec: 2.0         # 2s window (= 256 samples @ 128Hz)
+  stride_sec: 2.0         # stride = 256 (non-overlapping for clean split)
+  nperseg: 256            # Welch segment = 2s
 
   bands:
     delta: [1, 4]
     theta: [4, 8]
     alpha: [8, 13]
-    beta: [13, 30]
+    beta:  [13, 30]
     gamma: [30, 45]
 
+  # Feature order (LOCKED):
+  # Block 1: DASM = logP(left) - logP(right) for 7 asymmetry pairs x 6 band definitions
+  #   6 band defs: delta, theta, alpha, beta, gamma, broadband(1-45Hz)
+  # Block 2: log-bandpower for theta, alpha, beta x 7 channels (AF3,F3,F7,FC5,T7,P7,O1)
   asymmetry_pairs:
     - ["AF3", "AF4"]
     - ["F3",  "F4"]
@@ -94,65 +136,86 @@ features:
     - ["T7",  "T8"]
     - ["P7",  "P8"]
     - ["O1",  "O2"]
-  regions:
-    frontal:  ["AF3", "AF4", "F3", "F4", "F7", "F8"]
-    temporal: ["T7", "T8", "FC5", "FC6"]
-    parietal: ["P7", "P8"]
-    occipital: ["O1", "O2"]
+
+  bp_channels: ["AF3", "F3", "F7", "FC5", "T7", "P7", "O1"]
+  bp_bands: ["theta", "alpha", "beta"]
 
 # ---------------------------------------------------------------------------
 # Label mapping: dataset-specific -> 3-class hypnosis depth
 # ---------------------------------------------------------------------------
+# 0 = Awake (清醒), 1 = Light Hypnosis (浅催眠), 2 = Deep Hypnosis (深催眠)
+#
+# IMPORTANT distinction for reviewers:
+#   ds004572 / ds006437 : TRUE hypnosis labels (depth scores, protocol phases)
+#   DREAMER/DEAP/MAHNOB : PROXY labels via arousal dimension
+#   SEED/SEED_IV        : PROXY labels via emotion dimension
+#   FACED               : PROXY labels via arousal dimension
+# ---------------------------------------------------------------------------
 label_mapping:
-  # 0 = Awake, 1 = Light Hypnosis, 2 = Deep Hypnosis
   DREAMER:
     source_field: "arousal"
+    label_type: "proxy_arousal"
     rules:
       awake: "arousal >= 4"
       light: "arousal == 3"
       deep:  "arousal <= 2"
+    justification: "High arousal ~ awake state; low arousal ~ relaxed/hypnotic-like"
   DEAP:
     source_field: "arousal"
+    label_type: "proxy_arousal"
     rules:
       awake: "arousal >= 7"
       light: "4 <= arousal <= 6"
       deep:  "arousal <= 3"
+    justification: "Valence-arousal model: low arousal ≈ deep relaxation"
   MAHNOB:
     source_field: "arousal"
+    label_type: "proxy_arousal"
     rules:
       awake: "arousal >= 7"
       light: "4 <= arousal <= 6"
       deep:  "arousal <= 3"
+    justification: "Same logic as DEAP (arousal-based proxy)"
   SEED:
     source_field: "emotion"
+    label_type: "proxy_emotion"
     rules:
-      awake: "emotion == 1"
-      light: "emotion == 0"
-      deep:  "emotion == -1"
+      awake:  "emotion == 1"
+      light:  "emotion == 0"
+      deep:   "emotion == -1"
+    justification: "Positive emotion ~ alert; negative ~ withdrawal (proxy for depth)"
   SEED_IV:
     source_field: "emotion"
+    label_type: "proxy_emotion"
     rules:
-      awake: "emotion in [2, 3]"
-      light: "emotion == 0"
-      deep:  "emotion == 1"
+      awake:  "emotion in [2, 3]"
+      light:  "emotion == 0"
+      deep:   "emotion == 1"
+    justification: "4-class emotion mapped to 3-class hypnosis proxy"
   FACED:
     source_field: "arousal"
+    label_type: "proxy_arousal"
     rules:
-      awake: "arousal >= 6.5"
-      light: "3.5 <= arousal < 6.5"
-      deep:  "arousal < 3.5"
+      awake:  "arousal >= 6.5"
+      light:  "3.5 <= arousal < 6.5"
+      deep:   "arousal < 3.5"
+    justification: "Continuous arousal discretized to 3 levels"
   ds004572:
     source_field: "hypnosis_depth"
+    label_type: "true_hypnosis"
     rules:
-      awake: "depth <= 3"
-      light: "4 <= depth <= 6"
-      deep:  "depth >= 7"
+      awake:  "depth <= 3"
+      light:  "4 <= depth <= 6"
+      deep:   "depth >= 7"
+    justification: "Actual hypnotic depth score (0-10) from trained hypnotherapist"
   ds006437:
     source_field: "phase"
+    label_type: "true_hypnosis"
     rules:
-      awake: "phase in ['pre', 'post']"
-      light: "phase == 'during'"
-      deep:  null
+      awake:  "phase in ['pre', 'post']"
+      light:  "phase == 'during'"
+      deep:   null
+    justification: "Protocol phase as label; deep may not exist in this dataset"
 
 # ---------------------------------------------------------------------------
 # Model parameters
@@ -172,8 +235,26 @@ experiment:
   n_seeds: 20
   seeds: [42, 123, 256, 512, 1024, 2048, 3090, 4096, 5000, 6174,
           7777, 8192, 9001, 9999, 10007, 11111, 12345, 13579, 24680, 31415]
-  calib_ratio: 0.2
+  calib_ratios: [0, 0.01, 0.02, 0.05, 0.10, 0.20]
+  default_calib_ratio: 0.20
   significance_level: 0.05
+  n_bootstrap: 10000
+
+# ---------------------------------------------------------------------------
+# EEGNet parameters (for exp104 deep learning baseline)
+# ---------------------------------------------------------------------------
+eegnet:
+  n_classes: 3
+  n_channels: 14
+  F1: 8               # number of temporal filters
+  D: 2                # depth multiplier
+  F2: 16              # number of pointwise filters
+  kernel_length: 64   # temporal kernel length (samples)
+  dropout_rate: 0.5
+  learning_rate: 0.001
+  max_epochs: 200
+  batch_size: 64
+  patience: 30
 
 # ---------------------------------------------------------------------------
 # EPOC+ real-time parameters (Paper 2)
@@ -182,7 +263,7 @@ epoc:
   device: "EPOC+"
   channels: 14
   fs: 128
-  window_sec: 4.0
+  window_sec: 2.0       # aligned with offline
   step_sec: 2.0
   buffer_sec: 60.0
   calib_minutes: 3
@@ -208,3 +289,7 @@ epoc:
       scale: [0, 10]
       prompt: "请评估刚才的催眠深度（0=完全清醒，10=极深催眠）"
       timing: "after_each_phase"
+    rating_to_class:
+      awake: [0, 3]     # rating 0-3 → class 0
+      light: [4, 6]     # rating 4-6 → class 1
+      deep:  [7, 10]    # rating 7-10 → class 2
