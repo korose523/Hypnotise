@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Data (large files, not for git)
+data/
+!data/.gitkeep
+
+# Processed data (auto-generated)
+processed/
+
+# Models (auto-generated, potentially large)
+models/
+
+# Results (auto-generated)
+results/
+
+# Logs
+logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Environment variables
+.env

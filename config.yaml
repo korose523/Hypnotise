@@ -1,0 +1,210 @@
+# ============================================================================
+# Universal BCI Hypnosis Depth Classification — Global Configuration
+# ============================================================================
+
+project:
+  name: "universal_bci_hypnosis"
+  version: "2.0"
+  description: "Three-level hypnosis depth classification (Awake/Light/Deep)"
+
+# ---------------------------------------------------------------------------
+# Data paths (modify to your local paths)
+# ---------------------------------------------------------------------------
+data_paths:
+  DREAMER: "data/DREAMER/DREAMER.mat"
+  DEAP: "data/DEAP/"                    # contains s01.dat ... s32.dat
+  MAHNOB: "data/MAHNOB/"               # contains Sessions/
+  SEED: "data/SEED/"                    # contains ExtractedFeatures/
+  SEED_IV: "data/SEED_IV/"             # contains eeg_feature_smooth/
+  FACED: "data/FACED/"                 # contains EEG_Features/
+  ds004572: "data/ds004572/"           # BIDS format
+  ds006437: "data/ds006437/"           # BIDS format
+
+output_dir: "results"
+splits_dir: "splits"
+models_dir: "models"
+logs_dir: "logs"
+processed_dir: "processed"
+
+# ---------------------------------------------------------------------------
+# 14-channel mapping (target: Emotiv EPOC+ montage)
+# ---------------------------------------------------------------------------
+channel_mapping:
+  target_channels:
+    - "AF3"
+    - "F7"
+    - "F3"
+    - "FC5"
+    - "T7"
+    - "P7"
+    - "O1"
+    - "O2"
+    - "P8"
+    - "T8"
+    - "FC6"
+    - "F4"
+    - "F8"
+    - "AF4"
+
+  DREAMER:
+    mapping_type: "direct"
+  DEAP:
+    mapping_type: "nearest_1020"
+    original_channels: ["Fp1","AF3","F3","F7","FC5","FC1","C3","T7",
+                        "CP5","CP1","P3","P7","PO3","O1","Oz","Pz",
+                        "Fp2","AF4","F4","F8","FC6","FC2","C4","T8",
+                        "CP6","CP2","P4","P8","PO4","O2","Fz","Cz"]
+  MAHNOB:
+    mapping_type: "nearest_1020"
+    original_channels: ["Fp1","AF3","F3","F7","FC5","FC1","C3","T7",
+                        "CP5","CP1","P3","P7","PO3","O1","Oz","Pz",
+                        "Fp2","AF4","Fz","F4","F8","FC6","FC2","Cz",
+                        "C4","T8","CP6","CP2","P4","P8","PO4","O2"]
+  SEED:
+    mapping_type: "nearest_1020"
+  SEED_IV:
+    mapping_type: "nearest_1020"
+  FACED:
+    mapping_type: "nearest_1020"
+  ds004572:
+    mapping_type: "nearest_1020"
+  ds006437:
+    mapping_type: "nearest_1020"
+
+# ---------------------------------------------------------------------------
+# Feature extraction (63 dimensions)
+# ---------------------------------------------------------------------------
+features:
+  window_sec: 4.0
+  overlap: 0.5          # 50% overlap
+  fs_target: 128        # resample all to 128 Hz
+
+  bands:
+    delta: [1, 4]
+    theta: [4, 8]
+    alpha: [8, 13]
+    beta: [13, 30]
+    gamma: [30, 45]
+
+  asymmetry_pairs:
+    - ["AF3", "AF4"]
+    - ["F3",  "F4"]
+    - ["F7",  "F8"]
+    - ["FC5", "FC6"]
+    - ["T7",  "T8"]
+    - ["P7",  "P8"]
+    - ["O1",  "O2"]
+  regions:
+    frontal:  ["AF3", "AF4", "F3", "F4", "F7", "F8"]
+    temporal: ["T7", "T8", "FC5", "FC6"]
+    parietal: ["P7", "P8"]
+    occipital: ["O1", "O2"]
+
+# ---------------------------------------------------------------------------
+# Label mapping: dataset-specific -> 3-class hypnosis depth
+# ---------------------------------------------------------------------------
+label_mapping:
+  # 0 = Awake, 1 = Light Hypnosis, 2 = Deep Hypnosis
+  DREAMER:
+    source_field: "arousal"
+    rules:
+      awake: "arousal >= 4"
+      light: "arousal == 3"
+      deep:  "arousal <= 2"
+  DEAP:
+    source_field: "arousal"
+    rules:
+      awake: "arousal >= 7"
+      light: "4 <= arousal <= 6"
+      deep:  "arousal <= 3"
+  MAHNOB:
+    source_field: "arousal"
+    rules:
+      awake: "arousal >= 7"
+      light: "4 <= arousal <= 6"
+      deep:  "arousal <= 3"
+  SEED:
+    source_field: "emotion"
+    rules:
+      awake: "emotion == 1"
+      light: "emotion == 0"
+      deep:  "emotion == -1"
+  SEED_IV:
+    source_field: "emotion"
+    rules:
+      awake: "emotion in [2, 3]"
+      light: "emotion == 0"
+      deep:  "emotion == 1"
+  FACED:
+    source_field: "arousal"
+    rules:
+      awake: "arousal >= 6.5"
+      light: "3.5 <= arousal < 6.5"
+      deep:  "arousal < 3.5"
+  ds004572:
+    source_field: "hypnosis_depth"
+    rules:
+      awake: "depth <= 3"
+      light: "4 <= depth <= 6"
+      deep:  "depth >= 7"
+  ds006437:
+    source_field: "phase"
+    rules:
+      awake: "phase in ['pre', 'post']"
+      light: "phase == 'during'"
+      deep:  null
+
+# ---------------------------------------------------------------------------
+# Model parameters
+# ---------------------------------------------------------------------------
+model:
+  rf:
+    n_estimators: 500
+    max_depth: 20
+    min_samples_leaf: 5
+    class_weight: "balanced"
+    n_jobs: -1
+
+# ---------------------------------------------------------------------------
+# Experiment parameters
+# ---------------------------------------------------------------------------
+experiment:
+  n_seeds: 20
+  seeds: [42, 123, 256, 512, 1024, 2048, 3090, 4096, 5000, 6174,
+          7777, 8192, 9001, 9999, 10007, 11111, 12345, 13579, 24680, 31415]
+  calib_ratio: 0.2
+  significance_level: 0.05
+
+# ---------------------------------------------------------------------------
+# EPOC+ real-time parameters (Paper 2)
+# ---------------------------------------------------------------------------
+epoc:
+  device: "EPOC+"
+  channels: 14
+  fs: 128
+  window_sec: 4.0
+  step_sec: 2.0
+  buffer_sec: 60.0
+  calib_minutes: 3
+  protocol:
+    phases:
+      - name: "awake_baseline"
+        duration_sec: 180
+        label: 0
+        instruction: "请保持清醒放松，睁眼注视屏幕中央十字"
+      - name: "light_induction"
+        duration_sec: 300
+        label: 1
+        instruction: "请跟随语音引导，进行渐进式放松"
+      - name: "deep_induction"
+        duration_sec: 300
+        label: 2
+        instruction: "请跟随语音引导，进入更深层放松状态"
+      - name: "awakening"
+        duration_sec: 120
+        label: 0
+        instruction: "请跟随倒数，逐渐恢复清醒状态"
+    subjective_rating:
+      scale: [0, 10]
+      prompt: "请评估刚才的催眠深度（0=完全清醒，10=极深催眠）"
+      timing: "after_each_phase"
