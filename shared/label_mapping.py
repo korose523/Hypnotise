@@ -88,28 +88,26 @@ class LabelMapper:
 
     def _parse_config_rules(self, label_mapping_cfg):
         """Parse label mapping rules from config dict."""
-        # Mapping from string rules to lambda functions
         for dataset_name, cfg in label_mapping_cfg.items():
-            self._rules[dataset_name] = {'source_field': cfg.get('source_field', '')}
+            source_field = cfg.get('source_field', 'v')
+            self._rules[dataset_name] = {'source_field': source_field}
 
-            # Parse string rules into lambda functions
             rules_str = cfg.get('rules', {})
-
             if 'awake' in rules_str and rules_str['awake'] is not None:
-                self._rules[dataset_name]['awake'] = self._make_rule(rules_str['awake'])
+                self._rules[dataset_name]['awake'] = self._make_rule(rules_str['awake'], source_field)
             if 'light' in rules_str and rules_str['light'] is not None:
-                self._rules[dataset_name]['light'] = self._make_rule(rules_str['light'])
+                self._rules[dataset_name]['light'] = self._make_rule(rules_str['light'], source_field)
             if 'deep' in rules_str and rules_str['deep'] is not None:
-                self._rules[dataset_name]['deep'] = self._make_rule(rules_str['deep'])
+                self._rules[dataset_name]['deep'] = self._make_rule(rules_str['deep'], source_field)
 
-    def _make_rule(self, rule_str):
+    def _make_rule(self, rule_str, source_field='v'):
         """
-        Convert a rule string like 'arousal >= 4' to a lambda function.
-
-        Supports simple comparisons: >=, <=, ==, in.
+        Convert a rule string like 'depth <= 3' to a lambda function.
+        Supports: comparison operators, 'in' for list membership.
         """
         def rule_func(v):
-            return eval(rule_str, {'v': v, '__builtins__': {}})
+            ns = {'v': v, source_field: v, '__builtins__': {}}
+            return eval(rule_str, ns)
         return rule_func
 
     def map_labels(self, dataset_name, raw_values):

@@ -25,9 +25,44 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 from shared.config_loader import load_config
 from shared.feature_extraction import (
-    extract_features_window, FEAT_NAMES, subject_zscore
+    extract_features_window, FEAT_NAMES, subject_zscore,
+    EPOC_CHANNELS, ASYM_PAIRS
 )
 from shared.logger import setup_logger
+
+
+# Asymmetry pair indices in EPOC_CHANNELS order (used for DASM from precomputed DE)
+_ch_idx = {ch: i for i, ch in enumerate(EPOC_CHANNELS)}
+ASYM_INDICES = [(i, _ch_idx[l], _ch_idx[r]) for i, (l, r) in enumerate(ASYM_PAIRS)]
+
+
+def build_63feat_from_precomputed_de(de_14_3):
+    """
+    Build 63-dim feature vector from pre-computed DE (Differential Entropy) features.
+
+    Args:
+        de_14_3: ndarray (14, 3) — DE values for 14 EPOC channels × 3 bands
+                 (bands order: Theta, Alpha, Beta)
+                 DE = 0.5 * log(2πe * variance); treated as log-bandpower proxy.
+
+    Returns:
+        feat: ndarray (63,) — matches FEAT_NAMES order
+    """
+    # FACED DE uses natural-log scale; convert to log10 scale to match other datasets.
+    # log10(x) = log(x) / log(10), but DE = 0.5*ln(2πe*σ²) ≠ log10(power).
+    # We apply: log_bp_proxy = de / ln(10) — keeps relative differences consistent.
+    log_bp = de_14_3 / np.log(10)   # (14, 3)  log10-scale proxy
+
+    feat_bp = log_bp.flatten()       # (42,)
+
+    feat_dasm = np.zeros(len(ASYM_PAIRS) * 3)
+    for pi, li, ri in ASYM_INDICES:
+        for bi in range(3):
+            feat_dasm[pi * 3 + bi] = log_bp[li, bi] - log_bp[ri, bi]
+
+    feat = np.concatenate([feat_bp, feat_dasm])
+    assert feat.shape[0] == 63
+    return feat
 
 
 def main():
@@ -60,8 +95,13 @@ def main():
         subj_ids = data['subject_ids']
         trial_ids = data['trial_ids']
 
+        # Check for precomputed DE features (FACED dataset)
+        precomputed_de = data['precomputed_de'] if 'precomputed_de' in data else None
+
         n_windows = windows.shape[0]
         logger.info(f"  {dataset_name}: {n_windows} windows, shape={windows.shape[1:]}")
+        if precomputed_de is not None:
+            logger.info(f"  {dataset_name}: using precomputed DE features, shape={precomputed_de.shape}")
 
         # Extract 63-dim features for each window
         all_features = []
@@ -69,8 +109,15 @@ def main():
 
         for i in range(n_windows):
             try:
-                window = windows[i]  # (n_samples, 14)
-                feat = extract_features_window(window, fs=fs)
+                # ── Precomputed DE fast path (FACED) ────────────────────────────
+                if precomputed_de is not None:
+                    de_14_3 = precomputed_de[i]  # (14, 3)
+                    feat = build_63feat_from_precomputed_de(de_14_3)
+                else:
+                    # ── Standard Welch-based extraction ─────────────────────────
+                    window = windows[i]  # (n_samples, 14)
+                    feat = extract_features_window(window, fs=fs)
+
                 all_features.append(feat)
                 valid_indices.append(i)
             except Exception as e:

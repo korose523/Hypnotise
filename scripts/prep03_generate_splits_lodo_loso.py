@@ -266,7 +266,6 @@ LABEL_LOADERS = {
     'SEED': load_raw_labels_seed,
     'SEED_IV': load_raw_labels_seed_iv,
     'FACED': load_raw_labels_faced,
-    'ds004572': load_raw_labels_ds004572,
     'ds006437': load_raw_labels_ds006437,
 }
 
@@ -277,7 +276,6 @@ LABEL_TYPES = {
     'SEED': 'proxy_emotion',
     'SEED_IV': 'proxy_emotion',
     'FACED': 'proxy_arousal',
-    'ds004572': 'true_hypnosis',
     'ds006437': 'true_hypnosis',
 }
 
