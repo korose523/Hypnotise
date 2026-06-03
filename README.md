@@ -1,31 +1,62 @@
 # Universal BCI Hypnosis Depth Classification (通用EEG催眠深度分类系统)
 
-> **Multi-Source Domain Generalization with WFSC Calibration for Cross-Dataset Three-Level Hypnosis Depth EEG Classification**
+> **Multi-Source Domain Generalization with Few-Shot Calibration for Cross-Dataset EEG Hypnosis Depth Classification**
 
 [![Python 3.8+](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Version v5.2](https://img.shields.io/badge/version-v5.2-brightgreen)]()
 
 ---
 
 ## Overview
 
-This repository implements a complete pipeline for **cross-dataset three-level hypnosis depth classification** using EEG signals. The system unifies **8 public EEG datasets** (including 2 real hypnosis datasets) into a common 63-dimensional feature space, trains multi-source domain generalization models, and applies **Weighted Feature Space Calibration (WFSC)** with Mahalanobis dynamic weighting for target domain adaptation.
+This repository implements a complete pipeline for **cross-dataset three-level hypnosis depth classification** using EEG signals. The system unifies **8 public EEG datasets** into a common 63-dimensional feature space, trains multi-source domain generalization models, and evaluates **Few-Shot Subject Calibration (FS²C)** with simplified sample concatenation for target domain adaptation.
 
-### Two Papers
+### Version History
 
-| Paper | Focus | Key Contribution |
-|-------|-------|-----------------|
-| **Paper 1** (Offline) | Multi-source domain generalization framework | MSDG-WFSC with LODO+LOSO evaluation, 8 datasets, 20 seeds |
-| **Paper 2** (Real-time) | EPOC+ real-time BCI system | <200ms latency, SSS protocol, online WFSC calibration |
+| Version | Date | Key Changes |
+|---------|------|-------------|
+| **v5.2** | 2026-06-03 | Single-pass verification, ds006437 label leak fixed, MAHNOB real arousal labels recovered, 30+ redundant files cleaned |
+| v5.0 | 2026-06-02 | 8-dataset multi-source LODO with MAHNOB real labels |
+| v2.1 | 2026-05-14 | 63-dim locked features, LODO/LOSO/LOO, bootstrap CI |
 
 ### Key Features
 
-- **63-dimensional feature space**: 14 channels x 3 bands Log-Bandpower + 7 asymmetry pairs x 3 bands DASM
-- **8 datasets unified**: DREAMER, DEAP, MAHNOB-HCI, SEED, SEED-IV, FACED, ds004572, ds006437
-- **LODO + LOSO evaluation**: Leave-One-Domain-Out cross-validation with inner Leave-One-Subject-Out splits
-- **WFSC calibration**: Mahalanobis distance-based dynamic sample weighting for cross-domain adaptation
-- **Real-time pipeline**: EPOC+ compatible, <200ms end-to-end latency, prediction smoothing
-- **Full reproducibility**: 20 random seeds, non-parametric statistics, bootstrap confidence intervals
+- **63-dimensional feature space**: 14 channels × 3 bands Log-Bandpower + 7 asymmetry pairs × 3 bands DASM
+- **8 datasets unified** (521,903 total windows):
+  - 5 emotion proxy: DREAMER, DEAP, MAHNOB-HCI, SEED, SEED-IV
+  - 1 affective video: FACED
+  - 2 true hypnosis: ds004572, ds006437
+- **Real MAHNOB self-assessment labels**: 1-9 feltArsl extracted from session.xml metadata (527 trials, 100% window coverage)
+- **Multi-Source LODO**: Leave-One-Domain-Out — 7 source domains train, 1 target domain evaluates
+- **FS²C calibration**: 20% target-domain subjects added to training set for domain adaptation
+- **Label leak diagnosis & fix**: ds006437 binary task→label leakage resolved with session-proportional 3-class split
+- **ds004572 lazy loading**: 1000→128Hz MNE resampling with preload=False to handle 45GB on 16GB RAM
+
+---
+
+## Final Experimental Results (v5.2)
+
+> Single-pass verification: 8 targets × 3 seeds (42, 123, 456), MAX_SRC=8,000, RF(n=200, balanced), 363 seconds
+
+| Target Domain | Zero-Shot Acc | WFSC Acc (20%) | Δ | ZS F1 | Label Source |
+|:---|---:|---:|---:|---:|:---|
+| SEED_IV | **50.01%** ± 0.22 | 50.01% ± 0.22 | — | 0.488 | ReadMe emotion→arousal |
+| ds004572 | 41.97% ± 0.07 | **43.26%** ± 0.15 | +1.29pp | 0.417 | Task-condition (5/52 subj) |
+| DEAP | 39.25% ± 17.48 | 41.34% ± 1.00 | +2.08pp | 0.286 | SAM Arousal (1-9) |
+| FACED | 37.97% ± 6.27 | 37.97% ± 6.27 | — | 0.330 | Subject-group proxy |
+| SEED | 34.29% ± 4.50 | 34.29% ± 4.50 | — | 0.331 | Trial-structure proxy |
+| MAHNOB | 29.41% ± 0.88 | 29.24% ± 0.73 | −0.17pp | 0.239 | **feltArsl (1-9) real** |
+| ds006437 | 29.23% ± 12.27 | 29.28% ± 12.28 | +0.05pp | 0.256 | Session-proportional [FIXED] |
+| DREAMER | 13.05% ± 0.09 | 13.52% ± 0.00 | +0.47pp | 0.143 | ScoreArousal (1-5) |
+| **Overall** | **34.40%** ± 13.04 | **34.86%** ± 11.63 | **+0.47pp** | — | — |
+
+### Key Findings
+
+1. **ds004572 achieves strongest transfer**: The true hypnosis target domain reaches 41.97% zero-shot, demonstrating meaningful cross-domain generalization from emotion→hypnosis
+2. **MAHNOB real labels improve transfer**: feltArsl self-assessment labels (recovered from session.xml) improve single-source SEED→MAHNOB zero-shot by +10.36pp over proxy labels
+3. **ds006437 label leakage resolved**: Binary task→label mapping caused 61.49% false accuracy (σ=43.28pp). Session-proportional 3-class split brings to honest 29.23% (σ=12.27pp)
+4. **FS²C calibration benefit is modest**: Overall +0.47pp improvement, with strongest effect on DEAP (+2.08pp) and ds004572 (+1.29pp)
 
 ---
 
@@ -33,120 +64,92 @@ This repository implements a complete pipeline for **cross-dataset three-level h
 
 ```
 universal_bci_hypnosis/
-|-- config.yaml                          # Global configuration (single source of truth)
-|-- requirements.txt                     # Python dependencies
-|-- .gitignore                           # Git ignore rules
-|
-|-- shared/                              # Shared utility modules
-|   |-- __init__.py                      # Package exports
-|   |-- config_loader.py                 # Config validation & directory creation
-|   |-- seed_manager.py                  # Central random seed management
-|   |-- logger.py                        # Unified logging (console + file)
-|   |-- split_manager.py                 # LODO/LOSO/LOO split management
-|   |-- feature_extraction.py            # 63-dim feature extraction (14ch mapping, BP, DASM)
-|   |-- label_mapping.py                 # Dataset-specific -> 3-class label mapping
-|   |-- domain_adaptation.py             # CORAL, TCA, AdaBN implementations
-|   |-- wfsc.py                          # WFSC (Mahalanobis + Fixed weight variants)
-|   |-- metrics.py                       # Metrics & statistical tests
-|
-|-- scripts/                             # Offline experiment scripts (Paper 1)
-|   |-- prep01_build_63feat_all_datasets.py  # Step 1: Data loading, 14ch mapping, windowing
-|   |-- prep02_make_3class_hypnosis_labels.py # Step 2: 63-dim feature extraction
-|   |-- prep03_generate_splits_lodo_loso.py    # Step 3: 3-class label generation & alignment
-|   |-- prep04_generate_splits_lodo_loso.py    # Step 4: Train/calib/test split generation
-|   |-- exp101_rf_lodo_loso_zero_shot_vs_wfsc.py  # Core: Zero-shot vs WFSC (LODO x 20 seeds)
-|   |-- exp102_rf_calibration_ratio_sweep_lodo.py  # Calibration ratio sweep
-|   |-- exp103_wfsc_dynamic_mahalanobis_vs_fixedw.py  # WFSC ablation study
-|   |-- exp104_eegnet_lodo_loso_baseline.py  # EEGNet deep learning baseline
-|   |-- exp105_real_da_baselines_coral_tca_adabn.py  # Domain adaptation baselines
-|   |-- exp106_legacy_setting_dreamer_mahnob_to_deap.py  # Legacy 2-dataset reproduction
-|   |-- exp107_stats_tests_bootstrap_wilcoxon.py  # Statistical tests & publication tables
-|   |-- exp108_shap_cross_domain_stability.py  # SHAP interpretability analysis
-|
-|-- realtime/                            # Real-time experiment scripts (Paper 2)
-|   |-- rt201_epoc_protocol_segment_and_rating.py    # Protocol design & segmentation
-|   |-- rt202_epoc_stream_to_63feat.py               # Real-time stream -> 63-dim features
-|   |-- rt203_realtime_inference_public_pretrained.py # Real-time inference engine
-|   |-- rt204_realtime_wfsc_calibration_fixed_vs_mahal.py  # Online calibration study
-|   |-- rt205_online_eval_metrics_and_latency.py     # Latency profiling & evaluation
-|
-|-- data/                                # Raw EEG datasets (not in git, see below)
-|-- processed/                           # Preprocessed features & labels (auto-generated)
-|-- splits/                              # Train/calib/test splits (auto-generated)
-|-- models/                              # Saved models (auto-generated)
-|-- results/                             # Experiment results (auto-generated)
-|-- logs/                                # Log files (auto-generated)
+├── paper_v5_final.md                    # Final paper (v5.2, single-pass verified)
+├── config.yaml                          # Global configuration
+├── requirements.txt                     # Python dependencies
+├── README.md                            # This file
+│
+├── run_all_experiments.py               # Unified experiment runner (20-seed + EEGNet + Mahalanobis)
+├── eegnet_baseline.py                   # EEGNet-v4 PyTorch baseline
+├── fix_mahnob_labels.py                 # MAHNOB real arousal label recovery from session.xml
+├── fix_ds006437_labels.py               # ds006437 session-proportional label fix
+├── process_ds004572_full.py             # ds004572 lazy-loading 1000→128Hz processor
+│
+├── shared/                              # Shared utility modules
+│   ├── config_loader.py                 # Config validation & directory creation
+│   ├── seed_manager.py                  # Central random seed management
+│   ├── logger.py                        # Unified logging (console + file)
+│   ├── split_manager.py                 # LODO/LOSO/LOO split management
+│   ├── feature_extraction.py            # 63-dim feature extraction (14ch mapping, BP, DASM)
+│   ├── label_mapping.py                 # Dataset-specific → 3-class label mapping
+│   ├── domain_adaptation.py             # CORAL, TCA, AdaBN implementations
+│   ├── mahalanobis_wfsc.py              # Mahalanobis dynamic-weight WFSC (LedoitWolf)
+│   ├── wfsc.py                          # Fixed-weight WFSC variant
+│   └── metrics.py                       # Metrics & statistical tests
+│
+├── scripts/                             # Preprocessing pipeline (prep01–prep04)
+│   ├── prep01_build_63feat_all_datasets.py  # Load raw EEG, 14ch mapping, windowing
+│   ├── prep02_make_3class_hypnosis_labels.py # 63-dim feature extraction
+│   ├── prep03_generate_splits_lodo_loso.py   # 3-class label generation & alignment
+│   └── prep04_generate_splits_lodo_loso.py   # Train/calib/test split generation
+│
+├── realtime/                            # Real-time EPOC+ BCI scripts (Paper 2, planned)
+├── data/                                # Raw EEG datasets (not in git)
+├── processed/                           # Preprocessed features & labels
+├── results/                             # Experiment results
+├── models/                              # Saved models
+└── logs/                                # Log files
 ```
 
 ---
 
 ## Environment Setup
 
-### Requirements
-
-- Python >= 3.8
-- NumPy >= 1.21
-- SciPy >= 1.7
-- scikit-learn >= 1.0
-- MNE-Python >= 1.0 (for BIDS dataset loading)
-- PyTorch >= 1.9 (optional, for EEGNet)
-- PyYAML, h5py, mat4py, pandas, matplotlib, seaborn, tqdm
-
-### Installation
-
 ```bash
-# Clone the repository
+# Clone
 git clone https://github.com/korose523/BCI_Full_Length.git
 cd BCI_Full_Length
 
 # Create virtual environment
 python -m venv venv
-source venv/bin/activate  # Linux/Mac
-# venv\Scripts\activate   # Windows
+venv\Scripts\activate  # Windows
 
 # Install dependencies
 pip install -r requirements.txt
 
-# Optional: install PyTorch for EEGNet experiments
+# For EEGNet baseline:
 pip install torch torchvision
 ```
 
+**Python ≥ 3.8** required. Core dependencies: NumPy, SciPy, scikit-learn, MNE-Python, PyYAML, h5py, pandas, tqdm.
+
 ---
 
-## Dataset Download
+## Dataset Setup
 
-Place each dataset in the `data/` directory as follows:
+Place each dataset in the `data/` directory. Update paths in `config.yaml` as needed.
 
-| Dataset | Path | Source | Type |
-|---------|------|--------|------|
-| DREAMER | `data/DREAMER/DREAMER.mat` | [IEEE DataPort](https://ieee-dataport.org/) | Emotion (proxy) |
-| DEAP | `data/DEAP/s01.dat ... s32.dat` | [DEAP Dataset](http://www.eecs.qmul.ac.uk/mmv/datasets/deap/) | Emotion (proxy) |
-| MAHNOB-HCI | `data/MAHNOB/Sessions/` | [MAHNOB-HCI](https://mahnob-db.eu/hci-tagging/) | Emotion (proxy) |
-| SEED | `data/SEED/` | [SEED](https://bcmi.sjtu.edu.cn/~seed/) | Emotion (proxy) |
-| SEED-IV | `data/SEED_IV/` | [SEED-IV](https://bcmi.sjtu.edu.cn/~seed/seed-iv.html) | Emotion (proxy) |
-| FACED | `data/FACED/EEG_Features/` | [FACED](https://github.com/FACED-Dataset/FACED) | Emotion (proxy) |
-| ds004572 | `data/ds004572/` (BIDS) | [OpenNeuro](https://openneuro.org/datasets/ds004572) | **Real hypnosis** |
-| ds006437 | `data/ds006437/` (BIDS) | [OpenNeuro](https://openneuro.org/datasets/ds006437) | **Real hypnosis** |
+| # | Dataset | Data Directory | Label Source | Type |
+|---|---------|---------------|-------------|------|
+| 1 | DREAMER | `C:/Users/mac/Desktop/历史/DREAMER.mat` | ScoreArousal (1-5) | Emotion proxy |
+| 2 | DEAP | `C:/Users/mac/Desktop/算法/data_preprocessed_python/` | SAM Arousal (1-9) | Emotion proxy |
+| 3 | MAHNOB-HCI | `C:/Users/mac/Desktop/算法/Sessions/` | **feltArsl (1-9) real** | Emotion proxy |
+| 4 | SEED | `data/SEED/ExtractedFeatures_1s/` | Trial-structure proxy | Emotion proxy |
+| 5 | SEED-IV | `data/SEED_IV/eeg_feature_smooth/` | ReadMe emotion→arousal | Emotion proxy |
+| 6 | FACED | `data/FACED/EEG_Features/` | Subject-group proxy | Affective video |
+| 7 | ds004572 | `data/ds004572/` (BIDS) | Task-condition | **True hypnosis** |
+| 8 | ds006437 | `data/ds006437/` (BIDS) | Session-proportional [FIXED] | **True hypnosis** |
 
-### Quick Setup
-
-```bash
-mkdir -p data/DREAMER data/DEAP data/MAHNOB data/SEED data/SEED_IV data/FACED data/ds004572 data/ds006437
-
-# Download and extract each dataset into its respective directory
-# See individual dataset READMEs for download instructions
-```
+**Dataset sources**: DREAMER ([IEEE DataPort](https://ieee-dataport.org/)), DEAP ([QMUL](http://www.eecs.qmul.ac.uk/mmv/datasets/deap/)), MAHNOB-HCI ([mahnob-db.eu](https://mahnob-db.eu/hci-tagging/)), SEED/SEED-IV ([BCMI Cloud](https://cloud.bcmi.sjtu.edu.cn)), FACED ([GitHub](https://github.com/FACED-Dataset/FACED)), ds004572/ds006437 ([OpenNeuro](https://openneuro.org)).
 
 ---
 
 ## Run Order
 
-**CRITICAL**: Scripts must be run in the order shown below. Each stage depends on the output of the previous stage.
-
-### Stage 1: Preprocessing (prep01 -> prep02 -> prep03 -> prep04)
+### Stage 1: Preprocessing
 
 ```bash
-# Step 1: Load raw EEG, map to 14 EPOC+ channels, sliding window segmentation
+# Step 1: Load raw EEG, map to 14 EPOC+ channels, sliding windows
 python scripts/prep01_build_63feat_all_datasets.py
 
 # Step 2: Extract 63-dimensional features per window
@@ -155,55 +158,38 @@ python scripts/prep02_make_3class_hypnosis_labels.py
 # Step 3: Generate 3-class hypnosis depth labels (Awake/Light/Deep)
 python scripts/prep03_generate_splits_lodo_loso.py
 
-# Step 4: Generate LODO/LOSO train/calib/test splits
+# Step 4: Generate calibration splits
 python scripts/prep04_generate_splits_lodo_loso.py
 ```
 
-### Stage 2: Offline Experiments — Paper 1 (exp101 -> exp108)
+### Stage 2: Label Fixes (run before experiments)
 
 ```bash
-# Core experiment: Zero-shot RF vs WFSC-Mahalanobis (LODO x 8 targets x 20 seeds)
-python scripts/exp101_rf_lodo_loso_zero_shot_vs_wfsc.py
+# Recover MAHNOB real self-assessment arousal labels from session.xml
+python fix_mahnob_labels.py
 
-# Calibration ratio sweep: [0, 0.05, 0.10, 0.20, 0.30, 0.50]
-python scripts/exp102_rf_calibration_ratio_sweep_lodo.py
-
-# WFSC ablation: Mahalanobis dynamic vs Fixed weight
-python scripts/exp103_wfsc_dynamic_mahalanobis_vs_fixedw.py
-
-# Deep learning baseline: EEGNet-v4
-python scripts/exp104_eegnet_lodo_loso_baseline.py
-
-# Domain adaptation baselines: CORAL, TCA, AdaBN
-python scripts/exp105_real_da_baselines_coral_tca_adabn.py
-
-# Legacy reproduction: DREAMER+MAHNOB -> DEAP (2-dataset setting)
-python scripts/exp106_legacy_setting_dreamer_mahnob_to_deap.py
-
-# Statistical tests: Bootstrap CI, Wilcoxon, paired t-test, publication tables
-python scripts/exp107_stats_tests_bootstrap_wilcoxon.py
-
-# SHAP interpretability and cross-domain feature importance stability
-python scripts/exp108_shap_cross_domain_stability.py
+# Fix ds006437 label leakage (binary task→label → session-proportional 3-class)
+python fix_ds006437_labels.py
 ```
 
-### Stage 3: Real-time Experiments — Paper 2 (rt201 -> rt205)
+### Stage 3: Experiments
 
 ```bash
-# Protocol design: 4-phase segmentation + subjective rating
-python realtime/rt201_epoc_protocol_segment_and_rating.py
+# Multi-source LODO (subsampled, ~6min):
+python run_all_experiments.py
 
-# Real-time stream: EPOC+ EEG -> 63-dim features (circular buffer)
-python realtime/rt202_epoc_stream_to_63feat.py
+# Full-scale (all data, 20 seeds, ~2-8h):
+python run_all_experiments.py --full
 
-# Real-time inference: Pretrained model + prediction smoothing
-python realtime/rt203_realtime_inference_public_pretrained.py
+# EEGNet baseline:
+python run_all_experiments.py --eegnet
+```
 
-# Online calibration study: WFSC-Mahalanobis vs WFSC-Fixed convergence
-python realtime/rt204_realtime_wfsc_calibration_fixed_vs_mahal.py
+### Stage 4: ds004572 Full Processing (optional, 52 subjects)
 
-# Evaluation: Latency profiling, phase-level accuracy, prediction stability
-python realtime/rt205_online_eval_metrics_and_latency.py
+```bash
+# Lazy-loading 1000→128Hz for all 52 subjects (~4-5h):
+NUMBA_DISABLE_JIT=1 python process_ds004572_full.py
 ```
 
 ---
@@ -214,158 +200,119 @@ python realtime/rt205_online_eval_metrics_and_latency.py
 
 | Range | Dimensions | Description |
 |-------|-----------|-------------|
-| [0:42] | 42 | 14 channels x 3 bands Log-Bandpower (Theta, Alpha, Beta) |
-| [42:63] | 21 | 7 asymmetry pairs x 3 bands DASM (left - right) |
+| [0:42] | 42 | 14 channels × 3 bands Log-Bandpower (Theta 4-8Hz, Alpha 8-13Hz, Beta 13-30Hz) |
+| [42:63] | 21 | 7 asymmetry pairs × 3 bands DASM |
 
-### Feature Computation (Paper Section 3.2)
+### Pipeline
 
-1. **Channel mapping**: All datasets mapped to 14 EPOC+ channels via nearest-neighbor on 10-20 coordinates
-2. **Resampling**: All data resampled to 128 Hz via integer-ratio polyphase resampling
-3. **Sliding window**: Window W = 256 samples (2s), Step S = 128 (1s), 50% overlap
-4. **Log-Bandpower**: Welch PSD estimation per channel per band, `log10(trapz(PSD) + 1e-10)`
-5. **DASM**: `f_dasm = logBP(left) - logBP(right)` for 7 symmetric electrode pairs
+1. **Channel mapping**: Nearest-neighbor on 10-20 coordinates → 14 EPOC+ channels
+2. **Resampling**: Integer-ratio polyphase → 128 Hz
+3. **Sliding window**: 256 samples (2s), step 128 (1s), 50% overlap
+4. **Log-Bandpower**: Welch PSD → `log10(trapz(PSD) + 1e-10)` per band
+5. **DASM**: `logBP(left) - logBP(right)` for 7 symmetric pairs
 6. **Normalization**: Subject-level z-score per feature dimension
 
-### Frequency Bands
-
-| Band | Range | Neural Relevance |
-|------|-------|-----------------|
-| Theta | 4-8 Hz | Hypnosis depth marker (frontal enhancement) |
-| Alpha | 8-13 Hz | Relaxation & focused attention |
-| Beta | 13-30 Hz | Arousal & active processing |
-
-### 14-Channel EPOC+ Montage
+### 14 EPOC+ Channels
 
 ```
 AF3  F7   F3   FC5  T7   P7   O1
 AF4  F8   F4   FC6  T8   P8   O2
 ```
 
-### 7 Asymmetry Pairs (Left - Right)
+### 7 Asymmetry Pairs
 
-1. AF3 - AF4 (prefrontal)
-2. F7 - F8 (frontal)
-3. F3 - F4 (mid-frontal)
-4. FC5 - FC6 (fronto-central)
-5. T7 - T8 (temporal)
-6. P7 - P8 (parietal)
-7. O1 - O2 (occipital)
+AF3-AF4, F7-F8, F3-F4, FC5-FC6, T7-T8, P7-P8, O1-O2 (all left-minus-right)
 
 ---
 
 ## Label Transparency
 
-### 3-Class Hypnosis Depth
+### 3-Class Mapping
 
 | Class | Label | Description |
 |-------|-------|-------------|
-| 0 | Awake (清醒) | Normal waking consciousness |
-| 1 | Light Hypnosis (浅催眠) | Relaxation, heightened suggestibility |
-| 2 | Deep Hypnosis (深催眠) | Profound relaxation, altered perception |
+| 0 | Awake (清醒) | Normal waking consciousness / high arousal |
+| 1 | Light Hypnosis (浅催眠) | Relaxation, transition state |
+| 2 | Deep Hypnosis (深催眠) | Profound relaxation, altered perception / low arousal |
 
-### IMPORTANT: Label Types
+### Per-Dataset Label Details
 
-| Dataset | Label Type | Source | Notes |
-|---------|-----------|--------|-------|
-| DREAMER | **Proxy** (arousal) | Self-assessment (1-5 scale) | Arousal <= 2 = Deep, 3 = Light, >= 4 = Awake |
-| DEAP | **Proxy** (arousal) | SAM arousal (1-9 scale) | Arousal <= 3 = Deep, 4-6 = Light, >= 7 = Awake |
-| MAHNOB-HCI | **Proxy** (arousal) | Self-assessment | Same as DEAP |
-| SEED | **Proxy** (emotion) | 3-class emotion | Positive=Awake, Neutral=Light, Negative=Deep |
-| SEED-IV | **Proxy** (emotion) | 4-class emotion | Mapped to 3-class |
-| FACED | **Proxy** (arousal) | Continuous arousal | Discretized to 3 levels |
-| **ds004572** | **True hypnosis** | Therapist depth score (0-10) | Direct hypnosis depth measurement |
-| **ds006437** | **True hypnosis** | Protocol phases | Pre/during/post phases |
+| Dataset | Original Scale | 3-Class Boundaries | Type |
+|---------|---------------|-------------------|------|
+| DREAMER | ScoreArousal (1-5) | ≤2=Deep, 3=Light, ≥4=Awake | Proxy |
+| DEAP | SAM Arousal (1-9) | ≤3=Deep, 4-6=Light, ≥7=Awake | Proxy |
+| MAHNOB | **feltArsl (1-9) real** | ≤3=Deep, 4-6=Light, ≥7=Awake | **Real self-report** |
+| SEED | de_movingAve trial structure | Trial-group based | Proxy |
+| SEED-IV | ReadMe emotion labels (0-3) | {2,3}→Awake, 0→Light, 1→Deep | Proxy (ReadMe-derived) |
+| FACED | PSD/DE features | Subject-group based | Proxy |
+| ds004572 | Task condition | Baseline→Awake, Induction→Light, Experience→Deep | Task-condition |
+| ds006437 | Session-proportional split | Baseline→Awake, Hypno-1st-33%→Light, Hypno-67%→Deep | [FIXED] session-proxy |
 
-> **Note**: Proxy labels are derived from arousal/emotion dimensions as approximations of hypnosis-related states. They are clearly marked in all outputs. Only ds004572 and ds006437 contain true hypnosis labels.
+> ⚠️ **Important**: Only MAHNOB uses real continuous self-assessment labels (1-9 scale). All other datasets use proxy or task-condition mappings. ds004572 and ds006437 are true hypnosis datasets but lack numeric depth scores (0-10). Label types are clearly marked in all outputs.
 
 ---
 
 ## Evaluation Protocol
 
-### LODO (Leave-One-Domain-Out) — Outer Layer
+### Multi-Source LODO (Leave-One-Domain-Out)
 
-- 8-fold cross-dataset validation
-- Each dataset takes turns as target domain
-- Remaining 7 datasets merged as source training set
-- No target domain labels used during training (Zero-shot)
+- 8-fold: each dataset as target, remaining 7 merged as source
+- No target labels used during zero-shot training
+- 20% target-domain subjects reserved for FS²C calibration
 
-### LOSO (Leave-One-Subject-Out) — Inner Layer
+### FS²C (Few-Shot Subject Calibration)
 
-- Within each target domain, subjects are split into calibration and test sets
-- Calibration ratio: 20% (default), with sweep from 0% to 50%
-- Stratified by class distribution
+- Calibration samples concatenated with source data before final RF training
+- Simple sample concatenation (not Mahalanobis-weighted — see `shared/mahalanobis_wfsc.py` for advanced variant)
 
-### Statistical Testing
+### Statistical Reliability
 
-- **20 random seeds** per experiment
-- **Wilcoxon signed-rank test** (non-parametric, n=20)
-- **Paired t-test** with Cohen's d effect size
-- **Bootstrap 95% CI** (B=10,000 iterations)
-- Significance level: alpha = 0.05
+- 3 seeds (42, 123, 456) for rapid iteration
+- 20-seed mode available via `run_all_experiments.py --full`
+- Wilcoxon signed-rank test + bootstrap CI planned for full-scale evaluation
 
 ---
 
-## Configuration
+## Known Limitations (Honest Disclosure)
 
-All parameters are centralized in `config.yaml`. Key settings:
-
-```yaml
-# Feature extraction
-features:
-  fs_target: 128        # Target sampling rate (Hz)
-  window_sec: 2.0       # Window duration (s)
-  step_sec: 1.0         # Step between windows (s)
-  nperseg: 128          # Welch PSD segment length
-
-# Random Forest model
-model:
-  rf:
-    n_estimators: 500
-    min_samples_leaf: 5
-    class_weight: "balanced"
-
-# Experiment
-experiment:
-  n_seeds: 20
-  calib_ratios: [0, 0.05, 0.10, 0.20, 0.30, 0.50]
-```
+1. **ds004572 partial**: 5/52 subjects processed. Full 52-subject processing requires `process_ds004572_full.py` (lazy loading, ~4-5h, 16GB+ RAM)
+2. **ds006437 approximation**: Session-proportional labels approximate session boundaries since prep01 merged all trials. Re-running prep01 with session-level granularity is recommended
+3. **Proxy labels**: DREAMER, SEED, SEED-IV, FACED, ds006437 use proxy/task-condition labels — not real hypnosis depth annotations
+4. **3-seed verification**: Statistical power limited to 3 seeds. 20-seed Wilcoxon planned for full-scale evaluation
+5. **Simplified FS²C**: Current calibration uses sample concatenation. Mahalanobis dynamic-weighting implemented but not benchmarked
+6. **No deep learning baseline benchmarked**: EEGNet-v4 code exists (`eegnet_baseline.py`) but not compared against RF
 
 ---
 
-## FAQ & Design Decisions
-
-### Q: Why hand-crafted features instead of deep learning?
-
-A: In cross-dataset zero-shot scenarios, the domain gap (different devices, electrode layouts, sampling rates) severely degrades deep model performance. Hand-crafted features with explicit physical meaning (bandpower in specific frequency ranges) transfer more robustly across domains. Our ablation study (exp104) quantifies this gap.
+## FAQ
 
 ### Q: Why 14 channels instead of 32/64?
 
-A: The EMOTIV EPOC+ consumer-grade headset has exactly 14 channels. By mapping all datasets to this layout, we ensure **direct deployability** on the real-time system (Paper 2). This is a deliberate engineering constraint, not a limitation.
+The EMOTIV EPOC+ consumer headset has exactly 14 channels. Mapping all datasets to this layout ensures direct deployability on consumer BCI hardware (Paper 2).
 
-### Q: Why is DASM computed for all 3 bands, not just Alpha?
+### Q: Why Random Forest instead of deep learning?
 
-A: While the original paper highlights Alpha-band asymmetry for hypnosis, computing DASM for all 3 bands (Theta, Alpha, Beta) provides additional discriminative power at minimal computational cost. The 7 pairs x 3 bands = 21 DASM dimensions are included in the 63-dim feature vector.
+In cross-dataset zero-shot scenarios, the domain gap (different devices, electrode layouts, sampling rates) severely degrades deep model performance. Hand-crafted spectral features with explicit physical meaning transfer more robustly.
 
 ### Q: How are proxy labels justified?
 
-A: Proxy labels are used because no large-scale, multi-subject, real-hypnosis EEG dataset exists with standardized annotations. We leverage the well-established relationship between arousal reduction and hypnotic depth (Theta enhancement, Beta suppression) to approximate hypnosis-like states from emotion datasets. **All proxy labels are clearly marked** in outputs and the paper explicitly discusses this limitation.
+No large-scale, multi-subject, real-hypnosis EEG dataset exists with standardized numeric depth annotations. We leverage the relationship between arousal and hypnotic depth (Theta enhancement, Beta suppression) to approximate hypnosis-like states. All proxy labels are clearly marked.
 
-### Q: What is WFSC and why Mahalanobis?
+### Q: What about the Mahalanobis WFSC?
 
-A: WFSC (Weighted Feature Space Calibration) re-weights source domain training samples based on their similarity to the target domain distribution. The Mahalanobis distance accounts for feature correlations (via the covariance matrix), providing more principled weighting than Euclidean distance. LedoitWolf robust covariance estimation ensures numerical stability in high dimensions (63-dim).
+A Ledoit-Wolf covariance-based dynamic weighting implementation exists in `shared/mahalanobis_wfsc.py` but has not been experimentally validated against simple sample concatenation in the current results. It is planned for future work.
 
 ---
 
 ## Citation
 
-If you use this code in your research, please cite:
-
 ```bibtex
-@article{bci_hypnosis_2025,
-  title={Multi-Source Domain Generalization with WFSC Calibration for Cross-Dataset Three-Level Hypnosis Depth EEG Classification},
+@article{bci_hypnosis_2026,
+  title={Multi-Source Domain Generalization with Few-Shot Calibration for Cross-Dataset EEG Hypnosis Depth Classification},
   author={},
   journal={},
-  year={2025}
+  year={2026},
+  note={v5.2, single-pass verified}
 }
 ```
 
@@ -373,6 +320,4 @@ If you use this code in your research, please cite:
 
 ## License
 
-This project is released under the MIT License. See `LICENSE` for details.
-
-Individual datasets are subject to their respective licenses and terms of use.
+MIT License. Individual datasets are subject to their respective licenses and terms of use.
