@@ -127,20 +127,22 @@ pip install torch torchvision
 
 ## Dataset Setup
 
-Place each dataset in the `data/` directory. Update paths in `config.yaml` as needed.
+All 8 datasets are in the project `data/` folder (total ~62 GB). Paths are configured in `config.yaml`.
 
-| # | Dataset | Data Directory | Label Source | Type |
-|---|---------|---------------|-------------|------|
-| 1 | DREAMER | `C:/Users/mac/Desktop/历史/DREAMER.mat` | ScoreArousal (1-5) | Emotion proxy |
-| 2 | DEAP | `C:/Users/mac/Desktop/算法/data_preprocessed_python/` | SAM Arousal (1-9) | Emotion proxy |
-| 3 | MAHNOB-HCI | `C:/Users/mac/Desktop/算法/Sessions/` | **feltArsl (1-9) real** | Emotion proxy |
-| 4 | SEED | `data/SEED/ExtractedFeatures_1s/` | Trial-structure proxy | Emotion proxy |
-| 5 | SEED-IV | `data/SEED_IV/eeg_feature_smooth/` | ReadMe emotion→arousal | Emotion proxy |
-| 6 | FACED | `data/FACED/EEG_Features/` | Subject-group proxy | Affective video |
-| 7 | ds004572 | `data/ds004572/` (BIDS) | Task-condition | **True hypnosis** |
-| 8 | ds006437 | `data/ds006437/` (BIDS) | Session-proportional [FIXED] | **True hypnosis** |
+| # | Dataset | Data Path | Size | Label Source | Type |
+|---|---------|-----------|------|-------------|------|
+| 1 | DREAMER | `data/DREAMER/DREAMER.mat` | 0.5 GB | ScoreArousal (1-5) | Emotion proxy |
+| 2 | DEAP | `data/DEAP/data_preprocessed_python/` | 3.3 GB | SAM Arousal (1-9) | Emotion proxy |
+| 3 | MAHNOB-HCI | `data/MAHNOB/Sessions/` | 3.8 GB | **feltArsl (1-9) real** | Emotion proxy |
+| 4 | SEED | `data/SEED/ExtractedFeatures_1s/` | 1.9 GB | Trial-structure proxy | Emotion proxy |
+| 5 | SEED-IV | `data/SEED_IV/eeg_feature_smooth/` | 0.3 GB | ReadMe emotion→arousal | Emotion proxy |
+| 6 | FACED | `data/FACED/EEG_Features/` | 0.3 GB | Subject-group proxy | Affective video |
+| 7 | ds004572 | `data/ds004572/` (BIDS) | 47.3 GB | Task-condition | **True hypnosis** |
+| 8 | ds006437 | `data/ds006437/` (BIDS) | 4.7 GB | Session-proportional [FIXED] | **True hypnosis** |
 
 **Dataset sources**: DREAMER ([IEEE DataPort](https://ieee-dataport.org/)), DEAP ([QMUL](http://www.eecs.qmul.ac.uk/mmv/datasets/deap/)), MAHNOB-HCI ([mahnob-db.eu](https://mahnob-db.eu/hci-tagging/)), SEED/SEED-IV ([BCMI Cloud](https://cloud.bcmi.sjtu.edu.cn)), FACED ([GitHub](https://github.com/FACED-Dataset/FACED)), ds004572/ds006437 ([OpenNeuro](https://openneuro.org)).
+
+**MAHNOB self-assessment**: Real 1-9 feltArsl labels recovered from `data/MAHNOB/Sessions/*/session.xml` (see `fix_mahnob_labels.py`). Also saved as `data/MAHNOB/mahnob_self_assessment.json`.
 
 ---
 

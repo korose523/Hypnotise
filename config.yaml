@@ -17,12 +17,12 @@ project:
 # Data paths (modify to your local paths)
 # ---------------------------------------------------------------------------
 data_paths:
-  DREAMER: "C:/Users/mac/Desktop/历史/DREAMER.mat"
-  DEAP: "C:/Users/mac/Desktop/算法/data_preprocessed_python/"  # contains s01.dat ... s32.dat
-  MAHNOB: "C:/Users/mac/Desktop/算法/Sessions/"               # contains Session directories
-  SEED: "data/SEED/"                    # contains ExtractedFeatures/
-  SEED_IV: "data/SEED_IV/"             # contains eeg_feature_smooth/
-  FACED: "data/FACED/"                 # contains EEG_Features/
+  DREAMER: "data/DREAMER/DREAMER.mat"
+  DEAP: "data/DEAP/data_preprocessed_python/"      # contains s01.dat ... s32.dat
+  MAHNOB: "data/MAHNOB/Sessions/"                  # contains 565 Session directories
+  SEED: "data/SEED/"                                # contains ExtractedFeatures_1s/
+  SEED_IV: "data/SEED_IV/"                          # contains eeg_feature_smooth/
+  FACED: "data/FACED/"                              # contains EEG_Features/
   ds004572: "data/ds004572/"           # BIDS format (real hypnosis)
   ds006437: "data/ds006437/"           # BIDS format (real hypnosis)
 
