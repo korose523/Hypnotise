@@ -239,8 +239,8 @@ Calibration is ineffective for SEED, SEED_IV, and FACED (zero improvement to 4 d
 | P1 | Label collapse mitigation (class-balanced training, calibrated focal loss) | Planned |
 | ✅ P1 | CORAL/AdaBN baselines | Done — both zero improvement over RF |
 | ⚠️ P1 | TCA baseline | Attempted — timeout (>120s, 8000×8000 eigh) |
-| P2 | Mahalanobis dynamic-weight calibration validation | Module ready |
-| P2 | EEGNet-v4 baseline comparison | Script ready |
+| ✅ P2 | Mahalanobis WFSC | Tested — crashes (predicts all-zeros, implementation bug) |
+| ⚠️ P2 | EEGNet baseline | Script exists (5587 chars, requires PyTorch, not tested) |
 | P2 | ds004572 full 52-subject processing | Script ready |
 | P2 | ds006437 real per-session depth label acquisition | Pending request |
 
