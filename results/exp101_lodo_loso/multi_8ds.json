@@ -1,0 +1,186 @@
+[
+ {
+  "target": "DREAMER",
+  "seed": 42,
+  "zs_acc": 0.4734,
+  "zs_f1": 0.2807,
+  "calib_acc": 0.3638,
+  "calib_f1": 0.278
+ },
+ {
+  "target": "DREAMER",
+  "seed": 123,
+  "zs_acc": 0.4734,
+  "zs_f1": 0.2807,
+  "calib_acc": 0.3638,
+  "calib_f1": 0.278
+ },
+ {
+  "target": "DREAMER",
+  "seed": 456,
+  "zs_acc": 0.4734,
+  "zs_f1": 0.2807,
+  "calib_acc": 0.3638,
+  "calib_f1": 0.278
+ },
+ {
+  "target": "DEAP",
+  "seed": 42,
+  "zs_acc": 0.0111,
+  "zs_f1": 0.0074,
+  "calib_acc": 0.0034,
+  "calib_f1": 0.0023
+ },
+ {
+  "target": "DEAP",
+  "seed": 123,
+  "zs_acc": 0.3801,
+  "zs_f1": 0.2534,
+  "calib_acc": 0.4929,
+  "calib_f1": 0.3286
+ },
+ {
+  "target": "DEAP",
+  "seed": 456,
+  "zs_acc": 0.2808,
+  "zs_f1": 0.1872,
+  "calib_acc": 0.5216,
+  "calib_f1": 0.3477
+ },
+ {
+  "target": "MAHNOB",
+  "seed": 42,
+  "zs_acc": 0.3355,
+  "zs_f1": 0.2237,
+  "calib_acc": 0.3362,
+  "calib_f1": 0.2241
+ },
+ {
+  "target": "MAHNOB",
+  "seed": 123,
+  "zs_acc": 0.3121,
+  "zs_f1": 0.2081,
+  "calib_acc": 0.3103,
+  "calib_f1": 0.2069
+ },
+ {
+  "target": "MAHNOB",
+  "seed": 456,
+  "zs_acc": 0.3358,
+  "zs_f1": 0.2239,
+  "calib_acc": 0.3367,
+  "calib_f1": 0.2244
+ },
+ {
+  "target": "SEED",
+  "seed": 42,
+  "zs_acc": NaN,
+  "zs_f1": NaN,
+  "calib_acc": NaN,
+  "calib_f1": NaN
+ },
+ {
+  "target": "SEED",
+  "seed": 123,
+  "zs_acc": NaN,
+  "zs_f1": NaN,
+  "calib_acc": NaN,
+  "calib_f1": NaN
+ },
+ {
+  "target": "SEED",
+  "seed": 456,
+  "zs_acc": NaN,
+  "zs_f1": NaN,
+  "calib_acc": NaN,
+  "calib_f1": NaN
+ },
+ {
+  "target": "SEED_IV",
+  "seed": 42,
+  "zs_acc": 0.2499,
+  "zs_f1": 0.1333,
+  "calib_acc": 0.2499,
+  "calib_f1": 0.1333
+ },
+ {
+  "target": "SEED_IV",
+  "seed": 123,
+  "zs_acc": 0.2502,
+  "zs_f1": 0.1333,
+  "calib_acc": 0.2502,
+  "calib_f1": 0.1333
+ },
+ {
+  "target": "SEED_IV",
+  "seed": 456,
+  "zs_acc": 0.2506,
+  "zs_f1": 0.1333,
+  "calib_acc": 0.2506,
+  "calib_f1": 0.1333
+ },
+ {
+  "target": "FACED",
+  "seed": 42,
+  "zs_acc": 0.3987,
+  "zs_f1": 0.2658,
+  "calib_acc": 0.3987,
+  "calib_f1": 0.2658
+ },
+ {
+  "target": "FACED",
+  "seed": 123,
+  "zs_acc": 0.2658,
+  "zs_f1": 0.1772,
+  "calib_acc": 0.2658,
+  "calib_f1": 0.1772
+ },
+ {
+  "target": "FACED",
+  "seed": 456,
+  "zs_acc": 0.2658,
+  "zs_f1": 0.1772,
+  "calib_acc": 0.2658,
+  "calib_f1": 0.1772
+ },
+ {
+  "target": "ds006437",
+  "seed": 42,
+  "zs_acc": 0.5467,
+  "zs_f1": 0.2353,
+  "calib_acc": 0.5467,
+  "calib_f1": 0.2353
+ },
+ {
+  "target": "ds006437",
+  "seed": 123,
+  "zs_acc": 0.547,
+  "zs_f1": 0.2354,
+  "calib_acc": 0.5467,
+  "calib_f1": 0.2351
+ },
+ {
+  "target": "ds004572",
+  "seed": 42,
+  "zs_acc": 0.3785,
+  "zs_f1": 0.2348,
+  "calib_acc": 0.3807,
+  "calib_f1": 0.2352
+ },
+ {
+  "target": "ds004572",
+  "seed": 123,
+  "zs_acc": 0.3785,
+  "zs_f1": 0.2348,
+  "calib_acc": 0.3807,
+  "calib_f1": 0.2352
+ },
+ {
+  "target": "ds004572",
+  "seed": 456,
+  "zs_acc": 0.3785,
+  "zs_f1": 0.2348,
+  "calib_acc": 0.3807,
+  "calib_f1": 0.2352
+ }
+]
