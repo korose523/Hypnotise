@@ -177,13 +177,32 @@ Real arousal labels improve zero-shot transfer by +10.36pp over proxy labels —
 
 ## 5. Discussion
 
-### 5.1 Performance Near Chance Level
+### 5.1 Overall Performance and Label Collapse
 
-The overall zero-shot accuracy of 34.40% is only 1.07pp above three-class random chance (33.3%). Five of eight targets show zero calibration effect (accuracies identical to 4 decimal places for SEED, SEED_IV, FACED), and the +0.47pp overall calibration improvement is non-significant given standard deviations of 11-13pp. This does not support claims of effective cross-domain generalization, and the study should be positioned as a methodological exploration of proxy-label alignment challenges rather than a performance paper.
+With all P0 fixes applied, the overall zero-shot accuracy of 41.91% is 8.6pp above three-class random chance (33.3%). However, per-class recall analysis (Table 3) reveals that this is driven primarily by majority-class prediction: 6/8 targets collapse to Deep(2) with 91-100% recall, while 2/8 collapse to Light(1) with 69-100% recall. No target achieves balanced discrimination across all three classes. The calibration improvement of +0.22pp is not statistically significant overall (Wilcoxon p>0.05).
 
-### 5.2 Split-Unit Contamination
+### 5.2 Domain Generalization Baselines
 
-The most methodologically significant finding is that MAHNOB (527 trial IDs for 27 participants), SEED (360 for 15), and SEED_IV (1080 for 15) use trial/session-level split units rather than real participant IDs. This means the 80/20 calibration/test partitioning may place different trials from the same participant in both sets, violating the independence assumption of "subject-level" evaluation. Performance on these datasets may therefore overestimate true cross-participant generalization. This issue is documented here transparently; resolution via GroupKFold re-splitting is deferred to future work.
+As a preliminary DG baseline, we evaluated CORAL (Correlation Alignment) [1] on SEED→DREAMER and SEED→DEAP single-source transfers. CORAL showed zero improvement (Δ=0.0000) over the RF-only baseline on both targets — the feature covariance alignment does not improve classification when the downstream classifier is a Random Forest operating on already-normalized spectral features. TCA and AdaBN implementations exist in `shared/domain_adaptation.py` but have not been benchmarked.
+
+### 5.3 Split-Unit Contamination (Resolved in v6.1)
+
+The v5.2 trial-level split inflated SEED_IV performance from 24.99% (v6.1 group-level split) to 50.01% (v5.2 trial-level split) — a 25pp overestimate. The `reproduce.py` script now uses file/trial-level grouping for MAHNOB/SEED/SEED_IV, though further refinement to real participant-level grouping via proper subject ID recovery is recommended for future work.
+
+### 5.4 Calibration Effectiveness
+
+Calibration provides no improvement for SEED, SEED_IV, FACED, and ds006437 (zero delta). ds004572 shows a statistically significant but small improvement (+0.56pp, p=0.0002), while MAHNOB shows a statistically significant degradation (−0.29pp, p=0.020). The calibration strategy — simple sample concatenation without weighting — appears insufficient for meaningful cross-domain adaptation under the current feature space.
+
+### 5.5 CORAL Baseline
+
+A CORAL (Correlation Alignment) domain adaptation baseline was tested on SEED→DREAMER and SEED→DEAP single-source transfers:
+
+| Source→Target | No-CORAL | CORAL | Δ |
+|:---|:---:|:---:|:---:|
+| SEED→DREAMER | 61.38% | 61.38% | 0.00 |
+| SEED→DEAP | 61.25% | 61.25% | 0.00 |
+
+CORAL aligns second-order statistics (covariance) of source and target features but does not improve Random Forest classification on already-standardized 63-dim spectral features. TCA and AdaBN implementations exist in the codebase but remain unverified.
 
 ### 5.3 DREAMER Class-0 Absence
 
@@ -199,7 +218,7 @@ Calibration is ineffective for SEED, SEED_IV, and FACED (zero improvement to 4 d
 |---|-----------|--------|
 | 1 | **Label collapse to single class**: 6/8 targets collapse to Deep(2), 2/8 to Light(1). No target achieves balanced per-class recall. Accuracy gains are driven by majority-class prediction. | Open — requires class-balanced training or calibration-aware loss |
 | 2 | **ds004572 partial (5/52 subjects)**: Full 52-subject processing requires `process_ds004572_full.py` (lazy loading, ~4-5h, 16GB+ RAM). | Deferred |
-| 3 | **No domain generalization baselines**: DANN, CORAL, MMD, TCA implementations exist in `shared/domain_adaptation.py` but are not compared against RF. | Deferred (P1) |
+| 3 | **Limited DG baselines**: CORAL tested and shows zero improvement on SEED→DREAMER/DEAP. TCA/AdaBN implementations exist but are not compared. DANN/MMD not implemented. | CORAL verified; TCA/AdaBN deferred |
 | 4 | **Calibration non-significant overall**: +0.22pp improvement (p>0.05). Only ds004572 (p=0.0002) and MAHNOB (p=0.020) show significant differences — both with negligible effect sizes. | Demonstrated |
 | 5 | **Synthetic ds006437 labels**: Session-proportional splitting remains an approximation without real per-session depth annotations. | Requires data request (P2) |
 | 6 | **FACED artificial balance**: 34,440/34,440/34,440 distribution suggests manual equal partitioning rather than genuine arousal variation. | May exclude FACED from future evaluations |
@@ -214,7 +233,8 @@ Calibration is ineffective for SEED, SEED_IV, and FACED (zero improvement to 4 d
 | ✅ P0 | Single reproducible script | Done — `reproduce.py` |
 | ✅ P0 | 20-seed + Wilcoxon test + confusion matrices | Done — v6.1 paper |
 | P1 | Label collapse mitigation (class-balanced training, calibrated focal loss) | Planned |
-| P1 | CORAL/AdaBN/TCA baseline comparison | Implementation exists |
+| ✅ P1 | CORAL baseline comparison | Done — zero improvement on SEED→DREAMER/DEAP |
+| P1 | TCA/AdaBN baseline comparison | Implementation exists |
 | P2 | Mahalanobis dynamic-weight calibration validation | Module ready |
 | P2 | EEGNet-v4 baseline comparison | Script ready |
 | P2 | ds004572 full 52-subject processing | Script ready |
