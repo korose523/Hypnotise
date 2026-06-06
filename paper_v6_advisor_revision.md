@@ -193,16 +193,20 @@ The v5.2 trial-level split inflated SEED_IV performance from 24.99% (v6.1 group-
 
 Calibration provides no improvement for SEED, SEED_IV, FACED, and ds006437 (zero delta). ds004572 shows a statistically significant but small improvement (+0.56pp, p=0.0002), while MAHNOB shows a statistically significant degradation (−0.29pp, p=0.020). The calibration strategy — simple sample concatenation without weighting — appears insufficient for meaningful cross-domain adaptation under the current feature space.
 
-### 5.5 CORAL Baseline
+### 5.5 DG Baselines: CORAL, AdaBN, TCA
 
-A CORAL (Correlation Alignment) domain adaptation baseline was tested on SEED→DREAMER and SEED→DEAP single-source transfers:
+Three domain generalization baselines were tested on SEED→DREAMER and SEED→DEAP single-source transfers (Table 5):
 
-| Source→Target | No-CORAL | CORAL | Δ |
-|:---|:---:|:---:|:---:|
-| SEED→DREAMER | 61.38% | 61.38% | 0.00 |
-| SEED→DEAP | 61.25% | 61.25% | 0.00 |
+**Table 5: DG Baseline Comparison (SEED→target, single-source)**
 
-CORAL aligns second-order statistics (covariance) of source and target features but does not improve Random Forest classification on already-standardized 63-dim spectral features. TCA and AdaBN implementations exist in the codebase but remain unverified.
+| Method | SEED→DREAMER | SEED→DEAP | Δ vs RF |
+|:---|---:|---:|:---:|
+| RF (Baseline) | 61.38% | 61.25% | — |
+| + CORAL | 61.38% | 61.25% | ±0.00 |
+| + AdaBN | 61.38% | 61.25% | ±0.00 |
+| + TCA | — | — | timeout (>120s, 8000×8000 eigh) |
+
+CORAL (covariance alignment) and AdaBN (batch normalization transfer) both produced zero improvement over the RF baseline — accuracies are identical to 4 decimal places. TCA (Transfer Component Analysis) was attempted but the 8000×8000 generalized eigenvalue decomposition exceeded the 120-second timeout. All three methods fail to improve RF classification on already-standardized 63-dim spectral features. This finding is consistent with prior work showing that deep feature extractors (not hand-crafted features) are the primary beneficiaries of feature-level domain adaptation.
 
 ### 5.3 DREAMER Class-0 Absence
 
@@ -233,8 +237,8 @@ Calibration is ineffective for SEED, SEED_IV, and FACED (zero improvement to 4 d
 | ✅ P0 | Single reproducible script | Done — `reproduce.py` |
 | ✅ P0 | 20-seed + Wilcoxon test + confusion matrices | Done — v6.1 paper |
 | P1 | Label collapse mitigation (class-balanced training, calibrated focal loss) | Planned |
-| ✅ P1 | CORAL baseline comparison | Done — zero improvement on SEED→DREAMER/DEAP |
-| P1 | TCA/AdaBN baseline comparison | Implementation exists |
+| ✅ P1 | CORAL/AdaBN baselines | Done — both zero improvement over RF |
+| ⚠️ P1 | TCA baseline | Attempted — timeout (>120s, 8000×8000 eigh) |
 | P2 | Mahalanobis dynamic-weight calibration validation | Module ready |
 | P2 | EEGNet-v4 baseline comparison | Script ready |
 | P2 | ds004572 full 52-subject processing | Script ready |
