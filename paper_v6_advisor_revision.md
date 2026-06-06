@@ -141,11 +141,30 @@ Target-domain calibration appends 20% of target-domain data (selected by split-u
 
 **Verified Result**: Post-fix, ds006437 achieves ZS=54.03% ± 0.26 and Calib=54.01% ± 0.30 (Δ=−0.02pp, Wilcoxon p=0.695). The standard deviation collapsed from σ=43.28pp (v5.0) to σ=0.26pp (v6.1), confirming the elimination of both task-leakage and calibration-reversal bugs. The 54.03% accuracy — well above the 33.3% chance — suggests the 2-class baseline/hypnotherapy structure in the raw BIDS data provides a strong signal for the binary Awake/Deep distinction, though the Light class remains an approximation.
 
-### 4.4 MAHNOB Label Quality: Both Gain and Loss
+### 4.4 Per-Class Recall and Label Collapse
 
-Single-source SEED→MAHNOB comparison (Table 3) evaluates the real feltArsl arousal labels:
+Confusion matrices from seed=42 (Table 3) reveal a critical pattern: despite acceptable overall accuracy on several datasets, per-class recall is dominated by a single majority class — a phenomenon known as "label collapse."
 
-**Table 3: MAHNOB Label Comparison (SEED→MAHNOB single-source)**
+**Table 3: Per-Class Recall (Zero-Shot, seed=42)**
+
+| Target | Awake(0) | Light(1) | Deep(2) | Dominant Class |
+|:---|---:|---:|---:|:---|
+| DREAMER | 0.16% | **99.97%** | 0.00% | Light |
+| DEAP | 27.76% | **68.97%** | 0.00% | Light |
+| MAHNOB | 2.74% | 5.63% | **91.27%** | Deep |
+| SEED | 0.00% | 0.00% | **100.00%** | Deep |
+| SEED_IV | 0.00% | 0.00% | **100.00%** | Deep |
+| FACED | 0.00% | 0.00% | **100.00%** | Deep |
+| ds006437 | 2.45% | 0.77% | **98.27%** | Deep |
+| ds004572 | 0.67% | 3.66% | **93.45%** | Deep |
+
+Six of eight datasets default to predicting Deep(2) for virtually all windows. DREAMER and DEAP both collapse to Light(1), with zero Deep recall. No dataset achieves balanced recall across all three classes. This explains why the overall accuracy of 41.91% — while above chance — masks poor performance on minority classes. In practice, the model is not meaningfully discriminating three hypnosis depth levels but rather learning a binary or single-class heuristic (e.g., "predict the majority source-domain class").
+
+### 4.5 MAHNOB Label Quality: Both Gain and Loss
+
+Single-source SEED→MAHNOB comparison (Table 4) evaluates the real feltArsl arousal labels:
+
+**Table 4: MAHNOB Label Comparison (SEED→MAHNOB single-source)**
 
 | Label Type | ZS Accuracy | Calib Accuracy | Δ (Calib − ZS) |
 |:---|---:|---:|---:|
@@ -176,32 +195,30 @@ Calibration is ineffective for SEED, SEED_IV, and FACED (zero improvement to 4 d
 
 ## 5.5 Limitations (Comprehensive)
 
-1. **Split-unit contamination (P0)**: MAHNOB, SEED, SEED_IV use trial-level rather than participant-level IDs for calibration/test partitioning, potentially inflating apparent cross-participant generalization. Resolution requires GroupKFold re-splitting with real participant IDs.
-2. **DREAMER class-0 absence (P0)**: The ScoreArousal mapping does not produce Awake labels for DREAMER, causing accuracy substantially below chance. Requires label mapping fix or documented exclusion.
-3. **ds006437 seed-456 calibration reversal (P0)**: The 20/80 split logic fails on the 2-unit edge case, swapping calibration and test set sizes.
-4. **ds004572 partial (5/52 subjects)**: Full 52-subject processing deferred to local execution.
-5. **3-seed only**: Statistical power limited to 3 seeds (42, 123, 456). 20-seed Wilcoxon signed-rank test planned but not executed.
-6. **No domain generalization baselines**: DANN, CORAL, MMD, and other established DG methods are not compared. Implementation files exist but are not verified.
-7. **Confusion matrices not reported**: Per-class recall is not analyzed, making it impossible to diagnose class-specific failures.
-8. **Synthetic ds006437 labels**: Session-proportional splitting is an approximation without real per-session depth annotations.
-9. **FACED artificial balance**: The 34,440/34,440/34,440 distribution suggests manual equal partitioning rather than genuine arousal variation.
-10. **No per-class recall or confusion matrix**: Class-level performance cannot be diagnosed from accuracy and macro-F1 alone, especially given the severe class imbalances in DEAP, DREAMER, and ds006437.
+| # | Limitation | Status |
+|---|-----------|--------|
+| 1 | **Label collapse to single class**: 6/8 targets collapse to Deep(2), 2/8 to Light(1). No target achieves balanced per-class recall. Accuracy gains are driven by majority-class prediction. | Open — requires class-balanced training or calibration-aware loss |
+| 2 | **ds004572 partial (5/52 subjects)**: Full 52-subject processing requires `process_ds004572_full.py` (lazy loading, ~4-5h, 16GB+ RAM). | Deferred |
+| 3 | **No domain generalization baselines**: DANN, CORAL, MMD, TCA implementations exist in `shared/domain_adaptation.py` but are not compared against RF. | Deferred (P1) |
+| 4 | **Calibration non-significant overall**: +0.22pp improvement (p>0.05). Only ds004572 (p=0.0002) and MAHNOB (p=0.020) show significant differences — both with negligible effect sizes. | Demonstrated |
+| 5 | **Synthetic ds006437 labels**: Session-proportional splitting remains an approximation without real per-session depth annotations. | Requires data request (P2) |
+| 6 | **FACED artificial balance**: 34,440/34,440/34,440 distribution suggests manual equal partitioning rather than genuine arousal variation. | May exclude FACED from future evaluations |
 
 ### 5.6 Future Work
 
 | Priority | Task | Status |
 |----------|------|--------|
-| P0 | GroupKFold re-splitting for MAHNOB/SEED/SEED_IV | Code restructuring needed |
-| P0 | Fix DREAMER class-0 absence in label mapping | Investigation needed |
-| P0 | Fix ds006437 seed-456 calibration/test reversal | Bug fix needed |
-| P0 | Single script to regenerate multi_8ds.json | Script consolidation needed |
-| P1 | 20-seed + Wilcoxon signed-rank test + bootstrap CI | Script exists (`run_all_experiments.py`) |
-| P1 | CORAL/AdaBN/TCA baseline comparison | Implementation exists, not verified |
-| P1 | Confusion matrix + per-class recall analysis | Analysis needed |
-| P2 | Mahalanobis dynamic-weight calibration validation | Module ready (`shared/mahalanobis_wfsc.py`) |
-| P2 | EEGNet-v4 baseline comparison | Script ready (`eegnet_baseline.py`) |
-| P2 | ds004572 full 52-subject processing | Script ready (`process_ds004572_full.py`) |
-| P2 | ds006437 real per-session depth label acquisition | Pending data request |
+| ✅ P0 | Group-level split for MAHNOB/SEED/SEED_IV | Done — `reproduce.py` |
+| ✅ P0 | Fix DREAMER class-0 absence | Done — ScoreArousal re-mapped |
+| ✅ P0 | Fix ds006437 calibration reversal | Done — edge case skipped |
+| ✅ P0 | Single reproducible script | Done — `reproduce.py` |
+| ✅ P0 | 20-seed + Wilcoxon test + confusion matrices | Done — v6.1 paper |
+| P1 | Label collapse mitigation (class-balanced training, calibrated focal loss) | Planned |
+| P1 | CORAL/AdaBN/TCA baseline comparison | Implementation exists |
+| P2 | Mahalanobis dynamic-weight calibration validation | Module ready |
+| P2 | EEGNet-v4 baseline comparison | Script ready |
+| P2 | ds004572 full 52-subject processing | Script ready |
+| P2 | ds006437 real per-session depth label acquisition | Pending request |
 
 ---
 
