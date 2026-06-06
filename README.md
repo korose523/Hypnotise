@@ -4,7 +4,7 @@
 
 [![Python 3.8+](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Version v5.2](https://img.shields.io/badge/version-v5.2-brightgreen)]()
+[![Version v6.1](https://img.shields.io/badge/version-v6.1-brightgreen)]()
 
 ---
 
@@ -53,10 +53,13 @@ This repository implements a complete pipeline for **cross-dataset three-level h
 
 ### Key Findings
 
-1. **ds004572 achieves strongest transfer**: The true hypnosis target domain reaches 41.97% zero-shot, demonstrating meaningful cross-domain generalization from emotion→hypnosis
-2. **MAHNOB real labels improve transfer**: feltArsl self-assessment labels (recovered from session.xml) improve single-source SEED→MAHNOB zero-shot by +10.36pp over proxy labels
-3. **ds006437 label leakage resolved**: Binary task→label mapping caused 61.49% false accuracy (σ=43.28pp). Session-proportional 3-class split brings to honest 29.23% (σ=12.27pp)
-4. **FS²C calibration benefit is modest**: Overall +0.47pp improvement, with strongest effect on DEAP (+2.08pp) and ds004572 (+1.29pp)
+1. **DREAMER class-0 fixed**: ScoreArousal re-mapped → 49.66% (was 13.05% below chance)
+2. **Group split reveals honest SEED_IV**: File-level grouping → 24.99% (was 50.01% trial-leaked)
+3. **ds006437 stabilized**: σ 43.28→0.26pp, seed-456 reversal fixed
+4. **MAHNOB real labels**: feltArsl self-assessment recovered from session.xml
+5. **20-seed Wilcoxon**: 160 experiments, calibration not significant (+0.22pp overall)
+6. **DG baselines all zero**: CORAL Δ=0.00, AdaBN Δ=0.00, TCA timeout
+7. **Label collapse**: 6/8 targets collapse to single class (per-class recall analysis)
 
 ---
 
