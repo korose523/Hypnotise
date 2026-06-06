@@ -17,7 +17,7 @@ import numpy as np, os, re, json
 from pathlib import Path
 from collections import Counter, defaultdict
 
-os.chdir(r'C:\Users\mac\WorkBuddy\2026-05-13-task-2\universal_bci_hypnosis')
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 # Load current ds006437 windows
 wins = np.load('processed/prep01_windows/ds006437_windows.npz', allow_pickle=True)

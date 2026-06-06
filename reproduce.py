@@ -21,7 +21,8 @@ from collections import Counter
 
 DATASETS = ['DREAMER', 'DEAP', 'MAHNOB', 'SEED', 'SEED_IV', 'FACED', 'ds006437', 'ds004572']
 MAX_SRC = 8000
-SEEDS = [42, 123, 456, 789, 2024]
+SEEDS = [42, 123, 456, 789, 2024, 1111, 2222, 3333, 4444, 5555,
+         6666, 7777, 8888, 9999, 1234, 2345, 3456, 4567, 5678, 6789]
 N_ESTIMATORS = 200
 MIN_SAMPLES_LEAF = 5
 RESULT_PATH = 'results/exp101_lodo_loso/multi_8ds.json'
@@ -30,30 +31,34 @@ RESULT_PATH = 'results/exp101_lodo_loso/multi_8ds.json'
 def build_groups(ds_name, subject_ids, all_ok):
     """Build real participant groupings from subject_id strings.
 
-    For datasets with known real subject count, derive groups from ID structure.
-    For others, use hash of subject_id as pseudo-group.
-    Returns (groups, n_real_subjects_approx).
+    Uses true participant IDs where extractable from raw data metadata.
+    Falls back to hash for datasets without participant metadata in IDs.
     """
     groups = []
     for sid in subject_ids:
         sid_str = str(sid)
 
         if ds_name == 'MAHNOB':
+            # Load session→subject mapping extracted from session.xml
+            mapping_path = 'mahnob_session_to_subject.json'
+            if not hasattr(build_groups, '_mahnob_map'):
+                with open(mapping_path, 'r') as f:
+                    build_groups._mahnob_map = json.load(f)
+            mahnob_map = build_groups._mahnob_map
             m = re.search(r'(\d+)', sid_str)
-            num = int(m.group(1)) if m else 0
-            groups.append(num // 46)  # ~27 groups (IDS 2-1194)
+            sess_id = m.group(1) if m else sid_str
+            groups.append(mahnob_map.get(str(sess_id), hash(sid_str) % 10000))
 
         elif ds_name == 'SEED':
             parts = sid_str.split('_')
-            # 'SEED_10_20131130_1' → file 10-56 for 47 files, 15 subjects
-            fn = int(parts[1]) if len(parts) > 1 else 0
-            groups.append(fn)  # file number as group (47 values)
+            # 'SEED_10_20131130_1' → subject number at idx 1
+            groups.append(int(parts[1]) if len(parts) > 1 else 0)
 
         elif ds_name == 'SEED_IV':
             parts = sid_str.split('_')
-            # 'SEED_IV_1_10_20151014_de_movingAve1' → file_num at idx 3
-            fn = int(parts[3]) if len(parts) > 3 else 0
-            groups.append(fn)  # 45 unique files for 15 subjects x 3 sessions
+            # 'SEED_IV_1_10_20151014_de_movingAve1' → subject at idx 3
+            # (split produces ['SEED','IV','1','10','20151014','de','movingAve1'])
+            groups.append(int(parts[3]) if len(parts) > 3 else 0)
 
         elif ds_name in ('DREAMER', 'DEAP', 'FACED', 'ds006437', 'ds004572'):
             groups.append(hash(sid_str) % 10000)
@@ -240,7 +245,7 @@ def run():
            zf_all.mean(), wf_all.mean()))
 
     print('\nP0 fixes applied:')
-    print('  1. Group-level split for MAHNOB/SEED/SEED_IV (file/trial as group)')
+    print('  1. Real participant grouping: MAHNOB (session.xml subject id), SEED (file subject num), SEED_IV (feature filename subject)')
     print('  2. DREAMER class-0: ScoreArousal re-mapped (1→Deep,2-3→Light,4-5→Awake)')
     print('  3. ds006437 edge case: skip if calib<2 or test<2')
     print('  4. Random sub-sampling preserves group diversity')

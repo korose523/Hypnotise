@@ -3,7 +3,7 @@ Maps arousal 1-9 to 3-class: 1-3=Deep, 4-6=Light, 7-9=Awake."""
 import os, json, numpy as np, re, sys
 from collections import Counter
 
-os.chdir(r'C:\Users\mac\WorkBuddy\2026-05-13-task-2\universal_bci_hypnosis')
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 # Load self-assessment from session.xml
 with open('data/MAHNOB/mahnob_self_assessment.json', 'r', encoding='utf-8') as f:

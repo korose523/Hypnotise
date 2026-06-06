@@ -6,7 +6,7 @@ os.environ['NUMBA_DISABLE_JIT'] = '1'
 os.environ['MPLCONFIGDIR'] = os.environ.get('MPLCONFIGDIR', os.environ.get('TEMP', '/tmp'))
 import mne, numpy as np, time, json, warnings
 warnings.filterwarnings('ignore')
-os.chdir(r'C:\Users\mac\WorkBuddy\2026-05-13-task-2\universal_bci_hypnosis')
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, '.')
 from shared.feature_extraction import map_channels_to_14, EPOC_CHANNELS
 from pathlib import Path
