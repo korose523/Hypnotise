@@ -146,7 +146,16 @@ def run():
     # ── Run experiments ──
     print('\n[3/4] Running LODO experiments (%d seeds x %d targets)...' %
           (len(SEEDS), len(DATASETS)), flush=True)
+
+    # Resume from existing results if present
     results = []
+    done = set()
+    if os.path.exists(RESULT_PATH):
+        with open(RESULT_PATH, 'r') as f:
+            results = json.load(f)
+        done = set((r['target'], r['seed']) for r in results)
+        print('  [resume] Loaded %d existing experiments' % len(results), flush=True)
+
     t0 = time.time()
 
     for ti, target in enumerate(DATASETS):
@@ -161,6 +170,10 @@ def run():
               (ti + 1, target, len(ys), len(yt), n_grp), flush=True)
 
         for seed in SEEDS:
+            if (target, seed) in done:
+                print('    s=%-4d: SKIP (already in results)' % seed, flush=True)
+                continue
+
             if n_grp < 2:
                 print('    s=%-4d: SKIP (<2 groups)' % seed, flush=True)
                 continue
@@ -209,7 +222,12 @@ def run():
             print('    s=%-4d: ZS=%.4f  Calib=%.4f  (cal=%d test=%d)' %
                   (seed, za, wa, cm.sum(), tm.sum()), flush=True)
 
-    # ── Save ──
+            # Save incrementally after each experiment
+            os.makedirs(os.path.dirname(RESULT_PATH), exist_ok=True)
+            with open(RESULT_PATH, 'w') as f:
+                json.dump(results, f, indent=1)
+
+    # ── Final save ──
     os.makedirs(os.path.dirname(RESULT_PATH), exist_ok=True)
     with open(RESULT_PATH, 'w') as f:
         json.dump(results, f, indent=1)

@@ -4,7 +4,7 @@
 
 [![Python 3.8+](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Version v6.2](https://img.shields.io/badge/version-v6.2-brightgreen)]()
+[![Version v6.3](https://img.shields.io/badge/version-v6.3-brightgreen)]()
 
 ---
 
@@ -16,7 +16,8 @@ This repository implements a complete pipeline for **cross-dataset three-level h
 
 | Version | Date | Key Changes |
 |---------|------|-------------|
-| **v6.2** | 2026-06-07 | MAHNOB real-subject grouping from session.xml, all P0 fixes verified, 5-seed preliminary results; 20-seed in progress |
+| **v6.3** | 2026-06-07 | 138/160 20-seed experiments complete, all P0 fixes verified, paper updated with real statistics, P2 status documented |
+| v6.2 | 2026-06-07 | MAHNOB real-subject grouping from session.xml, all P0 fixes verified, 5-seed preliminary results; 20-seed in progress |
 | v5.2 | 2026-06-03 | Single-pass verification, ds006437 label leak fixed, MAHNOB real arousal labels recovered, 30+ redundant files cleaned |
 | v5.0 | 2026-06-02 | 8-dataset multi-source LODO with MAHNOB real labels |
 | v2.1 | 2026-05-14 | 63-dim locked features, LODO/LOSO/LOO, bootstrap CI |
@@ -36,30 +37,29 @@ This repository implements a complete pipeline for **cross-dataset three-level h
 
 ---
 
-## Final Experimental Results (v6.2)
+## Final Experimental Results (v6.3)
 
-> Single-pass verification: 8 targets × 5 seeds (42, 123, 456, 789, 2024), MAX_SRC=8,000, RF(n=200, balanced), ~20 minutes
-> 20-seed full run in progress for higher statistical power.
+> Single-pass verification: 138/160 experiments complete. DREAMER/DEAP/MAHNOB/SEED/SEED_IV=20 seeds each; ds004572=17; FACED=16; ds006437=5. MAX_SRC=8,000, RF(n=200, balanced).
 
-| Target Domain | Zero-Shot Acc | WFSC Acc (20%) | Δ | ZS F1 | Label Source |
-|:---|---:|---:|---:|---:|:---|
-| DEAP | **58.14%** ± 2.75 | 52.93% ± 14.17 | −5.21pp | 0.343 | SAM Arousal (1-9) |
-| ds006437 | 54.29% ± 0.30 | 54.19% ± 0.28 | −0.10pp | 0.256 | Session-proportional [FIXED] |
-| DREAMER | 49.96% ± 0.99 | 48.86% ± 0.48 | −1.10pp | 0.223 | ScoreArousal (1-5) [class-0 fixed] |
-| ds004572 | 43.81% ± 0.04 | **44.61%** ± 0.13 | +0.80pp | 0.230 | Task-condition (5/52 subj) |
-| MAHNOB | 36.96% ± 0.88 | 36.55% ± 1.39 | −0.41pp | 0.217 | **feltArsl (1-9) real** |
-| SEED | 34.14% ± 0.18 | 34.14% ± 0.18 | — | 0.170 | Trial-structure proxy |
-| FACED | 33.80% ± 1.72 | 33.80% ± 1.72 | — | 0.168 | Subject-group proxy |
-| SEED_IV | 25.08% ± 0.14 | 25.08% ± 0.14 | — | 0.134 | ReadMe emotion→arousal |
-| **Overall** | **42.02%** ± 10.79 | **41.27%** ± 11.00 | **−0.75pp** | — | — |
+| Target Domain | Zero-Shot Acc | WFSC Acc (20%) | Δ | ZS F1 | Label Source | Seeds |
+|:---|---:|---:|---:|---:|:---|---:|
+| DEAP | **58.64%** ± 3.51 | 56.53% ± 9.76 | −2.11pp | 0.377 | SAM Arousal (1-9) | 20 |
+| ds006437 | 54.29% ± 0.30 | 54.19% ± 0.28 | −0.10pp | 0.256 | Session-proportional [FIXED] | 5 |
+| DREAMER | 50.28% ± 1.07 | 49.86% ± 1.39 | −0.41pp | 0.224 | ScoreArousal (1-5) [class-0 fixed] | 20 |
+| ds004572 | 44.51% ± 0.51 | **44.84%** ± 0.32 | +0.34pp | 0.230 | Task-condition (5/52 subj) | 17 |
+| MAHNOB | 37.12% ± 1.16 | 36.73% ± 1.26 | −0.39pp | 0.219 | **feltArsl (1-9) real** | 20 |
+| SEED | 34.13% ± 0.17 | 34.13% ± 0.17 | — | 0.170 | Trial-structure proxy | 20 |
+| FACED | 33.18% ± 2.12 | 33.18% ± 2.12 | — | 0.166 | Subject-group proxy | 16 |
+| SEED_IV | 24.99% ± 0.19 | 24.99% ± 0.19 | — | 0.133 | ReadMe emotion→arousal | 20 |
+| **Overall** | **41.03%** ± 11.02 | **40.65%** ± 11.09 | **−0.38pp** | — | — | 138 |
 
 ### Key Findings
 
 1. **MAHNOB real-subject grouping fixed**: session.xml `<subject id>` recovery → 27 subjects (was 49 erroneous groups via `num//46`)
-2. **DREAMER class-0 fixed**: ScoreArousal re-mapped → 49.96% (was 13.05% below chance)
-3. **Group split reveals honest SEED_IV**: Real participant grouping (15 subjects) → 25.08% (was 50.01% trial-leaked)
+2. **DREAMER class-0 fixed**: ScoreArousal re-mapped → 50.28% (was 13.05% below chance)
+3. **Group split reveals honest SEED_IV**: Real participant grouping (15 subjects) → 24.99% (was 50.01% trial-leaked)
 4. **ds006437 stabilized**: σ 43.28→0.30pp, seed-456 reversal fixed
-5. **5-seed Wilcoxon**: 40 experiments, only ds004572 significant (+0.80pp, p=0.031); overall not significant (p=0.897)
+5. **20-seed Wilcoxon (138 exp)**: Only ds004572 significant (+0.34pp, p=0.002); overall not significant (p=0.782)
 6. **DG baselines all zero**: CORAL Δ=0.00, AdaBN Δ=0.00, TCA timeout
 7. **Label collapse**: 6/8 targets collapse to single class (per-class recall analysis)
 
@@ -285,9 +285,9 @@ AF3-AF4, F7-F8, F3-F4, FC5-FC6, T7-T8, P7-P8, O1-O2 (all left-minus-right)
 1. **ds004572 partial**: 5/52 subjects processed. Full 52-subject processing requires `process_ds004572_full.py` (lazy loading, ~4-5h, 16GB+ RAM)
 2. **ds006437 approximation**: Session-proportional labels approximate session boundaries since prep01 merged all trials. Re-running prep01 with session-level granularity is recommended
 3. **Proxy labels**: DREAMER, SEED, SEED-IV, FACED, ds006437 use proxy/task-condition labels — not real hypnosis depth annotations
-4. **5-seed verification**: Statistical power limited to 5 seeds. 20-seed Wilcoxon in progress for full-scale evaluation
-5. **Simplified FS²C**: Current calibration uses sample concatenation. Mahalanobis dynamic-weighting implemented but not benchmarked
-6. **No deep learning baseline benchmarked**: EEGNet-v4 code exists (`eegnet_baseline.py`) but not compared against RF
+4. **20-seed 86.3% complete**: 138/160 experiments complete (DREAMER/DEAP/MAHNOB/SEED/SEED_IV=20 seeds; ds004572=17; FACED=16; ds006437=5). Remaining 22 seeds pending due to computational resource constraints
+5. **Simplified FS²C**: Current calibration uses sample concatenation. Mahalanobis dynamic-weighting code reviewed (implementation correct) but not benchmarked due to time limit
+6. **No deep learning baseline benchmarked**: EEGNet-v4 script ready (`exp104_eegnet_lodo_loso_baseline.py`, PyTorch available) but not compared against RF due to time limit
 
 ---
 

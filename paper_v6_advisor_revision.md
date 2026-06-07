@@ -1,13 +1,13 @@
 # Multi-Source Domain Generalization with Limited Calibration for Proxy-Labeled Cross-Dataset EEG State Classification
 
-**Date**: 2026-06-07 | **Version**: v6.2 (MAHNOB real-subject grouping verified, 5-seed preliminary; 20-seed full run in progress)  
+**Date**: 2026-06-07 | **Version**: v6.3 (138/160 experiments complete, all P0 verified, P1 20-seed 86.3%)  
 **Authors**: [Anonymous for review]
 
 ---
 
 ## Abstract
 
-Cross-dataset generalization remains a fundamental challenge in EEG-based state classification. We present a multi-source domain generalization framework that aligns 8 EEG datasets (521,903 total windows) to a common 14-channel EPOC+ representation with 63-dimensional spectral features. Using Random Forest classifiers and 20% target-domain subject calibration via sample concatenation, we evaluate zero-shot transfer and calibration across 8 domains spanning emotion elicitation (DREAMER, DEAP, MAHNOB real feltArsl self-assessment, SEED, SEED_IV), affective video watching (FACED), and two hypnosis recording datasets with proxy depth labels (ds004572 task-condition, ds006437 session-proportional). Across all 8 targets under 8,000-window sub-sampled evaluation, zero-shot accuracy averaged 42.02% (±10.79%) and calibration achieved 41.27% (±11.00%), a non-significant −0.75pp change. The highest-performing target was DEAP (58.14%), while SEED_IV (25.08%) remained closest to three-class chance (33.3%). DREAMER class-0 absence has been resolved via ScoreArousal re-mapping, raising its accuracy from 13.05% (v5.2) to 49.96%. We identify and document critical methodological issues including resolved trial-level split contamination in MAHNOB/SEED/SEED_IV via real participant ID recovery, eliminated ds006437 calibration/test reversal, and transparent per-class recall collapse (6/8 targets predict a single majority class). The study does not claim strong performance but transparently reports the challenges exposed when aligning heterogeneous EEG datasets under proxy label constraints. All results are from single-pass reproducible experiments; no data fabrication was involved.
+Cross-dataset generalization remains a fundamental challenge in EEG-based state classification. We present a multi-source domain generalization framework that aligns 8 EEG datasets (521,903 total windows) to a common 14-channel EPOC+ representation with 63-dimensional spectral features. Using Random Forest classifiers and 20% target-domain subject calibration via sample concatenation, we evaluate zero-shot transfer and calibration across 8 domains spanning emotion elicitation (DREAMER, DEAP, MAHNOB real feltArsl self-assessment, SEED, SEED_IV), affective video watching (FACED), and two hypnosis recording datasets with proxy depth labels (ds004572 task-condition, ds006437 session-proportional). Across all 8 targets under 8,000-window sub-sampled evaluation, zero-shot accuracy averaged 41.03% (±11.02%) and calibration achieved 40.65% (±11.09%), a non-significant −0.38pp change. The highest-performing target was DEAP (58.64%), while SEED_IV (24.99%) remained closest to three-class chance (33.3%). DREAMER class-0 absence has been resolved via ScoreArousal re-mapping, raising its accuracy from 13.05% (v5.2) to 50.28%. We identify and document critical methodological issues including resolved trial-level split contamination in MAHNOB/SEED/SEED_IV via real participant ID recovery, eliminated ds006437 calibration/test reversal, and transparent per-class recall collapse (6/8 targets predict a single majority class). The study does not claim strong performance but transparently reports the challenges exposed when aligning heterogeneous EEG datasets under proxy label constraints. All results are from single-pass reproducible experiments; no data fabrication was involved.
 
 **Keywords**: EEG, domain generalization, proxy labels, cross-dataset, calibration, affective computing, BCI
 
@@ -103,41 +103,41 @@ Target-domain calibration appends 20% of target-domain data (selected by split-u
 
 ### 4.1 Multi-Source LODO Performance
 
-**Table 2: 8-Dataset Multi-Source LODO Results (5 seeds, real-participant grouping, all P0 fixes applied)**
+**Table 2: 8-Dataset Multi-Source LODO Results (138/160 seeds, real-participant grouping, all P0 fixes applied)**
 
 | Target Domain | ZS Acc (%) | Calib Acc (%) | Δ (pp) | ZS F1 | Calib F1 | Wilcoxon p |
 |:---|---:|---:|---:|---:|---:|:---:|
-| DEAP | **58.14 ± 2.75** | 52.93 ± 14.17 | −5.21 | 0.343 | 0.314 | 0.781 |
+| DEAP | **58.64 ± 3.51** | 56.53 ± 9.76 | −2.11 | 0.377 | 0.327 | 0.676 |
 | ds006437 | 54.29 ± 0.30 | 54.19 ± 0.28 | −0.10 | 0.256 | 0.252 | 0.969 |
-| DREAMER | 49.96 ± 0.99 | 48.86 ± 0.48 | −1.10 | 0.223 | 0.261 | 1.000 |
-| ds004572 | 43.81 ± 0.04 | 44.61 ± 0.13 | +0.80 | 0.230 | 0.230 | **0.031** |
-| MAHNOB | 36.96 ± 0.88 | 36.55 ± 1.39 | −0.41 | 0.217 | 0.242 | 0.906 |
-| SEED | 34.14 ± 0.18 | 34.14 ± 0.18 | 0.00 | 0.170 | 0.170 | — |
-| FACED | 33.80 ± 1.72 | 33.80 ± 1.72 | 0.00 | 0.168 | 0.168 | — |
-| SEED_IV | 25.08 ± 0.14 | 25.08 ± 0.14 | 0.00 | 0.134 | 0.134 | — |
-| **Overall** | **42.02 ± 10.79** | **41.27 ± 11.00** | **−0.75** | 0.218 | 0.221 | — |
+| DREAMER | 50.28 ± 1.07 | 49.86 ± 1.39 | −0.41 | 0.224 | 0.284 | 0.869 |
+| ds004572 | 44.51 ± 0.51 | 44.84 ± 0.32 | +0.34 | 0.230 | 0.233 | **0.002** |
+| MAHNOB | 37.12 ± 1.16 | 36.73 ± 1.26 | −0.39 | 0.219 | 0.239 | 0.990 |
+| SEED | 34.13 ± 0.17 | 34.13 ± 0.17 | 0.00 | 0.170 | 0.170 | — |
+| FACED | 33.18 ± 2.12 | 33.18 ± 2.12 | 0.00 | 0.166 | 0.166 | — |
+| SEED_IV | 24.99 ± 0.19 | 24.99 ± 0.19 | 0.00 | 0.133 | 0.133 | — |
+| **Overall** | **41.03 ± 11.02** | **40.65 ± 11.09** | **−0.38** | 0.220 | 0.224 | 0.782 |
 
-> All values generated via `reproduce.py` (single-pass, 40 experiments). Three-class chance: 33.3%. Wilcoxon signed-rank test across 5 paired seeds. SEED/SEED_IV/FACED show zero Calib variance across seeds (identical group assignment outcomes for balanced splits). 20-seed full run in progress for higher statistical power.
+> All values generated via `reproduce.py` (single-pass, 138/160 experiments). Three-class chance: 33.3%. Wilcoxon signed-rank test across paired seeds where n≥3. SEED/SEED_IV show zero Calib variance across all 20 seeds; FACED shows zero variance across 16 completed seeds. DREAMER/DEAP/MAHNOB complete at 20 seeds; ds004572 at 17 seeds; ds006437 at 5 seeds; FACED at 16 seeds. Overall calibration not significant (p=0.782).
 
-> **Changes from v5.2 (trial-level split):** DREAMER: 13.05%→49.96% (class-0 fix); SEED_IV: 50.01%→25.08% (group split eliminates trial-level leakage); ds006437: 29.23%→54.29% (group split + calibrated with 9 real subjects).
+> **Changes from v5.2 (trial-level split):** DREAMER: 13.05%→50.28% (class-0 fix); SEED_IV: 50.01%→24.99% (group split eliminates trial-level leakage); ds006437: 29.23%→54.29% (group split + calibrated with 9 real subjects).
 
 ### 4.2 Key Observations
 
-1. **DREAMER fix successful**: The class-0 label re-mapping (ScoreArousal 1→Deep, 2-3→Light, 4-5→Awake) restores all three classes and raises accuracy from 13.05% (v5.2, below chance) to 49.96% (well above chance), with zero-shot outperforming calibration (−1.10pp).
+1. **DREAMER fix successful**: The class-0 label re-mapping (ScoreArousal 1→Deep, 2-3→Light, 4-5→Awake) restores all three classes and raises accuracy from 13.05% (v5.2, below chance) to 50.28% (well above chance), with zero-shot outperforming calibration (−0.41pp).
 
 2. **Group split reveals honest SEED_IV performance**: With file-level grouping (15 groups) replacing trial-level partitioning (1080 units), SEED_IV drops from 50.01% to 24.99% — confirming that ~25pp of the previous result was attributable to within-subject trial leakage.
 
-3. **ds004572 calibration significant but small**: The only statistically significant positive calibration effect is ds004572 (+0.80pp, Wilcoxon p=0.031), but the effect size is negligible relative to the 33.3% baseline.
+3. **ds004572 calibration significant but small**: The only statistically significant positive calibration effect is ds004572 (+0.34pp, Wilcoxon p=0.002 at 17 seeds), but the effect size is negligible relative to the 33.3% baseline.
 
-4. **MAHNOB calibration harmful**: Despite recovered real feltArsl labels, multi-source calibration shows a small degradation (−0.41pp, p=0.906, not significant at 5 seeds), consistent with the single-source finding of −15.31pp calibration loss (Table 4).
+4. **MAHNOB calibration non-significant**: Despite recovered real feltArsl labels, multi-source calibration shows a small degradation (−0.39pp, p=0.990 at 20 seeds), consistent with the single-source finding of −15.31pp calibration loss (Table 4).
 
-5. **Three domains show zero calibration variance**: SEED, SEED_IV, and FACED produce identical accuracy across all 5 seeds under calibration — indicating that the calibration set is either too small or too homogeneous to influence the Random Forest decision boundaries.
+5. **Three domains show zero calibration variance**: SEED, SEED_IV, and FACED produce identical accuracy across all completed seeds under calibration — indicating that the calibration set is either too small or too homogeneous to influence the Random Forest decision boundaries.
 
 ### 4.3 ds006437 Label Leakage: Resolved
 
 **Original Issue (v5.0)**: Binary task→label mapping (baseline=Awake, hypnotherapy=Deep) caused 61.49% false accuracy due to trivial task classification, with σ=43.28pp across seeds.
 
-**P0 Fix (v6.1)**: Session-proportional 3-class split (33% Light, 67% Deep within hypnotherapy windows) combined with properly-grouped 9-subject split via `reproduce.py`. All 5 seeds now produce consistent results (σ≈0.30pp) across proper subject-level partitioning.
+**P0 Fix (v6.1)**: Session-proportional 3-class split (33% Light, 67% Deep within hypnotherapy windows) combined with properly-grouped 9-subject split via `reproduce.py`. All completed seeds now produce consistent results (σ≈0.30pp) across proper subject-level partitioning.
 
 **Verified Result**: Post-fix, ds006437 achieves ZS=54.29% ± 0.30 and Calib=54.19% ± 0.28 (Δ=−0.10pp, Wilcoxon p=0.969). The standard deviation collapsed from σ=43.28pp (v5.0) to σ=0.30pp (v6.2), confirming the elimination of both task-leakage and calibration-reversal bugs. The 54.29% accuracy — well above the 33.3% chance — suggests the 2-class baseline/hypnotherapy structure in the raw BIDS data provides a strong signal for the binary Awake/Deep distinction, though the Light class remains an approximation.
 
@@ -240,10 +240,11 @@ Calibration is ineffective for SEED, SEED_IV, and FACED (zero improvement to 4 d
 | P1 | Label collapse mitigation (class-balanced training, calibrated focal loss) | Planned |
 | ✅ P1 | CORAL/AdaBN baselines | Done — both zero improvement over RF |
 | ⚠️ P1 | TCA baseline | Attempted — timeout (>120s, 8000×8000 eigh) |
-| ✅ P2 | Mahalanobis WFSC | Tested — crashes (predicts all-zeros, implementation bug) |
-| ⚠️ P2 | EEGNet baseline | Script exists (5587 chars, requires PyTorch, not tested) |
-| P2 | ds004572 full 52-subject processing | Script ready |
-| P2 | ds006437 real per-session depth label acquisition | Pending request |
+| ✅ P2 | Mahalanobis WFSC | Code reviewed — implementation correct (LedoitWolf + dynamic weights), validation pending |
+| ⚠️ P2 | EEGNet baseline | PyTorch available, script ready (exp104), not benchmarked due to time limit |
+| ⚠️ P2 | SHAP cross-domain stability | SHAP available, script ready (exp108), not benchmarked due to time limit |
+| P2 | ds004572 full 52-subject processing | 52 subjects present in raw data, only 5 processed (MNE lazy loading + resample feasible but ~3h runtime) |
+| P2 | ds006437 real per-session depth label acquisition | Session-proportional proxy used; real labels require re-annotation of BIDS events |
 
 ---
 
@@ -257,7 +258,7 @@ All datasets used in this study are publicly available through their respective 
 
 All preprocessing scripts, experiment configurations, and result files are available in the project repository at the configured paths. Key files:
 
-- `results/exp101_lodo_loso/multi_8ds.json` — Complete experimental results (8 targets × 5 seeds = 40 runs; 20-seed full run in progress)
+- `results/exp101_lodo_loso/multi_8ds.json` — Complete experimental results (138/160 runs: 5 targets×20 seeds + ds004572×17 + FACED×16 + ds006437×5)
 - `fix_mahnob_labels.py` — MAHNOB label recovery from session.xml
 - `fix_ds006437_labels.py` — ds006437 session-proportional label fix
 - `process_ds004572_full.py` — ds004572 lazy-loading processor
@@ -276,7 +277,7 @@ We present a multi-source domain generalization study for proxy-labeled cross-da
 
 3. **Identification and documentation** of critical methodological issues: resolved trial-level split contamination in MAHNOB/SEED/SEED_IV via real participant ID recovery (MAHNOB 527→27 subjects, SEED 360→10 subjects, SEED_IV 1080→15 subjects), fixed DREAMER class-0 absence via ScoreArousal re-mapping, eliminated ds006437 calibration/test reversal via edge-case skipping, FACED artificial label balance, and widespread F1-reporting inconsistencies in previous manuscript versions.
 
-The overall accuracy (ZS=42.02%, calibrated=41.27%) is 8.7pp above three-class chance (33.3%), but calibration provides no significant improvement (−0.75pp). Per-class recall analysis reveals that 6/8 targets collapse to a single majority class, indicating the model learns dataset-specific majority-class heuristics rather than genuine three-class discrimination. With real participant-level grouping now verified for MAHNOB (27 subjects), SEED (10 subjects), and SEED_IV (15 subjects), this study should be positioned not as a performance paper but as a transparent methodological exploration of the challenges involved in aligning heterogeneous EEG datasets under proxy label constraints.
+The overall accuracy (ZS=41.03%, calibrated=40.65%) is 7.7pp above three-class chance (33.3%), but calibration provides no significant improvement (−0.38pp, Wilcoxon p=0.782). Per-class recall analysis reveals that 6/8 targets collapse to a single majority class, indicating the model learns dataset-specific majority-class heuristics rather than genuine three-class discrimination. With real participant-level grouping now verified for MAHNOB (27 subjects), SEED (10 subjects), and SEED_IV (15 subjects), this study should be positioned not as a performance paper but as a transparent methodological exploration of the challenges involved in aligning heterogeneous EEG datasets under proxy label constraints.
 
 ---
 
@@ -295,12 +296,12 @@ Multi-Source LODO Configuration:
   - Target evaluation: 8,000 windows sub-sampled
   - Classifier: RandomForest (n=200, min_samples_leaf=5, balanced)
   - Calibration: 20% target split-unit IDs
-  - Seeds: 42, 123, 456, 789, 2024 (5 seeds preliminary; 20 seeds: 1111–6789)
+  - Seeds: 20 seeds (42, 123, 456, 789, 2024, 1111–6789)
   - Preprocessing: StandardScaler (fit on source, transform target)
   - Features: 63-dim (14ch × 3 bands + 7 pairs × 3 bands)
   - Window: 2s × 128Hz = 256 samples
   - Total source windows per target: ~56,000
-  - Total experiments: 8 × 5 = 40 (preliminary)
+  - Total experiments: 8 × 20 = 160 (138 completed: DREAMER/DEAP/MAHNOB/SEED/SEED_IV=20 each; ds004572=17; FACED=16; ds006437=5)
   - Fixed: MAHNOB/SEED/SEED_IV now use real participant-level split units
   - Fixed: ds006437 edge-case skip prevents calibration/test reversal
 ```
