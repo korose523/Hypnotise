@@ -1,6 +1,7 @@
 # Universal BCI Hypnosis Depth Classification (通用EEG催眠深度分类系统)
 
-> **Proxy-Labeled Cross-Dataset EEG State Classification: Multi-Source Domain Generalization with Limited Target-Domain Calibration**
+> **Proxy-Labeled Cross-Dataset EEG State Classification: Multi-Source Domain Generalization with Limited Target-Domain Calibration**  
+> This repository explores cross-dataset alignment of heterogeneous EEG recordings under coarse proxy labels; it does not claim to measure validated clinical hypnosis depth.
 
 [![Python 3.8+](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
@@ -87,19 +88,17 @@ Fixed parameters:
 
 ```
 universal_bci_hypnosis/
-├── paper_v6_advisor_revision.md         # Current paper draft (v6.4, revised per advisor)
+├── paper_final.md                       # Final complete paper (v6.4)
 ├── config.yaml                          # Global configuration (v6.4)
 ├── requirements.txt                     # Python dependencies
 ├── README.md                            # This file
 │
 ├── run_exp101_reproducible.py           # SINGLE reproducible runner for multi_8ds.json
-├── run_all_experiments.py               # Legacy unified runner (kept for reference)
 ├── repair_subject_ids.py                # Repair MAHNOB/SEED/SEED_IV subject IDs in processed files
 ├── reprocess_ds006437.py                # Reprocess ds006437 with session-aware labels
 ├── reprocess_ds004572.py                # Reprocess ds004572 features and task-condition labels
-├── eegnet_baseline.py                   # EEGNet-v4 PyTorch baseline
+├── eegnet_baseline.py                   # EEGNet-v4 PyTorch baseline (not benchmarked)
 ├── fix_mahnob_labels.py                 # MAHNOB real arousal label recovery from session.xml
-├── fix_ds006437_labels.py               # Legacy position-based ds006437 label fix (deprecated)
 ├── process_ds004572_full.py             # ds004572 lazy-loading 1000→128Hz processor (optional 52 subjects)
 │
 ├── shared/                              # Shared utility modules
@@ -185,10 +184,10 @@ python scripts/prep01_build_63feat_all_datasets.py
 # Step 2: Extract 63-dimensional features per window
 python scripts/prep02_make_3class_hypnosis_labels.py
 
-# Step 3: Generate 3-class hypnosis depth labels (Awake/Light/Deep)
+# Step 3: Generate 3-class hypnosis proxy labels (Awake/Light/Deep) & align to windows
 python scripts/prep03_generate_splits_lodo_loso.py
 
-# Step 4: Generate calibration splits
+# Step 4: Generate subject-aware calibration/test splits
 python scripts/prep04_generate_splits_lodo_loso.py
 ```
 
@@ -198,21 +197,18 @@ python scripts/prep04_generate_splits_lodo_loso.py
 # Recover MAHNOB real self-assessment arousal labels from session.xml
 python fix_mahnob_labels.py
 
-# Fix ds006437 label leakage (binary task→label → session-proportional 3-class)
-python fix_ds006437_labels.py
+# Reprocess ds006437 with session-aware labels (replaces deprecated position-based fix)
+python reprocess_ds006437.py
+
+# Reprocess ds004572 features and task-condition labels
+python reprocess_ds004572.py
 ```
 
 ### Stage 3: Experiments
 
 ```bash
-# Multi-source LODO (subsampled, ~6min):
-python run_all_experiments.py
-
-# Full-scale (all data, 20 seeds, ~2-8h):
-python run_all_experiments.py --full
-
-# EEGNet baseline:
-python run_all_experiments.py --eegnet
+# Multi-source LODO (subsampled, ~6-8 min per target, 8 targets x 20 seeds = ~1.5-2h total):
+python run_exp101_reproducible.py
 ```
 
 ### Stage 4: ds004572 Full Processing (optional, 52 subjects)
@@ -297,20 +293,20 @@ AF3-AF4, F7-F8, F3-F4, FC5-FC6, T7-T8, P7-P8, O1-O2 (all left-minus-right)
 
 ### Statistical Reliability
 
-- 3 seeds (42, 123, 456) for rapid iteration
-- 20-seed mode available via `run_all_experiments.py --full`
-- Wilcoxon signed-rank test + bootstrap CI planned for full-scale evaluation
+- 20 seeds (42, 123, 456, 789, 2024, 1111–6789) for the finalized v6.4 run
+- Single reproducible runner: `python run_exp101_reproducible.py`
+- Wilcoxon signed-rank test on paired seeds included in `multi_8ds.json`
 
 ---
 
 ## Known Limitations (Honest Disclosure)
 
 1. **ds004572 partial**: 5/52 subjects processed. Full 52-subject processing requires `process_ds004572_full.py` (lazy loading, ~4-5h, 16GB+ RAM)
-2. **ds006437 approximation**: Session-proportional labels approximate session boundaries since prep01 merged all trials. Re-running prep01 with session-level granularity is recommended
-3. **Proxy labels**: DREAMER, SEED, SEED-IV, FACED, ds006437 use proxy/task-condition labels — not real hypnosis depth annotations
-4. **20-seed 86.3% complete**: 138/160 experiments complete (DREAMER/DEAP/MAHNOB/SEED/SEED_IV=20 seeds; ds004572=17; FACED=16; ds006437=5). Remaining 22 seeds pending due to computational resource constraints
-5. **Simplified FS²C**: Current calibration uses sample concatenation. Mahalanobis dynamic-weighting code reviewed (implementation correct) but not benchmarked due to time limit
-6. **No deep learning baseline benchmarked**: EEGNet-v4 script ready (`exp104_eegnet_lodo_loso_baseline.py`, PyTorch available) but not compared against RF due to time limit
+2. **ds006437 approximation**: Session-aware labels use BIDS session identifiers; real per-session hypnosis depth scores are not available in the downloadable BIDS structure
+3. **Proxy labels**: DREAMER, SEED, SEED-IV, FACED, ds006437, and ds004572 use proxy/task-condition/session labels — not validated clinical hypnosis depth annotations
+4. **20-seed run complete**: 160/160 experiments complete (8 datasets × 20 seeds)
+5. **Simplified calibration**: Current calibration uses sample concatenation. Mahalanobis dynamic-weighting code patched to fit on calibration data only but not benchmarked in the main 20-seed run
+6. **No deep learning baseline benchmarked**: EEGNet-v4 script ready (`eegnet_baseline.py`, PyTorch available) but not compared against RF due to time limits
 
 ---
 
