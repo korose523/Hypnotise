@@ -161,14 +161,16 @@ def load_mahnob(config):
             continue
         subj_match = session_dir.name
 
-        # Parse session.xml for arousal/valence self-report
+        # Parse session.xml for arousal/valence self-report and real subject ID
         xml_file = session_dir / 'session.xml'
         arousal = 5.0  # default middle value
+        real_subject = session_dir.name  # fallback
         if xml_file.exists():
             try:
                 tree = ET.parse(str(xml_file))
                 root = tree.getroot()
                 arousal = float(root.get('feltArsl', 5.0))
+                real_subject = root.get('subjectID') or root.get('subjectid') or root.get('subject_id') or session_dir.name
             except Exception:
                 pass
 
@@ -200,7 +202,7 @@ def load_mahnob(config):
                 'eeg': eeg_only,
                 'fs': actual_fs,
                 'dataset': 'MAHNOB',
-                'subject_id': f'MAHNOB_{subj_match}',
+                'subject_id': f'MAHNOB_{real_subject}',
                 'trial_id': trial_idx,
                 'channels': mahnob_channels,
                 'raw_arousal': float(arousal),
@@ -300,11 +302,15 @@ def load_seed(config):
                 # Rearrange to (time, 14, 3)
                 win_feat = de_tab.transpose(1, 0, 2)
 
+                # SEED filename format: <subject>_<date>, e.g. "10_20131130"
+                subject_num = mat_file.stem.split('_')[0]
+                trial_num = int(trial_key.replace('de_movingAve', '').replace('de_LDS', ''))
+
                 segments.append({
                     '_precomputed': True,
                     '_win_feat': win_feat,
-                    'subject_id': f'SEED_{mat_file.stem}_{trial_key.split("de_movingAve")[-1]}',
-                    'trial_id': 0,
+                    'subject_id': f'SEED_{subject_num}',
+                    'trial_id': trial_num,
                     'dataset': 'SEED',
                 })
         except Exception as e:
@@ -350,11 +356,15 @@ def load_seed_iv(config):
                 de_tab = np.stack([de_14[:, :, THETA_IDX], de_14[:, :, ALPHA_IDX], de_14[:, :, BETA_IDX]], axis=-1)
                 win_feat = de_tab.transpose(1, 0, 2)
 
+                # SEED-IV filename format: <subject>_<date>, e.g. "10_20151014"
+                subject_num = mat_file.stem.split('_')[0]
+                trial_num = int(trial_key.replace('de_movingAve', '').replace('de_LDS', ''))
+
                 segments.append({
                     '_precomputed': True,
                     '_win_feat': win_feat,
-                    'subject_id': f'SEED_IV_{mat_file.parent.name}_{mat_file.stem}_{trial_key}',
-                    'trial_id': 0,
+                    'subject_id': f'SEED_IV_{subject_num}',
+                    'trial_id': trial_num,
                     'dataset': 'SEED_IV',
                 })
         except Exception as e:
@@ -542,7 +552,12 @@ def load_ds004572(config):
 
 
 def load_ds006437(config):
-    """Load ds006437 (real hypnosis BIDS dataset, EEGLAB .set format)."""
+    """Load ds006437 (real hypnosis BIDS dataset, EEGLAB .set format).
+
+    Session-aware loading: each BIDS session (ses-0, ses-1, ses-4, ses-8) is
+    treated as a separate trial so that session-specific labels can be assigned
+    in prep03. This avoids the previous position-based synthetic split.
+    """
     data_dir = Path(config['data_paths']['ds006437'])
     if not data_dir.exists():
         raise FileNotFoundError(f"ds006437 data not found: {data_dir}")
@@ -560,49 +575,47 @@ def load_ds006437(config):
     for sub_dir in sub_dirs:
         subj_name = sub_dir.name
 
-        # Recursively find all EEG files (.set, .fif, .bdf, .vhdr)
-        eeg_files = (
-            sorted(sub_dir.glob('**/*.set'))
-            + sorted(sub_dir.glob('**/*.fif'))
-            + sorted(sub_dir.glob('**/*.bdf'))
-            + sorted(sub_dir.glob('**/*.vhdr'))
-        )
+        # Iterate over BIDS sessions (ses-0, ses-1, ses-4, ses-8)
+        session_dirs = sorted([d for d in sub_dir.glob('ses-*') if d.is_dir()])
+        if not session_dirs:
+            # Fallback: no session subdirs, treat all files as one trial
+            session_dirs = [sub_dir]
 
-        for eeg_file in eeg_files:
-            try:
-                if eeg_file.suffix == '.set':
-                    raw = mne.io.read_raw_eeglab(str(eeg_file), preload=True, verbose=False)
-                elif eeg_file.suffix == '.vhdr':
-                    raw = mne.io.read_raw_brainvision(str(eeg_file), preload=True, verbose=False)
-                elif eeg_file.suffix == '.bdf':
-                    raw = mne.io.read_raw_bdf(str(eeg_file), preload=True, verbose=False)
-                else:
-                    raw = mne.io.read_raw_fif(str(eeg_file), preload=True, verbose=False)
-            except Exception as e:
-                print(f"  Warning: skip {eeg_file}: {e}")
-                continue
+        for session_dir in session_dirs:
+            session_name = session_dir.name  # e.g. 'ses-0'
 
-            eeg_data = raw.get_data()
-            orig_fs = int(raw.info['sfreq'])
+            eeg_files = (
+                sorted(session_dir.glob('**/*.set'))
+                + sorted(session_dir.glob('**/*.fif'))
+                + sorted(session_dir.glob('**/*.bdf'))
+                + sorted(session_dir.glob('**/*.vhdr'))
+            )
 
-            # Extract task name from filename
-            task_name = ''
-            fname = eeg_file.stem
-            for keyword in ['baseline', 'hypnotherapy', 'induction', 'experience']:
-                if keyword in fname.lower():
-                    task_name = keyword
-                    break
-            if not task_name:
-                task_name = fname
+            for eeg_file in eeg_files:
+                try:
+                    if eeg_file.suffix == '.set':
+                        raw = mne.io.read_raw_eeglab(str(eeg_file), preload=True, verbose=False)
+                    elif eeg_file.suffix == '.vhdr':
+                        raw = mne.io.read_raw_brainvision(str(eeg_file), preload=True, verbose=False)
+                    elif eeg_file.suffix == '.bdf':
+                        raw = mne.io.read_raw_bdf(str(eeg_file), preload=True, verbose=False)
+                    else:
+                        raw = mne.io.read_raw_fif(str(eeg_file), preload=True, verbose=False)
+                except Exception as e:
+                    print(f"  Warning: skip {eeg_file}: {e}")
+                    continue
 
-            segments.append({
-                'eeg': eeg_data,
-                'fs': orig_fs,
-                'dataset': 'ds006437',
-                'subject_id': f'ds006437_{subj_name}',
-                'trial_id': task_name,
-                'channels': ds_channels,
-            })
+                eeg_data = raw.get_data()
+                orig_fs = int(raw.info['sfreq'])
+
+                segments.append({
+                    'eeg': eeg_data,
+                    'fs': orig_fs,
+                    'dataset': 'ds006437',
+                    'subject_id': f'ds006437_{subj_name}',
+                    'trial_id': session_name,
+                    'channels': ds_channels,
+                })
 
     return segments
 

@@ -1,5 +1,5 @@
 # ============================================================================
-# Universal BCI Hypnosis Depth Classification v2.1 — Global Configuration
+# Universal BCI Hypnosis Depth Classification v6.4 — Global Configuration
 # ============================================================================
 # Naming convention:
 #   prep_*.py   : Preprocessing / Feature / Label / Split generation
@@ -10,8 +10,8 @@
 
 project:
   name: "universal_bci_hypnosis"
-  version: "2.1"
-  description: "Three-level hypnosis depth classification (Awake/Light/Deep) — Unified Pipeline"
+  version: "6.4"
+  description: "Proxy-labeled cross-dataset EEG state classification (Awake/Light/Deep) — Unified Pipeline with real subject-level splits and session-aware hypnosis proxies"
 
 # ---------------------------------------------------------------------------
 # Data paths (modify to your local paths)
@@ -202,21 +202,22 @@ label_mapping:
       deep:   "arousal < 3.5"
     justification: "Continuous arousal discretized to 3 levels"
   ds004572:
-    source_field: "hypnosis_depth"
-    label_type: "true_hypnosis"
+    source_field: "task_condition"
+    label_type: "true_hypnosis_task_proxy"
     rules:
-      awake:  "depth <= 3"
-      light:  "4 <= depth <= 6"
-      deep:   "depth >= 7"
-    justification: "Actual hypnotic depth score (0-10) from trained hypnotherapist"
+      awake:  "v == 'baseline'"
+      light:  "v == 'induction'"
+      deep:   "v == 'experience'"
+    justification: "OpenNeuro ds004572 does not provide downloadable numeric depth scores; task condition (baseline/induction/experience) is used as a hypnosis-depth proxy"
+
   ds006437:
-    source_field: "phase"
-    label_type: "true_hypnosis"
+    source_field: "session"
+    label_type: "true_hypnosis_session_proxy"
     rules:
-      awake:  "phase in ['pre', 'post']"
-      light: "phase == 'during'"
-      deep:   null
-    justification: "Protocol phase as label; deep may not exist in this dataset"
+      awake:  "v == 'ses-0'"
+      light:  "v == 'ses-1'"
+      deep:   "v in ['ses-4', 'ses-8']"
+    justification: "Session-aware proxy: baseline=Awake, early hypnotherapy=Light, late hypnotherapy=Deep. Replaces the previous position-based synthetic split."
 
 # ---------------------------------------------------------------------------
 # Model parameters

@@ -1,0 +1,22 @@
+{
+  "dataset": "SEED",
+  "seed": 2345,
+  "split_type": "LOSO",
+  "calib_subjects": [
+    "SEED_3",
+    "SEED_6"
+  ],
+  "test_subjects": [
+    "SEED_2",
+    "SEED_5",
+    "SEED_11",
+    "SEED_4",
+    "SEED_8",
+    "SEED_9",
+    "SEED_7",
+    "SEED_10"
+  ],
+  "calib_ratio": 0.2,
+  "n_calib_subjects": 2,
+  "n_test_subjects": 8
+}

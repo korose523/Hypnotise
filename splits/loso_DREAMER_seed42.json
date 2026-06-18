@@ -1,0 +1,35 @@
+{
+  "dataset": "DREAMER",
+  "seed": 42,
+  "split_type": "LOSO",
+  "calib_subjects": [
+    "DREAMER_S02",
+    "DREAMER_S06",
+    "DREAMER_S19",
+    "DREAMER_S01",
+    "DREAMER_S14",
+    "DREAMER_S23",
+    "DREAMER_S03",
+    "DREAMER_S12",
+    "DREAMER_S08",
+    "DREAMER_S17",
+    "DREAMER_S05"
+  ],
+  "test_subjects": [
+    "DREAMER_S09",
+    "DREAMER_S16",
+    "DREAMER_S15",
+    "DREAMER_S21",
+    "DREAMER_S22",
+    "DREAMER_S11",
+    "DREAMER_S20",
+    "DREAMER_S04",
+    "DREAMER_S13",
+    "DREAMER_S10",
+    "DREAMER_S07",
+    "DREAMER_S18"
+  ],
+  "calib_ratio": 0.5,
+  "n_calib_subjects": 11,
+  "n_test_subjects": 12
+}

@@ -1,0 +1,98 @@
+{
+  "DREAMER": {
+    "source_domains": [
+      "DEAP",
+      "MAHNOB",
+      "SEED",
+      "SEED_IV",
+      "FACED",
+      "ds006437",
+      "ds004572"
+    ],
+    "target_domain": "DREAMER"
+  },
+  "DEAP": {
+    "source_domains": [
+      "DREAMER",
+      "MAHNOB",
+      "SEED",
+      "SEED_IV",
+      "FACED",
+      "ds006437",
+      "ds004572"
+    ],
+    "target_domain": "DEAP"
+  },
+  "MAHNOB": {
+    "source_domains": [
+      "DREAMER",
+      "DEAP",
+      "SEED",
+      "SEED_IV",
+      "FACED",
+      "ds006437",
+      "ds004572"
+    ],
+    "target_domain": "MAHNOB"
+  },
+  "SEED": {
+    "source_domains": [
+      "DREAMER",
+      "DEAP",
+      "MAHNOB",
+      "SEED_IV",
+      "FACED",
+      "ds006437",
+      "ds004572"
+    ],
+    "target_domain": "SEED"
+  },
+  "SEED_IV": {
+    "source_domains": [
+      "DREAMER",
+      "DEAP",
+      "MAHNOB",
+      "SEED",
+      "FACED",
+      "ds006437",
+      "ds004572"
+    ],
+    "target_domain": "SEED_IV"
+  },
+  "FACED": {
+    "source_domains": [
+      "DREAMER",
+      "DEAP",
+      "MAHNOB",
+      "SEED",
+      "SEED_IV",
+      "ds006437",
+      "ds004572"
+    ],
+    "target_domain": "FACED"
+  },
+  "ds006437": {
+    "source_domains": [
+      "DREAMER",
+      "DEAP",
+      "MAHNOB",
+      "SEED",
+      "SEED_IV",
+      "FACED",
+      "ds004572"
+    ],
+    "target_domain": "ds006437"
+  },
+  "ds004572": {
+    "source_domains": [
+      "DREAMER",
+      "DEAP",
+      "MAHNOB",
+      "SEED",
+      "SEED_IV",
+      "FACED",
+      "ds006437"
+    ],
+    "target_domain": "ds004572"
+  }
+}

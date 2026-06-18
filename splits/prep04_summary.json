@@ -1,0 +1,55 @@
+{
+  "lodo": {
+    "n_folds": 8,
+    "target_domains": [
+      "DREAMER",
+      "DEAP",
+      "MAHNOB",
+      "SEED",
+      "SEED_IV",
+      "FACED",
+      "ds006437",
+      "ds004572"
+    ]
+  },
+  "DREAMER": {
+    "split_type": "LOSO",
+    "n_subjects": 23,
+    "n_seeds": 20
+  },
+  "DEAP": {
+    "split_type": "LOSO",
+    "n_subjects": 32,
+    "n_seeds": 20
+  },
+  "MAHNOB": {
+    "split_type": "LOSO",
+    "n_subjects": 27,
+    "n_seeds": 20
+  },
+  "SEED": {
+    "split_type": "LOSO",
+    "n_subjects": 10,
+    "n_seeds": 20
+  },
+  "SEED_IV": {
+    "split_type": "LOSO",
+    "n_subjects": 15,
+    "n_seeds": 20
+  },
+  "FACED": {
+    "split_type": "LOSO",
+    "n_subjects": 123,
+    "n_seeds": 20
+  },
+  "ds006437": {
+    "split_type": "LOSO",
+    "n_subjects": 9,
+    "n_seeds": 20
+  },
+  "ds004572": {
+    "split_type": "LOSO",
+    "n_subjects": 5,
+    "n_seeds": 20
+  }
+}

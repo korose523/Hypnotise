@@ -19,12 +19,12 @@ from pathlib import Path
 from shared.mahalanobis_wfsc import MahalanobisWFSC
 
 # ====== CONFIG ======
-DATASETS = ['DREAMER','DEAP','MAHNOB','SEED','SEED_IV','FACED','ds006437']
+DATASETS = ['DREAMER','DEAP','MAHNOB','SEED','SEED_IV','FACED','ds006437','ds004572']
 SEEDS = [42,123,456,789,2024,1111,2222,3333,4444,5555,
          6666,7777,8888,9999,1234,2345,3456,4567,5678,6789]
 CALIB_RATIOS = [0, 0.05, 0.10, 0.20]
-RF_TREES = 500
-MAX_SRC = None  # None = use all data; set to e.g. 20000 for faster runs
+RF_TREES = 200
+MAX_SRC = 8000  # per source domain for fair comparison
 
 
 def load_data():
@@ -109,7 +109,7 @@ def run_lodo(X, y, s, args):
                 wa_mahal, wf_mahal = zs_a, zs_f
                 if ratio > 0 and cm.sum() > 3:
                     try:
-                        mwfsc = MahalanobisWFSC().fit(Xt)  # fit on all target data
+                        mwfsc = MahalanobisWFSC().fit(Xt[cm])  # fit on calibration only (no test leakage)
                         rf_m = mwfsc.apply_calibration(Xsrc, ys_all, Xcal, yt[cm],
                             RandomForestClassifier, n_estimators=RF_TREES, min_samples_leaf=5,
                             class_weight='balanced', n_jobs=-1, random_state=seed)

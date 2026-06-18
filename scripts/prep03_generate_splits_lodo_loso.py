@@ -89,27 +89,47 @@ def load_raw_labels_deap(config):
 
 
 def load_raw_labels_mahnob(config):
-    """Load MAHNOB arousal ratings."""
+    """Load MAHNOB arousal ratings from session.xml, using real subject IDs."""
     import h5py
+    import xml.etree.ElementTree as ET
 
     data_dir = Path(config['data_paths']['MAHNOB'])
     rows = []
 
     session_dirs = sorted(data_dir.glob('Sessions/*'))
     for session_dir in session_dirs:
-        subj_match = session_dir.name
-        h5_files = list(session_dir.glob('*.hdf5')) + list(session_dir.glob('*.h5'))
-        for h5_file in h5_files:
+        if not session_dir.is_dir():
+            continue
+        session_name = session_dir.name
+
+        # Parse real subject ID from session.xml
+        xml_file = session_dir / 'session.xml'
+        real_subject = None
+        if xml_file.exists():
             try:
-                with h5py.File(h5_file, 'r') as f:
-                    arousal = float(f['arousal'][()]) if 'arousal' in f else 5.0
-                rows.append({
-                    'subject_id': f'MAHNOB_{subj_match}',
-                    'trial_id': 0,
-                    'raw_value': arousal,
-                })
+                tree = ET.parse(str(xml_file))
+                root = tree.getroot()
+                real_subject = root.get('subjectID') or root.get('subjectid') or root.get('subject_id')
             except Exception:
-                continue
+                pass
+        if real_subject is None:
+            real_subject = session_name
+
+        # Parse arousal self-report
+        arousal = 5.0
+        if xml_file.exists():
+            try:
+                tree = ET.parse(str(xml_file))
+                root = tree.getroot()
+                arousal = float(root.get('feltArsl', 5.0))
+            except Exception:
+                pass
+
+        rows.append({
+            'subject_id': f'MAHNOB_{real_subject}',
+            'trial_id': session_name,
+            'raw_value': arousal,
+        })
 
     return pd.DataFrame(rows)
 
@@ -126,10 +146,12 @@ def load_raw_labels_seed(config):
             labels = mat.get('labels', None) or mat.get('label', None)
             if labels is not None:
                 labels_flat = labels.flatten()
+                # SEED filename format: <subject>_<date>, e.g. "10_20131130"
+                subject_num = mat_file.stem.split('_')[0]
                 for i in range(len(labels_flat)):
                     rows.append({
-                        'subject_id': f'SEED_{mat_file.stem}',
-                        'trial_id': i,
+                        'subject_id': f'SEED_{subject_num}',
+                        'trial_id': i + 1,
                         'raw_value': int(labels_flat[i]),
                     })
         except Exception:
@@ -150,10 +172,12 @@ def load_raw_labels_seed_iv(config):
             labels = mat.get('label', None)
             if labels is not None:
                 labels_flat = labels.flatten()
+                # SEED-IV filename format: <subject>_<date>, e.g. "10_20151014"
+                subject_num = mat_file.stem.split('_')[0]
                 for i in range(len(labels_flat)):
                     rows.append({
-                        'subject_id': f'SEED_IV_{mat_file.parent.name}_{mat_file.stem}',
-                        'trial_id': i,
+                        'subject_id': f'SEED_IV_{subject_num}',
+                        'trial_id': i + 1,
                         'raw_value': int(labels_flat[i]),
                     })
         except Exception:
@@ -187,69 +211,85 @@ def load_raw_labels_faced(config):
 
 
 def load_raw_labels_ds004572(config):
-    """Load ds004572 hypnosis depth scores (true labels)."""
+    """Load ds004572 task-condition labels (true hypnosis proxy).
+
+    Because OpenNeuro ds004572 does not provide numeric depth scores in the
+    downloadable BIDS events, we use the task-condition filename as the
+    hypnosis-depth proxy, matching prep01's trial_id:
+      - baseline   -> Awake (0)
+      - induction  -> Light (1)
+      - experience -> Deep  (2)
+    """
     data_dir = Path(config['data_paths']['ds004572'])
     rows = []
 
-    import csv
     sub_dirs = sorted([d for d in data_dir.glob('sub-*') if d.is_dir()])
     for sub_dir in sub_dirs:
         subj_name = sub_dir.name
-        tsv_files = list(sub_dir.glob('**/*events*.tsv')) + \
-                    list(sub_dir.glob('**/*depth*.tsv'))
-        if tsv_files:
-            for tsv_file in tsv_files:
-                try:
-                    with open(tsv_file, 'r') as f:
-                        reader = csv.DictReader(f, delimiter='\t')
-                        for row in reader:
-                            depth = row.get('depth', row.get('hypnosis_depth', '5'))
-                            rows.append({
-                                'subject_id': f'ds004572_{subj_name}',
-                                'trial_id': 0,
-                                'raw_value': float(depth),
-                            })
-                except Exception:
-                    continue
-        else:
+
+        # Find all EEG files and infer condition from filename
+        eeg_files = (
+            sorted(sub_dir.glob('**/*.vhdr'))
+            + sorted(sub_dir.glob('**/*.bdf'))
+            + sorted(sub_dir.glob('**/*.fif'))
+        )
+
+        for eeg_file in eeg_files:
+            fname = eeg_file.stem.lower()
+            condition = None
+            if 'baseline' in fname:
+                condition = 'baseline'
+            elif 'induction' in fname:
+                condition = 'induction'
+            elif 'experience' in fname:
+                condition = 'experience'
+            elif 'hypnosis' in fname:
+                condition = 'induction'
+
+            if condition is None:
+                continue
+
+            # Use the full filename stem as trial_id to match the prep01 output
+            # that is currently in processed/prep01_windows.
             rows.append({
                 'subject_id': f'ds004572_{subj_name}',
-                'trial_id': 0,
-                'raw_value': 5.0,
+                'trial_id': eeg_file.stem,
+                'raw_value': condition,
             })
 
     return pd.DataFrame(rows)
 
 
 def load_raw_labels_ds006437(config):
-    """Load ds006437 protocol phase labels (true labels)."""
+    """Load ds006437 session-aware labels (true hypnosis proxy).
+
+    Labels are derived from BIDS session names, not from filename keywords:
+      - ses-0 (baseline)              -> Awake (0)
+      - ses-1 (early hypnotherapy)  -> Light (1)
+      - ses-4, ses-8 (late hypnosis)  -> Deep (2)
+    """
     data_dir = Path(config['data_paths']['ds006437'])
     rows = []
 
-    import csv
     sub_dirs = sorted([d for d in data_dir.glob('sub-*') if d.is_dir()])
     for sub_dir in sub_dirs:
         subj_name = sub_dir.name
-        tsv_files = list(sub_dir.glob('**/*events*.tsv'))
-        if tsv_files:
-            for tsv_file in tsv_files:
-                try:
-                    with open(tsv_file, 'r') as f:
-                        reader = csv.DictReader(f, delimiter='\t')
-                        for row in reader:
-                            phase = row.get('phase', row.get('trigger', 'pre'))
-                            rows.append({
-                                'subject_id': f'ds006437_{subj_name}',
-                                'trial_id': 0,
-                                'raw_value': phase,
-                            })
-                except Exception:
-                    continue
-        else:
+        session_dirs = sorted([d for d in sub_dir.glob('ses-*') if d.is_dir()])
+        if not session_dirs:
+            # Fallback: treat whole subject as one baseline session
             rows.append({
                 'subject_id': f'ds006437_{subj_name}',
                 'trial_id': 0,
-                'raw_value': 'pre',
+                'raw_value': 'ses-0',
+            })
+            continue
+
+        for session_dir in session_dirs:
+            session_name = session_dir.name
+            rows.append({
+                'subject_id': f'ds006437_{subj_name}',
+                'trial_id': session_name,
+                'raw_value': session_name,
             })
 
     return pd.DataFrame(rows)
@@ -267,6 +307,7 @@ LABEL_LOADERS = {
     'SEED_IV': load_raw_labels_seed_iv,
     'FACED': load_raw_labels_faced,
     'ds006437': load_raw_labels_ds006437,
+    'ds004572': load_raw_labels_ds004572,
 }
 
 LABEL_TYPES = {
@@ -276,7 +317,8 @@ LABEL_TYPES = {
     'SEED': 'proxy_emotion',
     'SEED_IV': 'proxy_emotion',
     'FACED': 'proxy_arousal',
-    'ds006437': 'true_hypnosis',
+    'ds006437': 'true_hypnosis_session_proxy',
+    'ds004572': 'true_hypnosis_task_proxy',
 }
 
 

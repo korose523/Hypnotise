@@ -57,16 +57,16 @@ class LabelMapper:
             'deep':  lambda v: v < 3.5,
         },
         'ds004572': {
-            'source_field': 'hypnosis_depth',
-            'awake': lambda v: v <= 3,
-            'light': lambda v: 4 <= v <= 6,
-            'deep':  lambda v: v >= 7,
+            'source_field': 'task_condition',
+            'awake': lambda v: v == 'baseline',
+            'light': lambda v: v == 'induction',
+            'deep':  lambda v: v == 'experience',
         },
         'ds006437': {
-            'source_field': 'phase',
-            'awake': lambda v: v in ['pre', 'post'],
-            'light': lambda v: v == 'during',
-            'deep':  None,  # May not have deep hypnosis
+            'source_field': 'session',
+            'awake': lambda v: v == 'ses-0',
+            'light': lambda v: v == 'ses-1',
+            'deep':  lambda v: v in ['ses-4', 'ses-8'],
         },
     }
 

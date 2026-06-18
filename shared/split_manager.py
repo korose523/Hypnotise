@@ -18,7 +18,7 @@ from pathlib import Path
 
 ALL_DATASETS = [
     'DREAMER', 'DEAP', 'MAHNOB', 'SEED', 'SEED_IV',
-    'FACED', 'ds006437'
+    'FACED', 'ds006437', 'ds004572'
 ]
 
 

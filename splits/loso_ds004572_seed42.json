@@ -1,0 +1,17 @@
+{
+  "dataset": "ds004572",
+  "seed": 42,
+  "split_type": "LOSO",
+  "calib_subjects": [
+    "ds004572_sub-02",
+    "ds004572_sub-05"
+  ],
+  "test_subjects": [
+    "ds004572_sub-03",
+    "ds004572_sub-01",
+    "ds004572_sub-04"
+  ],
+  "calib_ratio": 0.5,
+  "n_calib_subjects": 2,
+  "n_test_subjects": 3
+}

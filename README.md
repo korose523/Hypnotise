@@ -1,67 +1,85 @@
 # Universal BCI Hypnosis Depth Classification (通用EEG催眠深度分类系统)
 
-> **Multi-Source Domain Generalization with Few-Shot Calibration for Cross-Dataset EEG Hypnosis Depth Classification**
+> **Proxy-Labeled Cross-Dataset EEG State Classification: Multi-Source Domain Generalization with Limited Target-Domain Calibration**
 
 [![Python 3.8+](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Version v6.3](https://img.shields.io/badge/version-v6.3-brightgreen)]()
+[![Version v6.4](https://img.shields.io/badge/version-v6.4-brightgreen)]()
 
 ---
 
 ## Overview
 
-This repository implements a complete pipeline for **cross-dataset three-level hypnosis depth classification** using EEG signals. The system unifies **8 public EEG datasets** into a common 63-dimensional feature space, trains multi-source domain generalization models, and evaluates **Few-Shot Subject Calibration (FS²C)** with simplified sample concatenation for target domain adaptation.
+This repository implements a complete pipeline for **cross-dataset three-level EEG state classification** inspired by hypnosis-depth research. The system unifies **8 public EEG datasets** into a common 63-dimensional feature space, trains multi-source domain generalization models, and evaluates **limited target-domain subject calibration** with sample concatenation for domain adaptation. **All hypnosis-depth labels are proxies**: the two OpenNeuro datasets contain real hypnosis recordings but only provide task-condition or session-level annotations, not continuous depth scores.
 
 ### Version History
 
 | Version | Date | Key Changes |
 |---------|------|-------------|
-| **v6.3** | 2026-06-07 | 138/160 20-seed experiments complete, all P0 fixes verified, paper updated with real statistics, P2 status documented |
-| v6.2 | 2026-06-07 | MAHNOB real-subject grouping from session.xml, all P0 fixes verified, 5-seed preliminary results; 20-seed in progress |
-| v5.2 | 2026-06-03 | Single-pass verification, ds006437 label leak fixed, MAHNOB real arousal labels recovered, 30+ redundant files cleaned |
+| **v6.4** | 2026-06-18 | Subject-level split IDs repaired for MAHNOB/SEED/SEED_IV; ds006437 reprocessed with session-aware labels; ds004572 labels fixed to task-condition; single reproducible runner `run_exp101_reproducible.py`; all 8 datasets in standard pipeline |
+| v6.3 | 2026-06-07 | 138/160 20-seed experiments complete (legacy run), all P0 fixes claimed, paper updated |
+| v6.2 | 2026-06-07 | MAHNOB real-subject grouping from session.xml, 5-seed preliminary results |
+| v5.2 | 2026-06-03 | Single-pass verification, ds006437 label leak patched, MAHNOB real arousal labels recovered |
 | v5.0 | 2026-06-02 | 8-dataset multi-source LODO with MAHNOB real labels |
 | v2.1 | 2026-05-14 | 63-dim locked features, LODO/LOSO/LOO, bootstrap CI |
 
 ### Key Features
 
 - **63-dimensional feature space**: 14 channels × 3 bands Log-Bandpower + 7 asymmetry pairs × 3 bands DASM
-- **8 datasets unified** (521,903 total windows):
+- **8 datasets unified** (521,903 total windows, 446,672 valid labeled windows):
   - 5 emotion proxy: DREAMER, DEAP, MAHNOB-HCI, SEED, SEED-IV
   - 1 affective video: FACED
-  - 2 true hypnosis: ds004572, ds006437
-- **Real MAHNOB self-assessment labels**: 1-9 feltArsl extracted from session.xml metadata (527 trials, 100% window coverage)
+  - 2 real hypnosis recordings with **proxy depth labels**: ds004572 (task-condition), ds006437 (session-aware)
+- **Real MAHNOB self-assessment labels**: 1-9 feltArsl extracted from session.xml metadata (527 sessions, 27 real subjects, 100% window coverage)
+- **Subject-level split guaranteed**: MAHNOB/SEED/SEED_IV now use real participant IDs, eliminating trial/session leakage in calibration/test splits
 - **Multi-Source LODO**: Leave-One-Domain-Out — 7 source domains train, 1 target domain evaluates
-- **FS²C calibration**: 20% target-domain subjects added to training set for domain adaptation
-- **Label leak diagnosis & fix**: ds006437 binary task→label leakage resolved with session-proportional 3-class split
-- **ds004572 lazy loading**: 1000→128Hz MNE resampling with preload=False to handle 45GB on 16GB RAM
+- **Limited target-domain calibration**: 20% target-domain subjects added to training set for domain adaptation
+- **Session-aware ds006437 labels**: ses-0→Awake, ses-1→Light, ses-4/8→Deep (replaces position-based synthetic split)
+- **Single reproducible runner**: `run_exp101_reproducible.py` generates `multi_8ds.json` from scratch with fixed parameters
+- **Per-class recall + confusion matrix**: every experiment record includes class-level diagnostics
 
 ---
 
-## Final Experimental Results (v6.3)
+## Final Experimental Results (v6.4 — finalized)
 
-> Single-pass verification: 138/160 experiments complete. DREAMER/DEAP/MAHNOB/SEED/SEED_IV=20 seeds each; ds004572=17; FACED=16; ds006437=5. MAX_SRC=8,000, RF(n=200, balanced).
+> **Status**: The v6.4 P0 fixes (real subject-level splits, session-aware ds006437, task-condition ds004572) have been applied and all headline numbers were regenerated by the single reproducible runner. The table below reports the finalized `multi_8ds.json` (160/160 experiments).
 
-| Target Domain | Zero-Shot Acc | WFSC Acc (20%) | Δ | ZS F1 | Label Source | Seeds |
+| Target Domain | Zero-Shot Acc | Calib Acc (20%) | Δ | ZS F1 | Label Source | Seeds |
 |:---|---:|---:|---:|---:|:---|---:|
-| DEAP | **58.64%** ± 3.51 | 56.53% ± 9.76 | −2.11pp | 0.377 | SAM Arousal (1-9) | 20 |
-| ds006437 | 54.29% ± 0.30 | 54.19% ± 0.28 | −0.10pp | 0.256 | Session-proportional [FIXED] | 5 |
-| DREAMER | 50.28% ± 1.07 | 49.86% ± 1.39 | −0.41pp | 0.224 | ScoreArousal (1-5) [class-0 fixed] | 20 |
-| ds004572 | 44.51% ± 0.51 | **44.84%** ± 0.32 | +0.34pp | 0.230 | Task-condition (5/52 subj) | 17 |
-| MAHNOB | 37.12% ± 1.16 | 36.73% ± 1.26 | −0.39pp | 0.219 | **feltArsl (1-9) real** | 20 |
-| SEED | 34.13% ± 0.17 | 34.13% ± 0.17 | — | 0.170 | Trial-structure proxy | 20 |
-| FACED | 33.18% ± 2.12 | 33.18% ± 2.12 | — | 0.166 | Subject-group proxy | 16 |
-| SEED_IV | 24.99% ± 0.19 | 24.99% ± 0.19 | — | 0.133 | ReadMe emotion→arousal | 20 |
-| **Overall** | **41.03%** ± 11.02 | **40.65%** ± 11.09 | **−0.38pp** | — | — | 138 |
+| ds006437 | **61.77%** ± 0.32 | 61.49% ± 0.79 | −0.28pp | 0.318 | Session-aware proxy | 20 |
+| DEAP | 51.06% ± 4.13 | **62.92%** ± 8.57 | +11.86pp | 0.421 | SAM Arousal (1-9) | 20 |
+| DREAMER | 50.77% ± 0.93 | 49.93% ± 1.80 | −0.84pp | 0.228 | ScoreArousal (1-5) [class-0 fixed] | 20 |
+| ds004572 | 44.55% ± 0.48 | 44.85% ± 0.80 | +0.29pp | 0.233 | Task-condition proxy | 20 |
+| MAHNOB | 38.29% ± 1.00 | 37.90% ± 0.99 | −0.39pp | 0.228 | feltArsl (1-9) real | 20 |
+| SEED | 32.83% ± 0.20 | 32.83% ± 0.20 | — | 0.165 | Trial-structure proxy | 20 |
+| FACED | 33.33% ± 0.00 | 33.33% ± 0.00 | — | 0.167 | Subject-group proxy | 20 |
+| SEED_IV | 24.74% ± 0.35 | 24.74% ± 0.35 | — | 0.132 | ReadMe emotion→arousal | 20 |
+| **Overall** | **42.17%** ± 11.47 | **43.50%** ± 13.36 | **+1.33pp** | — | — | 160 |
 
-### Key Findings
+### Reproducible Runner Output
 
-1. **MAHNOB real-subject grouping fixed**: session.xml `<subject id>` recovery → 27 subjects (was 49 erroneous groups via `num//46`)
-2. **DREAMER class-0 fixed**: ScoreArousal re-mapped → 50.28% (was 13.05% below chance)
-3. **Group split reveals honest SEED_IV**: Real participant grouping (15 subjects) → 24.99% (was 50.01% trial-leaked)
-4. **ds006437 stabilized**: σ 43.28→0.30pp, seed-456 reversal fixed
-5. **20-seed Wilcoxon (138 exp)**: Only ds004572 significant (+0.34pp, p=0.002); overall not significant (p=0.782)
-6. **DG baselines all zero**: CORAL Δ=0.00, AdaBN Δ=0.00, TCA timeout
-7. **Label collapse**: 6/8 targets collapse to single class (per-class recall analysis)
+```bash
+python run_exp101_reproducible.py
+```
+
+Fixed parameters:
+- `MAX_SRC = 8000` (per source domain)
+- `MAX_TGT = 8000` (per target domain)
+- `n_estimators = 200`
+- `min_samples_leaf = 5`
+- `class_weight = 'balanced'`
+- 20 seeds
+- Output: `results/exp101_lodo_loso/multi_8ds.json` and `multi_8ds_master.json`
+
+### Key Findings (v6.4 pipeline fixes)
+
+1. **Subject-level split integrity restored**: MAHNOB (527 sessions → 27 subjects), SEED (360 file-trial IDs → 10 subjects), SEED_IV (1,080 file-trial IDs → 15 subjects) now use real participant IDs for LOSO calibration/test splits, eliminating subject leakage.
+2. **ds006437 re-labeled with session awareness**: `ses-0`→Awake, `ses-1`→Light, `ses-4/8`→Deep, replacing the previous position-based synthetic split.
+3. **ds004572 labels aligned to task-condition**: baseline→Awake, induction→Light, experience→Deep, matching prep01 trial IDs.
+4. **Single reproducible runner**: `run_exp101_reproducible.py` is the only script needed to regenerate `multi_8ds.json` from the preprocessed data.
+5. **DREAMER class-0 present**: ScoreArousal mapping yields all three classes (awake/light/deep).
+6. **Per-class diagnostics**: every result record includes confusion matrix and per-class recall to expose label collapse.
+7. **All 8 datasets in standard pipeline**: `split_manager.ALL_DATASETS` and `prep03.LABEL_LOADERS` now include ds004572.
 
 ---
 
@@ -69,16 +87,20 @@ This repository implements a complete pipeline for **cross-dataset three-level h
 
 ```
 universal_bci_hypnosis/
-├── paper_v5_final.md                    # Final paper (v5.2, single-pass verified)
-├── config.yaml                          # Global configuration
+├── paper_v6_advisor_revision.md         # Current paper draft (v6.4, revised per advisor)
+├── config.yaml                          # Global configuration (v6.4)
 ├── requirements.txt                     # Python dependencies
 ├── README.md                            # This file
 │
-├── run_all_experiments.py               # Unified experiment runner (20-seed + EEGNet + Mahalanobis)
+├── run_exp101_reproducible.py           # SINGLE reproducible runner for multi_8ds.json
+├── run_all_experiments.py               # Legacy unified runner (kept for reference)
+├── repair_subject_ids.py                # Repair MAHNOB/SEED/SEED_IV subject IDs in processed files
+├── reprocess_ds006437.py                # Reprocess ds006437 with session-aware labels
+├── reprocess_ds004572.py                # Reprocess ds004572 features and task-condition labels
 ├── eegnet_baseline.py                   # EEGNet-v4 PyTorch baseline
 ├── fix_mahnob_labels.py                 # MAHNOB real arousal label recovery from session.xml
-├── fix_ds006437_labels.py               # ds006437 session-proportional label fix
-├── process_ds004572_full.py             # ds004572 lazy-loading 1000→128Hz processor
+├── fix_ds006437_labels.py               # Legacy position-based ds006437 label fix (deprecated)
+├── process_ds004572_full.py             # ds004572 lazy-loading 1000→128Hz processor (optional 52 subjects)
 │
 ├── shared/                              # Shared utility modules
 │   ├── config_loader.py                 # Config validation & directory creation
@@ -88,7 +110,7 @@ universal_bci_hypnosis/
 │   ├── feature_extraction.py            # 63-dim feature extraction (14ch mapping, BP, DASM)
 │   ├── label_mapping.py                 # Dataset-specific → 3-class label mapping
 │   ├── domain_adaptation.py             # CORAL, TCA, AdaBN implementations
-│   ├── mahalanobis_wfsc.py              # Mahalanobis dynamic-weight WFSC (LedoitWolf)
+│   ├── mahalanobis_wfsc.py              # Mahalanobis dynamic-weight WFSC (LedoitWolf) — not used by main runner
 │   ├── wfsc.py                          # Fixed-weight WFSC variant
 │   └── metrics.py                       # Metrics & statistical tests
 │
@@ -101,6 +123,7 @@ universal_bci_hypnosis/
 ├── realtime/                            # Real-time EPOC+ BCI scripts (Paper 2, planned)
 ├── data/                                # Raw EEG datasets (not in git)
 ├── processed/                           # Preprocessed features & labels
+├── splits/                              # LODO/LOSO splits (generated by prep04)
 ├── results/                             # Experiment results
 ├── models/                              # Saved models
 └── logs/                                # Log files
@@ -142,8 +165,8 @@ All 8 datasets are in the project `data/` folder (total ~62 GB). Paths are confi
 | 4 | SEED | `data/SEED/ExtractedFeatures_1s/` | 1.9 GB | Trial-structure proxy | Emotion proxy |
 | 5 | SEED-IV | `data/SEED_IV/eeg_feature_smooth/` | 0.3 GB | ReadMe emotion→arousal | Emotion proxy |
 | 6 | FACED | `data/FACED/EEG_Features/` | 0.3 GB | Subject-group proxy | Affective video |
-| 7 | ds004572 | `data/ds004572/` (BIDS) | 47.3 GB | Task-condition | **True hypnosis** |
-| 8 | ds006437 | `data/ds006437/` (BIDS) | 4.7 GB | Session-proportional [FIXED] | **True hypnosis** |
+| 7 | ds004572 | `data/ds004572/` (BIDS) | 47.3 GB | Task-condition proxy | Real hypnosis recording |
+| 8 | ds006437 | `data/ds006437/` (BIDS) | 4.7 GB | Session-aware proxy [FIXED] | Real hypnosis recording |
 
 **Dataset sources**: DREAMER ([IEEE DataPort](https://ieee-dataport.org/)), DEAP ([QMUL](http://www.eecs.qmul.ac.uk/mmv/datasets/deap/)), MAHNOB-HCI ([mahnob-db.eu](https://mahnob-db.eu/hci-tagging/)), SEED/SEED-IV ([BCMI Cloud](https://cloud.bcmi.sjtu.edu.cn)), FACED ([GitHub](https://github.com/FACED-Dataset/FACED)), ds004572/ds006437 ([OpenNeuro](https://openneuro.org)).
 
@@ -252,10 +275,10 @@ AF3-AF4, F7-F8, F3-F4, FC5-FC6, T7-T8, P7-P8, O1-O2 (all left-minus-right)
 | SEED | de_movingAve trial structure | Trial-group based | Proxy |
 | SEED-IV | ReadMe emotion labels (0-3) | {2,3}→Awake, 0→Light, 1→Deep | Proxy (ReadMe-derived) |
 | FACED | PSD/DE features | Subject-group based | Proxy |
-| ds004572 | Task condition | Baseline→Awake, Induction→Light, Experience→Deep | Task-condition |
-| ds006437 | Session-proportional split | Baseline→Awake, Hypno-1st-33%→Light, Hypno-67%→Deep | [FIXED] session-proxy |
+| ds004572 | Task condition | Baseline→Awake, Induction→Light, Experience→Deep | Task-condition proxy |
+| ds006437 | BIDS session labels | ses-0→Awake, ses-1→Light, ses-4/8→Deep | [FIXED] session-aware proxy |
 
-> ⚠️ **Important**: Only MAHNOB uses real continuous self-assessment labels (1-9 scale). All other datasets use proxy or task-condition mappings. ds004572 and ds006437 are true hypnosis datasets but lack numeric depth scores (0-10). Label types are clearly marked in all outputs.
+> ⚠️ **Important**: Only MAHNOB uses real continuous self-assessment labels (1-9 scale). All other datasets use proxy or task-condition mappings. ds004572 and ds006437 are real hypnosis recordings, but their labels are task-condition or session-aware proxies rather than validated continuous depth scores (0-10). Label types are clearly marked in all outputs.
 
 ---
 

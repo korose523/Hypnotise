@@ -1,0 +1,39 @@
+{
+  "dataset": "MAHNOB",
+  "seed": 123,
+  "split_type": "LOSO",
+  "calib_subjects": [
+    "MAHNOB_13",
+    "MAHNOB_18",
+    "MAHNOB_24",
+    "MAHNOB_5",
+    "MAHNOB_22",
+    "MAHNOB_19",
+    "MAHNOB_21",
+    "MAHNOB_1",
+    "MAHNOB_27",
+    "MAHNOB_4",
+    "MAHNOB_20",
+    "MAHNOB_3",
+    "MAHNOB_14"
+  ],
+  "test_subjects": [
+    "MAHNOB_25",
+    "MAHNOB_9",
+    "MAHNOB_29",
+    "MAHNOB_16",
+    "MAHNOB_10",
+    "MAHNOB_2",
+    "MAHNOB_7",
+    "MAHNOB_30",
+    "MAHNOB_11",
+    "MAHNOB_6",
+    "MAHNOB_28",
+    "MAHNOB_23",
+    "MAHNOB_17",
+    "MAHNOB_8"
+  ],
+  "calib_ratio": 0.5,
+  "n_calib_subjects": 13,
+  "n_test_subjects": 14
+}
