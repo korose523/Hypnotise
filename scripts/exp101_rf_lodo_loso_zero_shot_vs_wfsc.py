@@ -143,7 +143,7 @@ def run_single_lodo_fold(target_domain, source_domains, config, seed, logger):
 
     # Method 1: WFSC-Mahalanobis
     try:
-        wfsc_m = WFSC_Mahalanobis(random_state=seed, n_jobs=-1)
+        wfsc_m = WFSC_Mahalanobis(random_state=seed)
         wfsc_m.fit(source_data, X_calib, y_calib)
         y_pred_m = wfsc_m.predict(X_test)
         y_proba_m = wfsc_m.predict_proba(X_test)
@@ -156,7 +156,7 @@ def run_single_lodo_fold(target_domain, source_domains, config, seed, logger):
 
     # Method 2: WFSC-Fixed (uniform weights)
     try:
-        wfsc_f = WFSC_Fixed(random_state=seed, n_jobs=-1)
+        wfsc_f = WFSC_Fixed(random_state=seed)
         wfsc_f.fit(source_data, X_calib, y_calib)
         y_pred_f = wfsc_f.predict(X_test)
         y_proba_f = wfsc_f.predict_proba(X_test)
@@ -168,7 +168,7 @@ def run_single_lodo_fold(target_domain, source_domains, config, seed, logger):
 
     # Method 3: Zero-shot (no calibration)
     try:
-        wfsc_z = WFSC_Mahalanobis(random_state=seed, n_jobs=-1)
+        wfsc_z = WFSC_Mahalanobis(random_state=seed)
         wfsc_z.fit(source_data)  # No calibration data
         y_pred_z = wfsc_z.predict(X_test)
         y_proba_z = wfsc_z.predict_proba(X_test)

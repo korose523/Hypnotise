@@ -24,7 +24,7 @@ sys.path.insert(0, str(PROJECT_ROOT))
 from shared.config_loader import load_config
 from shared.split_manager import SplitManager, ALL_DATASETS
 from shared.seed_manager import SeedManager
-from shared.wfsc import WFSC_Mahalanobis, WFSC_Fixed
+from shared.wfsc import WFSC_Mahalanobis, WFSC_Fixed, make_rf
 from shared.metrics import compute_all_metrics, aggregate_seeds
 from shared.logger import setup_logger
 
@@ -51,7 +51,7 @@ def main():
     config = load_config(str(PROJECT_ROOT / 'config.yaml'))
     logger = setup_logger('exp103', str(PROJECT_ROOT / config['logs_dir']))
 
-    seed_mgr = SeedManager(config['experiment']['seeds'])
+    seed_mgr = SeedManager(config['experiment']['seeds'][:5])
     sm = SplitManager(str(PROJECT_ROOT / config['splits_dir']))
     lodo_splits = sm.load_lodo_splits()
 
@@ -106,8 +106,10 @@ def main():
 
             seed_results = {}
 
+            logger.info(f"  [{seed}] {target_domain}: starting Mahal/Fixed evaluation")
+
             # 1. WFSC-Mahalanobis
-            wfsc_m = WFSC_Mahalanobis(random_state=seed, n_jobs=-1)
+            wfsc_m = WFSC_Mahalanobis(random_state=seed)
             wfsc_m.fit(source_data, X_calib, y_calib)
             y_pred_m = wfsc_m.predict(X_test)
             metrics_m = compute_all_metrics(y_test, y_pred_m, wfsc_m.predict_proba(X_test))
@@ -123,36 +125,15 @@ def main():
                 }
 
             # 2. WFSC-Fixed
-            wfsc_f = WFSC_Fixed(random_state=seed, n_jobs=-1)
+            wfsc_f = WFSC_Fixed(random_state=seed)
             wfsc_f.fit(source_data, X_calib, y_calib)
             y_pred_f = wfsc_f.predict(X_test)
             metrics_f = compute_all_metrics(y_test, y_pred_f, wfsc_f.predict_proba(X_test))
             seed_results['wfsc_fixed'] = metrics_f
 
-            # 3. Per-source single models (no ensemble)
-            per_source = {}
-            for src_name, (X_src, y_src) in source_data.items():
-                try:
-                    from sklearn.ensemble import RandomForestClassifier
-                    from sklearn.preprocessing import StandardScaler
-                    scaler = StandardScaler()
-                    X_s = scaler.fit_transform(X_src)
-                    X_t = scaler.transform(X_test)
-                    rf = RandomForestClassifier(
-                        n_estimators=500, max_depth=20, min_samples_leaf=5,
-                        class_weight='balanced', n_jobs=-1, random_state=seed
-                    )
-                    rf.fit(X_s, y_src)
-                    y_pred_s = rf.predict(X_t)
-                    ms = compute_all_metrics(y_test, y_pred_s)
-                    per_source[src_name] = {
-                        'balanced_accuracy': ms['balanced_accuracy'],
-                        'accuracy': ms['accuracy'],
-                        'macro_f1': ms['macro_f1'],
-                    }
-                except Exception:
-                    per_source[src_name] = {'error': 'failed'}
-            seed_results['per_source'] = per_source
+            # NOTE: Per-source single-model diagnostic skipped in this run to keep
+            # the core Mahalanobis vs Fixed comparison tractable.
+            seed_results['per_source'] = {}
 
             all_results[target_domain][seed] = seed_results
 

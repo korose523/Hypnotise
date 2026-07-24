@@ -44,12 +44,12 @@
   },
   "ds006437": {
     "split_type": "LOSO",
-    "n_subjects": 9,
+    "n_subjects": 36,
     "n_seeds": 20
   },
   "ds004572": {
     "split_type": "LOSO",
-    "n_subjects": 5,
+    "n_subjects": 52,
     "n_seeds": 20
   }
 }

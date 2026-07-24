@@ -13,6 +13,7 @@ import sys
 import os
 import json
 import time
+import hashlib
 import numpy as np
 from pathlib import Path
 from collections import Counter
@@ -45,6 +46,12 @@ ALL_SEEDS = [42, 123, 456, 789, 2024, 1111, 2222, 3333, 4444, 5555,
 OUT_PATH = PROJECT_ROOT / 'results' / 'exp101_lodo_loso' / 'multi_8ds.json'
 
 
+def stable_hash(s):
+    """Deterministic hash (built-in hash() is salted by PYTHONHASHSEED and
+    breaks cross-process reproducibility of the group-aware subsampling)."""
+    return int(hashlib.md5(str(s).encode('utf-8')).hexdigest(), 16) % 100000
+
+
 def load_dataset(ds_name, prep_dir, max_n=None):
     """Load features and labels for one dataset, optionally subsample."""
     feat_path = prep_dir / 'prep02_features' / f'{ds_name}_features.npz'
@@ -67,7 +74,7 @@ def load_dataset(ds_name, prep_dir, max_n=None):
     if max_n is not None and len(X) > max_n:
         # Group-aware subsampling: keep subject groups intact
         rng = np.random.RandomState(42)
-        groups = np.array([hash(str(s)) % 100000 for s in sids])
+        groups = np.array([stable_hash(s) for s in sids])
         ug = sorted(set(groups))
         n_per = max(1, max_n // len(ug))
         idx = []
@@ -87,7 +94,7 @@ def build_groups(ds_name, subject_ids):
     """Build numeric group IDs for split-manager alignment."""
     # For most datasets, subject_id is already the real participant ID.
     # Just hash it to a stable integer.
-    return np.array([hash(str(s)) % 100000 for s in subject_ids])
+    return np.array([stable_hash(s) for s in subject_ids])
 
 
 def run_single_experiment(target, source_domains, seed, prep_dir, sm, logger):

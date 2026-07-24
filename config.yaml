@@ -211,13 +211,13 @@ label_mapping:
     justification: "OpenNeuro ds004572 does not provide downloadable numeric depth scores; task condition (baseline/induction/experience) is used as a hypnosis-depth proxy"
 
   ds006437:
-    source_field: "session"
-    label_type: "true_hypnosis_session_proxy"
+    source_field: "event_phase"
+    label_type: "event_phase_hypnosis_proxy"
     rules:
-      awake:  "v == 'ses-0'"
-      light:  "v == 'ses-1'"
-      deep:   "v in ['ses-4', 'ses-8']"
-    justification: "Session-aware proxy: baseline=Awake, early hypnotherapy=Light, late hypnotherapy=Deep. Replaces the previous position-based synthetic split."
+      awake:  "v in ['A_pressed', 'F_pressed']"
+      light:  "v in ['I_pressed', 'P_pressed']"
+      deep:   "v in ['S_pressed', 'D_pressed', 'C_pressed', 'L_pressed', 'R_pressed', 'N_pressed', 'B_pressed']"
+    justification: "Event-phase-aware proxy derived from hypnotherapy button-press events in EEGLAB .set files. Awake=Arousal/Follow-up; Light=Induction/Pre-talk; Deep=deepening/consolidation phases. Replaces the previous session-based synthetic split."
 
 # ---------------------------------------------------------------------------
 # Model parameters

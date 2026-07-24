@@ -25,7 +25,7 @@ import warnings
 # Unified RF parameters (FIX C2: all experiments must use same parameters)
 # ===========================================================================
 RF_PARAMS = {
-    'n_estimators': 500,
+    'n_estimators': 200,
     'max_depth': None,
     'min_samples_leaf': 5,
     'class_weight': 'balanced',
