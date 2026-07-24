@@ -39,13 +39,13 @@ def add_runs(para, text):
         para.add_run(text[pos:])
 
 def clean_cell(s):
-    """Remove the ⚠️ colored marker (U+26A0 + optional U+FE0F variation selector);
-    return (text, had_marker). Replaced with an ' a' footnote marker."""
-    had = '\u26a0' in s
-    s = s.replace('\u26a0\ufe0f', ' a').replace('\u26a0', ' a')
+    """Remove the ⚠️ colored marker (U+26A0 + optional U+FE0F variation selector).
+    PLOS forbids footnotes, so the marker is dropped entirely (the FACED
+    artificial-balance caveat is explained in the body text instead)."""
+    s = s.replace('\u26a0\ufe0f', '').replace('\u26a0', '')
     # strip any stray variation selectors / zero-width joiners left behind
     s = ''.join(ch for ch in s if ch not in ('\ufe0f', '\u200b', '\u200c', '\u200d'))
-    return s.strip(), had
+    return s.strip()
 
 def clean_text(s):
     """Strip the ⚠️ marker and stray variation selectors from any prose text."""
@@ -155,24 +155,12 @@ while i < n:
             for run in hdr[c].paragraphs[0].runs:
                 run.bold = True
         # data rows
-        footnote_needed = False
         for drow in data:
             cells = t.add_row().cells
             for c, txt in enumerate(drow):
-                txt, had = clean_cell(txt)
-                if had:
-                    footnote_needed = True
+                txt = clean_cell(txt)
                 cells[c].text = ''
                 add_runs(cells[c].paragraphs[0], txt)
-        # footnote after table
-        if footnote_needed:
-            fn = doc.add_paragraph()
-            fn.paragraph_format.left_indent = Inches(0.3)
-            fn.paragraph_format.line_spacing = 1.0
-            fn.paragraph_format.space_before = Pt(0)
-            r = fn.add_run('a FACED participant-group labels are artificially balanced (see §5.7, §5.8).')
-            r.font.size = Pt(10)
-            r.italic = True
         i = j
         continue
 
@@ -240,6 +228,22 @@ t.text = '1'  # cached value; Word recalculates on open
 r.append(t)
 fld1.append(r)
 fp._p.append(fld1)
+
+# ---------- continuous line numbers (PLOS requirement) ----------
+def add_line_numbers(document, count_by=1, restart='continuous', distance='360'):
+    """Enable Word line numbering on every section. PLOS requires continuous
+    line numbers (must not restart on each page)."""
+    for sec in document.sections:
+        sectPr = sec._sectPr
+        ln = sectPr.find(qn('w:lnNumType'))
+        if ln is None:
+            ln = OxmlElement('w:lnNumType')
+            sectPr.append(ln)
+        ln.set(qn('w:countBy'), str(count_by))
+        ln.set(qn('w:restart'), restart)
+        ln.set(qn('w:distance'), distance)
+
+add_line_numbers(doc)
 
 doc.save(OUT)
 print(f"Saved {OUT}")

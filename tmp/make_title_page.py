@@ -55,7 +55,11 @@ tp.alignment = WD_ALIGN_PARAGRAPH.LEFT
 tr = tp.add_run(TITLE)
 tr.bold = True
 tr.font.size = Pt(16)
-tp.paragraph_format.space_after = Pt(12)
+tp.paragraph_format.space_after = Pt(6)
+
+# ---- Short title (running head, <=100 chars per PLOS) ----
+line("Short title: EEG hypnosis depth classification under proxy labels",
+     bold=False, size=11, space_after=12)
 
 # ---- Author byline (superscript numbers + * corresponding symbol) ----
 bp = doc.add_paragraph()
@@ -95,6 +99,33 @@ line("The authors received no specific funding for this work.", space_after=8)
 # ---- Competing Interests ----
 line("Competing Interests:", bold=True, space_after=2)
 line("The authors have declared that no competing interests exist.", space_after=6)
+
+# ---------- page numbers in footer + continuous line numbers ----------
+footer = doc.sections[0].footer
+footer.is_linked_to_previous = False
+fp = footer.paragraphs[0]
+fp.alignment = WD_ALIGN_PARAGRAPH.CENTER
+fld = OxmlElement('w:fldSimple')
+fld.set(qn('w:instr'), ' PAGE ')
+rr = OxmlElement('w:r')
+tt = OxmlElement('w:t')
+tt.text = '1'
+rr.append(tt)
+fld.append(rr)
+fp._p.append(fld)
+
+def add_line_numbers(document, count_by=1, restart='continuous', distance='360'):
+    for sec in document.sections:
+        sectPr = sec._sectPr
+        ln = sectPr.find(qn('w:lnNumType'))
+        if ln is None:
+            ln = OxmlElement('w:lnNumType')
+            sectPr.append(ln)
+        ln.set(qn('w:countBy'), str(count_by))
+        ln.set(qn('w:restart'), restart)
+        ln.set(qn('w:distance'), distance)
+
+add_line_numbers(doc)
 
 doc.save(OUT)
 print(f"Saved {OUT}")
