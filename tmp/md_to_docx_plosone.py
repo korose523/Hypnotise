@@ -67,6 +67,51 @@ if doc.paragraphs and doc.paragraphs[0].text == '':
     p = doc.paragraphs[0]._element
     p.getparent().remove(p)
 
+# ---------- PLOS title-page block (first page of manuscript) ----------
+AUTHORS = [("Weng Zexiao", False), ("1", True), (", Jung Minpo", False),
+           ("1", True), ("*", True)]
+AFFILIATION = "1 Department of Computer Engineering, Youngsan University, Yangsan, Republic of Korea"
+CORRESP_EMAIL = "E-mail: minpo@ysu.ac.kr (JM)"
+ORCIDS = [("Weng Zexiao", "https://orcid.org/0009-0009-8600-8954"),
+          ("Jung Minpo", "[ORCID to be added — PLOS ONE requires an ORCID iD for the corresponding author]")]
+
+def add_title_page_block(doc):
+    """Insert title-page content (authors, affiliations, corresponding author,
+    ORCID) immediately after the title so the manuscript's first page carries
+    title + authors + affiliations per PLOS organization rules."""
+    # author byline with superscript numbers / * symbol
+    bp = doc.add_paragraph()
+    bp.paragraph_format.line_spacing = 1.0
+    bp.paragraph_format.space_after = Pt(4)
+    for txt, sup in AUTHORS:
+        r = bp.add_run(txt)
+        if sup:
+            r.font.superscript = True
+    # ORCID iDs
+    ol = doc.add_paragraph()
+    ol.paragraph_format.line_spacing = 1.0
+    ol.paragraph_format.space_after = Pt(2)
+    r = ol.add_run("ORCID iDs:"); r.bold = True
+    for name, oid in ORCIDS:
+        p = doc.add_paragraph()
+        p.paragraph_format.line_spacing = 1.0
+        p.paragraph_format.space_after = Pt(2)
+        p.add_run(f"{name}: {oid}")
+    # affiliation
+    af = doc.add_paragraph()
+    af.paragraph_format.line_spacing = 1.0
+    af.paragraph_format.space_after = Pt(4)
+    af.add_run(AFFILIATION)
+    # corresponding author
+    ca = doc.add_paragraph()
+    ca.paragraph_format.line_spacing = 1.0
+    ca.paragraph_format.space_after = Pt(2)
+    r = ca.add_run("* Corresponding author"); r.bold = True
+    ce = doc.add_paragraph()
+    ce.paragraph_format.line_spacing = 1.0
+    ce.paragraph_format.space_after = Pt(8)
+    ce.add_run(CORRESP_EMAIL)
+
 lines = open(SRC, encoding='utf-8').read().split('\n')
 i = 0
 n = len(lines)
@@ -102,6 +147,8 @@ while i < n:
         r = p.add_run(stripped[2:].strip())
         r.bold = True
         r.font.size = Pt(16)
+        p.paragraph_format.space_after = Pt(8)
+        add_title_page_block(doc)   # authors + affiliations on the first page
         i += 1
         continue
 
