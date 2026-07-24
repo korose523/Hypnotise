@@ -1,7 +1,7 @@
 # Zenodo Archive Description Draft — `korose523/Hypnotise`
 
 > **用途**：本文件为向 Zenodo 注册软件归档（软件 + 预处理中间结果）时所需的「描述（Description）」与元数据草稿。可直接粘贴到 Zenodo 网页表单，或用于 Zenodo REST API（`/api/deposit/depositions`）批量建仓。
-> **状态**：草稿。DOI 占位符 `10.5281/zenodo.XXXXXXX` 在 Zenodo 建仓后回填到 `paper_final.md` §8.1。
+> **状态**：✅ 已发布（2026-07-24）。DOI 已回填 `paper_final.md` §8.1。Concept DOI `10.5281/zenodo.21531272`，版本记录 `10.5281/zenodo.21531273`（https://zenodo.org/record/21531273）。
 > **归档前必做**：仓库根目录目前**没有 LICENSE 文件**——Zenodo 开放获取要求声明许可证。建议先 `git add` 一个 MIT `LICENSE` 文件再归档（下方元数据已默认 `license: mit`，可按需改为 `cc-by-4.0` 等）。
 
 ---
@@ -126,7 +126,7 @@ Versioned archive; GitHub repo is the continuously updated source of record.
 
 ## 6. 建议引用格式（How to cite）
 
-> Weng Zexiao (2026). *Multi-Source Domain Generalization with Few-Shot Calibration for Cross-Dataset EEG Hypnosis Depth Classification under Proxy Labels* (v1.0.0) [Software]. Zenodo. https://doi.org/10.5281/zenodo.XXXXXXX
+> Weng Zexiao (2026). *Multi-Source Domain Generalization with Few-Shot Calibration for Cross-Dataset EEG Hypnosis Depth Classification under Proxy Labels* (v1.0.0) [Software]. Zenodo. https://doi.org/10.5281/zenodo.21531272
 
 **BibTeX**
 ```bibtex
@@ -136,7 +136,7 @@ Versioned archive; GitHub repo is the continuously updated source of record.
   year   = {2026},
   version = {v1.0.0},
   publisher = {Zenodo},
-  doi    = {10.5281/zenodo.XXXXXXX},
+  doi    = {10.5281/zenodo.21531272},
   url    = {https://github.com/korose523/Hypnotise}
 }
 ```

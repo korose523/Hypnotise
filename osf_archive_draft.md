@@ -1,5 +1,6 @@
 # OSF Archive Draft — `korose523/Hypnotise`
 
+> **状态**：备用方案（未使用）。Zenodo 已于 2026-07-24 发布，DOI `10.5281/zenodo.21531272`，见 `zenodo_archive_draft.md`。本文件保留作备选。
 > **用途**：本文件为向 OSF（Open Science Framework）注册项目归档（代码 + 预处理中间结果 + 结果 JSON）时所需的描述与元数据草稿。OSF 同样被 PLOS ONE 认可，注册后可生成 DataCite DOI。
 > **状态**：草稿。DOI 占位符 `osf.io/XXXX` 在 OSF 注册后回填到 `paper_final.md` §8.1。
 > **前置**：仓库根目录已有 MIT `LICENSE`（commit `2a7004d` 已加入）。OSF 注册时会要求选 License，选 MIT 即可。

@@ -389,7 +389,7 @@ Weng Zexiao: Conceptualization, Data curation, Formal analysis, Investigation, M
 The complete source code, experiment scripts, configuration files, and result JSON files for this study are deposited in a public GitHub repository:
 
 - **Repository (canonical, public):** https://github.com/korose523/Hypnotise
-- **Permanent archive / DOI:** A versioned Zenodo DOI will be registered and linked at acceptance (planned: `https://doi.org/10.5281/zenodo.XXXXXXX`); the GitHub repository above is the continuously updated source of record.
+- **Permanent archive / DOI:** Zenodo software archive (v1.0.0), published: `https://doi.org/10.5281/zenodo.21531272` (concept DOI; versioned record `https://doi.org/10.5281/zenodo.21531273`, https://zenodo.org/record/21531273). The GitHub repository above is the continuously updated source of record.
 
 A single script, `run_exp101_reproducible.py`, regenerates the main `multi_8ds.json` result file from the preprocessed data with fixed parameters (MAX_SRC=8000, MAX_TGT=8000, n_estimators=200, 20 seeds). This addresses the reviewer request for a fully reproducible experiment pipeline. The complete set of scripts is:
 
