@@ -45,11 +45,11 @@ Domain generalization for EEG has been explored primarily in motor imagery [1] a
 
 ### 2.2 Hypnosis Depth Classification
 
-Prior hypnosis EEG studies have been limited to single-dataset within-subject classification [4,5]. The Stanford Hypnosis dataset (ds004572) has enabled larger-scale analyses, but cross-dataset generalization remains unexplored.
+Prior hypnosis EEG studies have been limited to single-dataset within-participant classification [4,5]. The Stanford Hypnosis dataset (ds004572) has enabled larger-scale analyses, but cross-dataset generalization remains unexplored.
 
 ### 2.3 MAHNOB-HCI Self-Assessment Recovery
 
-The MAHNOB-HCI tagging database [6] contains 27 subjects watching 20 emotional video clips. While the physiological recordings (BDF/XML) are widely available, the self-assessment annotations (1-9 arousal, valence, dominance, predictability) are typically distributed separately. We discovered that these annotations are embedded in each `session.xml` file under the `feltArsl`, `feltVlnc`, `feltEmo`, `feltCtrl`, and `feltPred` attributes—making them accessible without downloading additional annotation packages.
+The MAHNOB-HCI tagging database [6] contains 27 participants watching 20 emotional video clips. While the physiological recordings (BDF/XML) are widely available, the self-assessment annotations (1-9 arousal, valence, dominance, predictability) are typically distributed separately. We discovered that these annotations are embedded in each `session.xml` file under the `feltArsl`, `feltVlnc`, `feltEmo`, `feltCtrl`, and `feltPred` attributes—making them accessible without downloading additional annotation packages.
 
 ---
 
@@ -59,24 +59,24 @@ The MAHNOB-HCI tagging database [6] contains 27 subjects watching 20 emotional v
 
 Eight datasets were used in this study (Table 1). Each dataset was preprocessed through an identical pipeline: EPOC+ 14-channel mapping via nearest-neighbor 10-20 coordinates, 128 Hz resampling, 2-second sliding windows with 1-second step, and 63-dimensional feature extraction (14 channels × 3 bands [theta/alpha/beta] log-bandpower + 7 channel pairs × 3 bands DASM).
 
-**Table 1: Dataset Overview (v6.5, full 52-subject ds004572, real participant IDs for MAHNOB/SEED/SEED_IV)**
+**Table 1: Dataset Overview (v6.5, full 52-participant ds004572, real participant IDs for MAHNOB/SEED/SEED_IV)**
 
-| Dataset | Real Subjects | Total Windows | Valid Labeled | Evaluated | Class Dist (0/1/2) | Label Source |
+| Dataset | Real participants | Total Windows | Valid Labeled | Evaluated | Class Dist (0/1/2) | Label Source |
 |---------|:---:|---:|---:|---:|:---|------|
 | DREAMER | 23 | 85,330 | 85,284 | 8,000 | 37,286 / 43,672 / 4,326 | ScoreArousal (1-5); **class 0 fixed** |
 | DEAP | 32 | 79,360 | 64,480 | 8,000 | 17,360 / 44,640 / 2,480 | SAM Arousal (1-9); class 2 sparse |
-| MAHNOB | 27 | 74,478 | 74,478 | 8,000 | 17,334 / 30,016 / 27,128 | **feltArsl (1-9) real**; 527 sessions mapped to 27 subjects |
-| SEED | 10† | 81,456 | 81,456 | 8,000 | 27,576 / 26,544 / 27,336 | Trial-structure proxy; 360 trial IDs mapped to 10 subjects |
-| SEED_IV | 15 | 37,575 | 37,575 | 8,000 | 18,787 / 9,392 / 9,396 | ReadMe emotion→arousal; 1080 trial IDs mapped to 15 subjects |
-| FACED | 123 | 103,320 | 103,320 | 8,000 | 34,440 / 34,440 / 34,440 | Subject-group proxy (artificially balanced) |
+| MAHNOB | 27 | 74,478 | 74,478 | 8,000 | 17,334 / 30,016 / 27,128 | **feltArsl (1-9) real**; 527 sessions mapped to 27 participants |
+| SEED | 10† | 81,456 | 81,456 | 8,000 | 27,576 / 26,544 / 27,336 | Trial-structure proxy; 360 trial IDs mapped to 10 participants |
+| SEED_IV | 15 | 37,575 | 37,575 | 8,000 | 18,787 / 9,392 / 9,396 | ReadMe emotion→arousal; 1080 trial IDs mapped to 15 participants |
+| FACED | 123 | 103,320 | 103,320 | 8,000 | 34,440 / 34,440 / 34,440 | participant-group proxy (artificially balanced) |
 | ds006437 | 36 | 60,384 | 60,384 | 8,000 | 10,897 / 44,423 / 5,064 | Event-phase-aware proxy (button-press events: A/F=Awake, I/P=Light, S/D/C/L/R/N/B=Deep) |
-| ds004572 | 52 | 190,929 | 190,929 | 8,000 | 34,886 / 70,503 / 85,540 | Task-condition (all 52 subjects processed) |
+| ds004572 | 52 | 190,929 | 190,929 | 8,000 | 34,886 / 70,503 / 85,540 | Task-condition (all 52 participants processed) |
 
-> †SEED: Only 10 of 15 public subjects are present in the processed data (file numbers 2–11).
+> †SEED: Only 10 of 15 public participants are present in the processed data (file numbers 2–11).
 
 **MAHNOB Label Recovery**: We parsed all 565 `session.xml` files under the MAHNOB Sessions directory, extracting the `feltArsl` attribute (felt arousal, 1-9 scale) from 527 emotion elicitation sessions. Arousal values were mapped to 3-class: 1-3→Deep, 4-6→Light, 7-9→Awake. All 74,478 windows received valid labels (100% coverage).
 
-**ds004572 Processing**: All 52 subjects were processed (190,929 windows) using MNE lazy loading (`preload=False`) with 1000→128 Hz resampling. Labels are derived from task conditions: baseline→Awake(0), induction→Light(1), experience→Deep(2). **These are proxy labels, not validated hypnosis depth scores.**
+**ds004572 Processing**: All 52 participants were processed (190,929 windows) using MNE lazy loading (`preload=False`) with 1000→128 Hz resampling. Labels are derived from task conditions: baseline→Awake(0), induction→Light(1), experience→Deep(2). **These are proxy labels, not validated hypnosis depth scores.**
 
 **ds006437 Processing**: Labels are event-phase-aware rather than session-aware or continuous depth. We parse the button-press event markers (`A_pressed`, `F_pressed`, `I_pressed`, `P_pressed`, `S_pressed`, `D_pressed`, `C_pressed`, `L_pressed`, `R_pressed`, `N_pressed`, `B_pressed`) embedded in the EEGLAB `.set` files and map them to three hypnosis-depth proxies: Arousal/Follow-up (A/F) → Awake, Induction/Pre-talk (I/P) → Light, and deepening/consolidation phases (S/D/C/L/R/N/B) → Deep. Baseline sessions without hypnotherapy events are also labeled Awake. This is still a proxy mapping because the dataset does not contain validated per-session hypnosis depth scores, but it replaces the previous session-aware split which mixed induction and deep phases within the same session.
 
@@ -84,7 +84,7 @@ Eight datasets were used in this study (Table 1). Each dataset was preprocessed 
 
 **Multi-Source LODO (Leave-One-Domain-Out)**: For each target domain *T*, all other 7 domains serve as source training data. Each source domain contributes up to 8,000 randomly sampled windows (56,000 source windows total). The target domain is also sub-sampled to 8,000 windows for evaluation consistency.
 
-**Split Unit**: Real participant IDs are used for partitioning, derived as follows: MAHNOB subjects recovered from `<subject id>` in session.xml (27 subjects); SEED subjects from file-name numbers (10 subjects present in processed data); SEED_IV subjects from feature filename subject IDs (15 subjects); DREAMER/DEAP/FACED/ds006437/ds004572 use their native participant IDs. The 80/20 calibration/test split ensures no participant appears in both sets.
+**Split Unit**: Real participant IDs are used for partitioning, derived as follows: MAHNOB participants recovered from `<subject id>` in session.xml (27 participants); SEED participants from file-name numbers (10 participants present in processed data); SEED_IV participants from feature filename participant IDs (15 participants); DREAMER/DEAP/FACED/ds006437/ds004572 use their native participant IDs. The 80/20 calibration/test split ensures no participant appears in both sets.
 
 **Evaluation Metrics**: Accuracy (Acc) and Macro F1-score computed directly from the result file (`multi_8ds.json`) on identical test indices per seed. Standard deviations across seeds quantify statistical reliability.
 
@@ -111,7 +111,7 @@ All quantitative results reported in this paper are generated directly from the 
 - `scripts/exp103_wfsc_dynamic_mahalanobis_vs_fixedw.py` regenerates Table 4 from `results/exp103_mahal_vs_fixed/exp103_results.json`.
 - `run_exp104_eegnet_reproducible.py` regenerates Table 5 from `results/exp104_eegnet/exp104_results.json`; the results file was verified against the per-seed checkpoint and rebuilt to ensure all 8 targets are present.
 - `analyze_shap_rf.py` regenerates Table 6 from `results/shap_rf/shap_summary.json`.
-- `ds004572` windows, features, and labels were verified to contain exactly 190,929 samples from all 52 subjects, with matching subject IDs across `prep01_windows`, `prep02_features`, and `prep03_labels`.
+- `ds004572` windows, features, and labels were verified to contain exactly 190,929 samples from all 52 participants, with matching participant IDs across `prep01_windows`, `prep02_features`, and `prep03_labels`.
 
 We transparently report all failures and degenerate cases: SEED, SEED_IV, and FACED collapse to single-class prediction (zero SHAP values, near-chance BAcc), and EEGNet shows high accuracy on ds006437 only because it predicts the majority class (BAcc ≈ 33.3%, κ ≈ 0). No under-performing dataset was omitted from the tables.
 
@@ -135,9 +135,11 @@ We transparently report all failures and degenerate cases: SEED, SEED_IV, and FA
 | ds006437 | 6.31 ± 0.64 (6.03–6.59) | 60.60 ± 4.69 (58.55–62.66) | +54.30 | 33.51 ± 0.20 | -0.000 ± 0.001 | 0.043 | 0.374 | <0.001 |
 | **Overall** | **36.85 ± 15.82 (34.40–39.30)** | **43.76 ± 12.83 (41.77–45.75)** | **+6.91** | **33.64 ± 1.12** | **0.009 ± 0.032** | — | — | — |
 
-> **Status**: The table above reports the v6.5 run with full 52-subject ds004572 (190,929 windows), event-phase-aware ds006437 labels (160/160 experiments), real participant-level splits for MAHNOB/SEED/SEED_IV, and task-condition labels for ds004572. Three-class chance: 33.3%. Wilcoxon signed-rank test across paired seeds. Results are saved in `results/exp101_lodo_loso/multi_8ds.json` and `multi_8ds_master.json`.
+> **Status**: The table above reports the v6.5 run with full 52-participant ds004572 (190,929 windows), event-phase-aware ds006437 labels (160/160 experiments), real participant-level splits for MAHNOB/SEED/SEED_IV, and task-condition labels for ds004572. Three-class chance: 33.3%. Wilcoxon signed-rank test across paired seeds. Results are saved in `results/exp101_lodo_loso/multi_8ds.json` and `multi_8ds_master.json`.
 >
 > **Balanced metrics & confidence intervals (new)**: To expose label collapse under class imbalance, we report **balanced accuracy (BAcc = mean of per-class recall; chance = 33.3%)** and **Cohen's κ** alongside raw accuracy. Zero-shot BAcc is 33.3–35.6% across all targets (Overall 33.64 ± 1.12, κ = 0.009 ± 0.032) — i.e., at or just above three-class chance — confirming that the modest raw-accuracy values are driven by majority-class prediction rather than genuine three-class discrimination (see §4.4, §4.5). 95% CI = mean ± 1.96·SD/√20 seeds.
+
+> **Statistical control & Overall aggregation (new):** The **Overall** row in Table 2 is a *macro-average* over all 160 per-seed per-target accuracies (8 targets × 20 seeds), not a mean of the 8 per-target means. The per-target Wilcoxon signed-rank p-values in the final column were subjected to a **Holm–Bonferroni step-down correction** (m = 8, α = 0.05) to control family-wise error across the eight target-level tests. After correction, only **ds006437** (raw p < 0.001 → Holm p = 6.6×10⁻⁴) and **ds004572** (raw p < 0.001 → Holm p = 4.1×10⁻³) remain statistically significant; **MAHNOB** (Holm p = 0.074) and **DEAP** (Holm p = 0.229) no longer survive correction, and DREAMER/SEED/SEED_IV/FACED are non-significant throughout. A single paired Wilcoxon signed-rank test over all 160 (ZS vs. Calib) pairs yields **p = 3.89×10⁻⁵** (mean paired Δ = +6.91 pp, median Δ = 0.00 pp due to the zero-variance datasets), confirming a statistically significant but modest overall calibration effect driven primarily by ds006437. Given the heterogeneous per-target effects, we report these p-values as *exploratory*; all raw and Holm-adjusted values are reproducible via `run_exp101_reproducible.py`.
 
 > **Changes from v5.2 (trial-level split):** DREAMER: 13.05%→50.51% (class-0 fix); SEED_IV: 50.01%→25.24% (group split eliminates trial-level leakage); ds006437: 29.23%→6.31% zero-shot / 60.60% calibration (event-phase-aware labels expose strong class imbalance and a large calibration gain).
 >
@@ -147,25 +149,25 @@ We transparently report all failures and degenerate cases: SEED, SEED_IV, and FA
 
 1. **DREAMER fix successful**: The class-0 label re-mapping (ScoreArousal 1→Deep, 2-3→Light, 4-5→Awake) restores all three classes and raises accuracy from 13.05% (v5.2, below chance) to 50.51% (well above chance), with zero-shot and calibration statistically equivalent (−0.29pp, p=0.452).
 
-2. **Group split reveals honest SEED_IV performance**: With subject-level grouping (10 groups) replacing trial-level partitioning (1080 units), SEED_IV drops from 50.01% to 25.24% — confirming that ~24pp of the previous result was attributable to within-subject trial leakage.
+2. **Group split reveals honest SEED_IV performance**: With participant-level grouping (10 groups) replacing trial-level partitioning (1080 units), SEED_IV drops from 50.01% to 25.24% — confirming that ~24pp of the previous result was attributable to within-participant trial leakage.
 
 3. **DEAP calibration is slightly positive in v6.5**: DEAP shows a small positive calibration effect (+1.31pp, Wilcoxon p=0.048 at 20 seeds), though the gain is marginal and partly driven by seed variance.
 
-4. **MAHNOB calibration is slightly negative**: With real feltArsl labels and subject-level grouping, multi-source calibration shows a small negative change (-0.40pp, p=0.013 at 20 seeds).
+4. **MAHNOB calibration is slightly negative**: With real feltArsl labels and participant-level grouping, multi-source calibration shows a small negative change (-0.40pp, p=0.013 at 20 seeds).
 
-5. **ds004572 calibration is slightly positive**: With all 52 subjects included, ds004572 shows a small positive calibration effect (+0.39pp, p<0.001 at 20 seeds), still negligible relative to the 33.3% chance baseline and driven by majority-class prediction.
+5. **ds004572 calibration is slightly positive**: With all 52 participants included, ds004572 shows a small positive calibration effect (+0.39pp, p<0.001 at 20 seeds), still negligible relative to the 33.3% chance baseline and driven by majority-class prediction.
 
 6. **Three domains show zero calibration variance**: SEED, SEED_IV, and FACED produce identical accuracy across all 20 seeds under calibration — indicating that the calibration set is either too small or too homogeneous to influence the Random Forest decision boundaries.
 
-7. **ds006437 event-phase labels expose a large calibration effect**: With event-phase-aware labels, ds006437 zero-shot accuracy is 6.31% (below chance) because the source-only model is biased toward a single majority class inherited from the source-domain prior, yielding near-chance zero-shot accuracy on ds006437. Adding 20% target-subject calibration raises accuracy to 60.60% (p<0.001), but this remains majority-class learning, not balanced three-class discrimination.
+7. **ds006437 event-phase labels expose a large calibration effect**: With event-phase-aware labels, ds006437 zero-shot accuracy is 6.31% (below chance) because the source-only model is biased toward a single majority class inherited from the source-domain prior, yielding near-chance zero-shot accuracy on ds006437. Adding 20% target-participant calibration raises accuracy to 60.60% (p<0.001), but this remains majority-class learning, not balanced three-class discrimination.
 
 ### 4.3 ds006437 Label Leakage: Resolved
 
 **Original Issue (v5.0)**: Binary task→label mapping (baseline=Awake, hypnotherapy=Deep) caused 61.49% false accuracy due to trivial task classification, with σ=43.28pp across seeds.
 
-**P0 Fix (v6.4)**: Event-phase-aware labels derived from hypnotherapy button-press events in the EEGLAB `.set` files: A/F (arousal/follow-up) → Awake, I/P (induction/pre-talk) → Light, and S/D/C/L/R/N/B (deepening/consolidation) → Deep, implemented via `reprocess_ds006437_event_labels.py`. This replaces both the binary task→label mapping (v5.0) and the session-aware session-proportional split (v6.4). All sessions are now partitioned by real session IDs (36 sessions across 9 subjects; event-phase-aware labels), and the 80/20 calibration/test split uses these session units.
+**P0 Fix (v6.4)**: Event-phase-aware labels derived from hypnotherapy button-press events in the EEGLAB `.set` files: A/F (arousal/follow-up) → Awake, I/P (induction/pre-talk) → Light, and S/D/C/L/R/N/B (deepening/consolidation) → Deep, implemented via `reprocess_ds006437_event_labels.py`. This replaces both the binary task→label mapping (v5.0) and the session-aware session-proportional split (v6.4). All sessions are now partitioned by real session IDs (36 sessions across 9 participants; event-phase-aware labels), and the 80/20 calibration/test split uses these session units.
 
-**Verified Result**: Post-fix, ds006437 achieves ZS=6.31% ± 0.64 and Calib=60.60% ± 4.69 (Δ=+54.30pp, Wilcoxon p<0.001). The event-phase-aware labels reveal a severely imbalanced class distribution (10,897 / 44,423 / 5,064 windows for Awake/Light/Deep): the source-only model collapses to predicting a single majority class inherited from the source-domain prior, yielding below-chance zero-shot accuracy (6.31%); adding 20% target-subject calibration allows the RF to learn ds006437's own dominant class and reach 60.60% accuracy. This pattern confirms the labels are structurally consistent across sessions, but performance is driven by majority-class learning rather than genuine three-class discrimination. The Light and Deep classes remain proxy approximations without validated per-session depth scores.
+**Verified Result**: Post-fix, ds006437 achieves ZS=6.31% ± 0.64 and Calib=60.60% ± 4.69 (Δ=+54.30pp, Wilcoxon p<0.001). The event-phase-aware labels reveal a severely imbalanced class distribution (10,897 / 44,423 / 5,064 windows for Awake/Light/Deep): the source-only model collapses to predicting a single majority class inherited from the source-domain prior, yielding below-chance zero-shot accuracy (6.31%); adding 20% target-participant calibration allows the RF to learn ds006437's own dominant class and reach 60.60% accuracy. This pattern confirms the labels are structurally consistent across sessions, but performance is driven by majority-class learning rather than genuine three-class discrimination. The Light and Deep classes remain proxy approximations without validated per-session depth scores.
 
 ### 4.4 Per-Class Recall and Label Collapse
 
@@ -251,7 +253,7 @@ Single-source SEED→MAHNOB comparison (Table 7) evaluates the real feltArsl aro
 
 | Label Type | ZS Accuracy | Calib Accuracy | Δ (Calib − ZS) |
 |:---|---:|---:|---:|
-| Proxy (subject-group) | 31.50% | 31.59% | +0.09pp |
+| Proxy (participant-group) | 31.50% | 31.59% | +0.09pp |
 | **Real (feltArsl 1-9)** | **41.86%** | 26.55% | **−15.31pp** |
 
 Real arousal labels improve zero-shot transfer by +10.36pp over proxy labels — confirming that feltArsl self-assessments capture genuine arousal signals that generalize better across EEG recording paradigms. **However**, calibration with real labels causes a sharp −15.31pp degradation (41.86% → 26.55%), likely because the calibration samples (20% of target trials drawn from the same trial-level split) introduce distributional mismatch rather than beneficial adaptation. This asymmetric result (ZS gain, calibration loss) indicates that the calibration strategy is sensitive to label quality and split contamination, and both outcomes must be reported transparently.
@@ -270,7 +272,7 @@ As a preliminary DG baseline, we evaluated CORAL, AdaBN, and TCA on SEED→DREAM
 
 ### 5.3 Split-Unit Contamination (Resolved in v6.1)
 
-The v5.2 trial-level split inflated SEED_IV performance from 26.06% (v6.4 group-level split) to 50.01% (v5.2 trial-level split) — a 24pp overestimate. The `run_exp101_reproducible.py` script now uses real participant-level grouping: MAHNOB subjects are recovered from `<subject id>` in session.xml (27 subjects), SEED uses file-name subject numbers (10 subjects in processed data), and SEED_IV uses subject IDs embedded in feature filenames (15 subjects).
+The v5.2 trial-level split inflated SEED_IV performance from 26.06% (v6.4 group-level split) to 50.01% (v5.2 trial-level split) — a 24pp overestimate. The `run_exp101_reproducible.py` script now uses real participant-level grouping: MAHNOB participants are recovered from `<subject id>` in session.xml (27 participants), SEED uses file-name participant numbers (10 participants in processed data), and SEED_IV uses participant IDs embedded in feature filenames (15 participants).
 
 ### 5.4 Calibration Effectiveness
 
@@ -301,7 +303,7 @@ DREAMER's 13.05% accuracy — substantially below three-class chance — is dire
 |---|-----------|--------|
 | 1 | **Proxy-label nature**: The three-class Awake/Light/Deep labels are proxies, not validated clinical hypnosis depth scores. | Documented |
 | 2 | **Label collapse to single class**: 6/8 targets collapse to Deep(2), 2/8 to Light(1). No target achieves balanced per-class recall. | Mitigation attempted: SMOTE oversampling + focal loss for EEGNet (see §5.9) |
-| 3 | **ds004572 full 52 subjects**: All 52 subjects processed (190,929 windows) and included in the v6.5 run. | Resolved |
+| 3 | **ds004572 full 52 participants**: All 52 participants processed (190,929 windows) and included in the v6.5 run. | Resolved |
 | 4 | **Limited DG baselines**: Mahalanobis WFSC and EEGNet-v4 baselines now benchmarked. | Resolved |
 | 5 | **Calibration non-significant overall**: Overall calibration gain is small and driven by ds006437. | Demonstrated |
 | 6 | **Synthetic ds006437 labels**: Event-phase-aware mapping remains an approximation. Real per-session hypnotic depth scores are not available in the public dataset; re-annotation by clinical experts would be required. | Requires external annotations |
@@ -347,7 +349,7 @@ Complete results: `results/exp101_v2_mitigation/multi_all_ds.json`.
 | Mahalanobis WFSC benchmarking | Done |
 | EEGNet-v4 baseline | Done |
 | SHAP cross-domain stability | Done |
-| ds004572 full 52-subject processing (190,929 windows) | Done |
+| ds004572 full 52-participant processing (190,929 windows) | Done |
 | FACED exclusion analysis | Implemented (`run_exp101_v2_mitigation.py`) |
 | SMOTE oversampling for RF | Implemented (`run_exp101_v2_mitigation.py`) |
 | Focal loss for EEGNet | Implemented (`run_exp104_v2_focal.py`) |
@@ -358,7 +360,7 @@ Complete results: `results/exp101_v2_mitigation/multi_all_ds.json`.
 
 ## 6. Ethics Statement
 
-All datasets used in this study are publicly available through their respective repositories and were originally collected with institutional review board (IRB) approval from the institutions that created them: MAHNOB-HCI (University of Trento), DEAP (Queen Mary University of London), SEED/SEED-IV (Shanghai Jiao Tong University), DREAMER (University of Malta / Imperial College London), FACED (Tsinghua University), and ds004572/ds006437 (OpenNeuro, original collecting institutions). This manuscript reports secondary analysis of de-identified, publicly available data only. No new human subjects were recruited, no identifiable information was accessed, and no intervention was performed. The authors' institutional IRB (Youngsan University IRB, 영산대학교 생명윤리위원회) has granted exemption for this secondary analysis under IRB exemption review (심의면제, confirmed 2026-07-22), exemption No. **YSUIRB-202607-HR-219-02**, on the basis that the study involves secondary use of publicly available, de-identified data with no identifiable private information obtained by the investigators (equivalent to 45 CFR 46.104(d)(4)). The IRB certificate states the research project qualifies for exemption (검토의견: 심의면제에 해당함), with receipt dated 2026-07-08.
+All datasets used in this study are publicly available through their respective repositories and were originally collected with institutional review board (IRB) approval from the institutions that created them: MAHNOB-HCI (University of Trento), DEAP (Queen Mary University of London), SEED/SEED-IV (Shanghai Jiao Tong University), DREAMER (University of Malta / Imperial College London), FACED (Tsinghua University), and ds004572/ds006437 (OpenNeuro, original collecting institutions). This manuscript reports secondary analysis of de-identified, publicly available data only. No new human participants were recruited, no identifiable information was accessed, and no intervention was performed. The authors' institutional IRB (Youngsan University IRB, 영산대학교 생명윤리위원회) has granted exemption for this secondary analysis under IRB exemption review (심의면제, confirmed 2026-07-22), exemption No. **YSUIRB-202607-HR-219-02**, on the basis that the study involves secondary use of publicly available, de-identified data with no identifiable private information obtained by the investigators (equivalent to 45 CFR 46.104(d)(4)). The IRB certificate states the research project qualifies for exemption (검토의견: 심의면제에 해당함), with receipt dated 2026-07-08.
 
 ---
 
@@ -417,7 +419,11 @@ The raw EEG datasets analysed in this study are publicly available from their or
 - **OpenNeuro ds004572** — https://openneuro.org/datasets/ds004572
 - **OpenNeuro ds006437** — https://openneuro.org/datasets/ds006437
 
-The preprocessed feature/label matrices and per-subject train/calibration/test splits (generated by the scripts above from the raw sources) are deposited alongside the code in the GitHub repository (https://github.com/korose523/Hypnotise) under `processed/` and `splits/`. Because the raw EEG recordings are large (tens of GB) and governed by the original data-use licenses, only the derived, de-identified intermediate matrices are redistributed; the raw files must be obtained from the sources listed above.
+The preprocessed feature/label matrices and per-participant train/calibration/test splits (generated by the scripts above from the raw sources) are deposited alongside the code in the GitHub repository (https://github.com/korose523/Hypnotise) under `processed/` and `splits/`. Because the raw EEG recordings are large (tens of GB) and governed by the original data-use licenses, only the derived, de-identified intermediate matrices are redistributed; the raw files must be obtained from the sources listed above.
+
+### 8.3 Reporting Compliance
+
+This study reports observational/computational secondary analyses of publicly available EEG datasets; we therefore followed the **STROBE** (Strengthening the Reporting of Observational Studies in Epidemiology) statement for observational reporting and the **TRIPOD+AI** checklist (Transparent Reporting of a multivariable prediction model for Individual Prognosis or Diagnosis) for the predictive-modeling components, adapted for a cross-dataset machine-learning benchmarking design. A completed STROBE/TRIPOD+AI-style reporting checklist is provided as **Supplementary File S1** (`reporting_checklist.md` in the repository). Key reporting items addressed include: (i) explicit statement of proxy (non-validated) labels and their derivation (§3.1); (ii) participant-level (not trial-level) partitioning to avoid leakage (§3.2, §4.2); (iii) full disclosure of degenerate/collapsed cases with no selective omission (§3.5, §4.4); (iv) uncertainty quantification via 20-seed 95% CIs and Holm-corrected significance (§4.1); and (v) complete data/code availability (§8.1–§8.2).
 
 **ds006437 label note:** The event-phase-aware mapping (`reprocess_ds006437_event_labels.py`) is the most granular labeling possible from the publicly available data. The ds006437 dataset does not contain validated per-session hypnotic depth scores; obtaining such labels would require expert clinical re-annotation of the raw physiological recordings, which is outside the scope of this computational study.
 
@@ -428,11 +434,11 @@ The preprocessed feature/label matrices and per-subject train/calibration/test s
 
 We present a multi-source domain generalization study for **proxy-labeled** cross-dataset EEG state classification spanning 8 diverse datasets. Our key methodological contributions include:
 
-1. **Real MAHNOB arousal label recovery** from session.xml metadata, enabling participant-level grouping (527 sessions → 27 subjects).
+1. **Real MAHNOB arousal label recovery** from session.xml metadata, enabling participant-level grouping (527 sessions → 27 participants).
 
-2. **Subject-level split integrity** restored for MAHNOB, SEED, and SEED_IV, eliminating trial/session leakage in calibration/test splits.
+2. **participant-level split integrity** restored for MAHNOB, SEED, and SEED_IV, eliminating trial/session leakage in calibration/test splits.
 
-3. **Event-phase-aware ds006437 labels** and **task-condition ds004572 labels** that replace earlier leaky proxy mappings; ds004572 now includes all 52 subjects (190,929 windows).
+3. **Event-phase-aware ds006437 labels** and **task-condition ds004572 labels** that replace earlier leaky proxy mappings; ds004572 now includes all 52 participants (190,929 windows).
 
 4. **Single reproducible runner** (`run_exp101_reproducible.py`) that regenerates all headline LODO results from preprocessed data with fixed parameters.
 
@@ -485,7 +491,7 @@ Multi-Source LODO Configuration:
   - MAX_SRC per source: 8,000 windows
   - Target evaluation: 8,000 windows sub-sampled (group-aware)
   - Classifier: RandomForest (n=200, min_samples_leaf=5, balanced)
-  - Calibration: 20% target split-unit subjects
+  - Calibration: 20% target split-unit participants
   - Seeds: 20 seeds (42, 123, 456, 789, 2024, 1111–6789)
   - Preprocessing: StandardScaler (fit on source, transform target)
   - Features: 63-dim (14ch × 3 bands + 7 pairs × 3 bands)
@@ -504,9 +510,9 @@ Multi-Source LODO Configuration:
 |---------|---------------|-------------------|---------------------|----------------------|
 | DREAMER | ScoreArousal (1-5) | MATLAB .mat file | Deep(1-2), Light(3), Awake(4-5) | Arousal proxy; class 0 fixed |
 | DEAP | SAM V_Arousal (1-9) | Python pickle .dat | Deep(1-3), Light(4-6), Awake(7-9) | Arousal proxy; Deep class sparse |
-| MAHNOB | feltArsl (1-9) | session.xml regex | Deep(1-3), Light(4-6), Awake(7-9) | Arousal self-report; trial IDs mapped to 27 subjects |
-| SEED | de_movingAve features | Trial structure proxy | Trial-group based | Emotion proxy; trial IDs mapped to 10 subjects |
-| SEED_IV | ReadMe labels (0-3 emotion) | Emotion→arousal proxy | {2,3}→Awake, 0→Light, 1→Deep | Emotion proxy; trial IDs mapped to 15 subjects |
-| FACED | PSD/DE features | Subject-group proxy | Subject-group based | Subject-group proxy; artificially balanced |
+| MAHNOB | feltArsl (1-9) | session.xml regex | Deep(1-3), Light(4-6), Awake(7-9) | Arousal self-report; trial IDs mapped to 27 participants |
+| SEED | de_movingAve features | Trial structure proxy | Trial-group based | Emotion proxy; trial IDs mapped to 10 participants |
+| SEED_IV | ReadMe labels (0-3 emotion) | Emotion→arousal proxy | {2,3}→Awake, 0→Light, 1→Deep | Emotion proxy; trial IDs mapped to 15 participants |
+| FACED | PSD/DE features | participant-group proxy | participant-group based | participant-group proxy; artificially balanced |
 | ds006437 | EEGLAB event markers | Event-phase-aware proxy | A/F→Awake, I/P→Light, S/D/C/L/R/N/B→Deep | Event-phase proxy; no validated depth scores |
-| ds004572 | BIDS task labels | Task-condition mapping | Baseline→Awake, Induction→Light, Experience→Deep | Task-condition proxy; **all 52 subjects processed (190,929 windows)** |
+| ds004572 | BIDS task labels | Task-condition mapping | Baseline→Awake, Induction→Light, Experience→Deep | Task-condition proxy; **all 52 participants processed (190,929 windows)** |
