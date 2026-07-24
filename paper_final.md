@@ -434,32 +434,6 @@ We present a multi-source domain generalization study for **proxy-labeled** cros
 
 The overall accuracy remains modestly above three-class chance, and calibration provides only a small overall improvement driven by ds006437. Per-class recall analysis reveals that most targets collapse to a single majority class, indicating the model learns dataset-specific majority-class heuristics rather than genuine three-class discrimination. **We explicitly caution that the three-class Awake/Light/Deep labels are proxies and should not be interpreted as validated clinical hypnosis depth scores.** With real participant-level grouping, full ds004572 coverage, and transparent proxy-label limitations now documented, this study is best positioned as a methodological exploration of the challenges involved in aligning heterogeneous EEG datasets under weak label constraints.
 
-## Acknowledgments
-
-We thank the creators and maintainers of the public EEG datasets used in this study (MAHNOB-HCI, DEAP, SEED/SEED-IV, DREAMER, FACED, and OpenNeuro ds004572/ds006437) for making their data openly available, and the developers of the open-source tools (scikit-learn, MNE-Python, SHAP, and EEGNet) that underpin our analysis. This research was conducted under the exemption granted by the Youngsan University Institutional Review Board (YSUIRB-202607-HR-219-02).
-
-## References
-
-[1] Zheng Y, Wu S, Chen J, Yao Q, Zheng S. Cross-subject motor imagery electroencephalogram decoding with domain generalization. Bioengineering. 2025;12(5):495. doi:10.3390/bioengineering12050495
-[2] Imtiaz MN, Khan N. Enhanced cross-dataset electroencephalogram-based emotion recognition using unsupervised domain adaptation. Comput Biol Med. 2025;184:109394. doi:10.1016/j.compbiomed.2024.109394
-[3] Zhang X, Zheng W, Cai H, Li Z, Yang Y, Liu W. Prompt-guided domain generalization for EEG emotion recognition. IEEE Trans Affect Comput. 2026;17(2):1968-1984. doi:10.1109/TAFFC.2026.3658346
-[4] Obukhov NV, Naish PL, Solnyshkina IE, Siourdaki TG, Martynov IA. Real-time assessment of hypnotic depth, using an EEG-based brain-computer interface: a preliminary study. BMC Res Notes. 2023;16:288. doi:10.1186/s13104-023-06553-2
-[5] Jensen MP, Adachi T, Hakimian S. Brain oscillations, hypnosis, and hypnotizability. Am J Clin Hypn. 2015;57(3):230-253. doi:10.1080/00029157.2014.976786
-[6] Soleymani M, Lichtenauer J, Pun T, Pantic M. A multimodal database for affect recognition and implicit tagging. IEEE Trans Affect Comput. 2012;3(1):42-55. doi:10.1109/T-AFFC.2011.25
-[7] Sun B, Feng J, Saenko K. Return of frustratingly easy domain adaptation. Proc AAAI Conf Artif Intell. 2016;30(1). doi:10.1609/aaai.v30i1.10306
-[8] Ganin Y, Ustinova E, Ajakan H, Germain P, Larochelle H, Laviolette F, Marchand M, Lempitsky V. Domain-adversarial training of neural networks. J Mach Learn Res. 2016;17(1):2096-2030.
-[9] Gretton A, Borgwardt KM, Rasch MJ, Scholkopf B, Smola A. A kernel two-sample test. J Mach Learn Res. 2012;13:723-773.
-[10] Li D, Yang Y, Song Y, Hospedales TM. Learning to generalize: meta-learning for domain generalization. Proc AAAI Conf Artif Intell. 2018;32(1). doi:10.1609/aaai.v32i1.11775
-[11] Koelstra S, Muhl C, Soleymani M, Lee JS, Yazdani A, Ebrahimi T, Pun T, Nijholt A, Patras I. DEAP: a database for emotion analysis using physiological signals. IEEE Trans Affect Comput. 2012;3(1):18-31. doi:10.1109/T-AFFC.2011.15
-[12] Katsigiannis S, Ramzan N. DREAMER: a database for emotion recognition through EEG and ECG signals from wireless low-cost off-the-shelf devices. IEEE J Biomed Health Inform. 2017;22(3):98-107. doi:10.1109/JBHI.2017.2776951
-[13] Zheng WL, Lu BL. Investigating critical frequency bands and channels for EEG-based emotion recognition with deep neural networks. IEEE Trans Auton Ment Dev. 2015;7(3):162-175. doi:10.1109/TAMD.2015.2431497
-[14] OpenNeuro. EEG correlates of hypnotic depth and suggestion effects (ds004572) [Data set]. 2024. https://openneuro.org/datasets/ds004572
-[15] OpenNeuro. LIGHT hypnotherapy (ds006437) [Data set]. 2024. https://openneuro.org/datasets/ds006437
-
-## Supporting information
-
-S1 File. STROBE/TRIPOD-AI-style reporting checklist. A completed checklist mapping each STROBE and TRIPOD-AI item to the relevant section of this manuscript (`reporting_checklist.md`).
-
 ## Appendix A: Experiment configuration
 
 ```
@@ -494,3 +468,29 @@ Multi-Source LODO Configuration:
 | FACED | PSD/DE features | participant-group proxy | participant-group based | participant-group proxy; artificially balanced |
 | ds006437 | EEGLAB event markers | Event-phase-aware proxy | A/F→Awake, I/P→Light, S/D/C/L/R/N/B→Deep | Event-phase proxy; no validated depth scores |
 | ds004572 | BIDS task labels | Task-condition mapping | Baseline→Awake, Induction→Light, Experience→Deep | Task-condition proxy; **all 52 participants processed (190,929 windows)** |
+
+## Acknowledgments
+
+We thank the creators and maintainers of the public EEG datasets used in this study (MAHNOB-HCI, DEAP, SEED/SEED-IV, DREAMER, FACED, and OpenNeuro ds004572/ds006437) for making their data openly available, and the developers of the open-source tools (scikit-learn, MNE-Python, SHAP, and EEGNet) that underpin our analysis. This research was conducted under the exemption granted by the Youngsan University Institutional Review Board (YSUIRB-202607-HR-219-02).
+
+## References
+
+[1] Zheng Y, Wu S, Chen J, Yao Q, Zheng S. Cross-subject motor imagery electroencephalogram decoding with domain generalization. Bioengineering. 2025;12(5):495. doi:10.3390/bioengineering12050495
+[2] Imtiaz MN, Khan N. Enhanced cross-dataset electroencephalogram-based emotion recognition using unsupervised domain adaptation. Comput Biol Med. 2025;184:109394. doi:10.1016/j.compbiomed.2024.109394
+[3] Zhang X, Zheng W, Cai H, Li Z, Yang Y, Liu W. Prompt-guided domain generalization for EEG emotion recognition. IEEE Trans Affect Comput. 2026;17(2):1968-1984. doi:10.1109/TAFFC.2026.3658346
+[4] Obukhov NV, Naish PL, Solnyshkina IE, Siourdaki TG, Martynov IA. Real-time assessment of hypnotic depth, using an EEG-based brain-computer interface: a preliminary study. BMC Res Notes. 2023;16:288. doi:10.1186/s13104-023-06553-2
+[5] Jensen MP, Adachi T, Hakimian S. Brain oscillations, hypnosis, and hypnotizability. Am J Clin Hypn. 2015;57(3):230-253. doi:10.1080/00029157.2014.976786
+[6] Soleymani M, Lichtenauer J, Pun T, Pantic M. A multimodal database for affect recognition and implicit tagging. IEEE Trans Affect Comput. 2012;3(1):42-55. doi:10.1109/T-AFFC.2011.25
+[7] Sun B, Feng J, Saenko K. Return of frustratingly easy domain adaptation. Proc AAAI Conf Artif Intell. 2016;30(1). doi:10.1609/aaai.v30i1.10306
+[8] Ganin Y, Ustinova E, Ajakan H, Germain P, Larochelle H, Laviolette F, Marchand M, Lempitsky V. Domain-adversarial training of neural networks. J Mach Learn Res. 2016;17(1):2096-2030.
+[9] Gretton A, Borgwardt KM, Rasch MJ, Scholkopf B, Smola A. A kernel two-sample test. J Mach Learn Res. 2012;13:723-773.
+[10] Li D, Yang Y, Song Y, Hospedales TM. Learning to generalize: meta-learning for domain generalization. Proc AAAI Conf Artif Intell. 2018;32(1). doi:10.1609/aaai.v32i1.11775
+[11] Koelstra S, Muhl C, Soleymani M, Lee JS, Yazdani A, Ebrahimi T, Pun T, Nijholt A, Patras I. DEAP: a database for emotion analysis using physiological signals. IEEE Trans Affect Comput. 2012;3(1):18-31. doi:10.1109/T-AFFC.2011.15
+[12] Katsigiannis S, Ramzan N. DREAMER: a database for emotion recognition through EEG and ECG signals from wireless low-cost off-the-shelf devices. IEEE J Biomed Health Inform. 2017;22(3):98-107. doi:10.1109/JBHI.2017.2776951
+[13] Zheng WL, Lu BL. Investigating critical frequency bands and channels for EEG-based emotion recognition with deep neural networks. IEEE Trans Auton Ment Dev. 2015;7(3):162-175. doi:10.1109/TAMD.2015.2431497
+[14] OpenNeuro. EEG correlates of hypnotic depth and suggestion effects (ds004572) [Data set]. 2024. https://openneuro.org/datasets/ds004572
+[15] OpenNeuro. LIGHT hypnotherapy (ds006437) [Data set]. 2024. https://openneuro.org/datasets/ds006437
+
+## Supporting information
+
+S1 File. STROBE/TRIPOD-AI-style reporting checklist. A completed checklist mapping each STROBE and TRIPOD-AI item to the relevant section of this manuscript (`reporting_checklist.md`).
