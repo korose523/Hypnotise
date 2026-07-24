@@ -12,7 +12,7 @@
 |---|---|
 | Upload type | **Software** |
 | Title | Multi-Source Domain Generalization with Few-Shot Calibration for Cross-Dataset EEG Hypnosis Depth Classification under Proxy Labels |
-| Authors / Creators | **Weng, Zexiao** — Department of Computer Engineering, Youngsan University, Yangsan, Republic of Korea; ORCID: https://orcid.org/0009-0009-8600-8954 |
+| Authors / Creators | **Weng, Zexiao** — Department of Computer Engineering, Youngsan University, Yangsan, Republic of Korea; ORCID: https://orcid.org/0009-0009-8600-8954<br>**Jung, Minpo** — Department of Computer Engineering, Youngsan University, Yangsan, Republic of Korea (Corresponding Author) |
 | Description | 见下方 §2（可整段粘贴；支持 HTML，此处用纯文本/Markdown 亦可） |
 | Keywords | EEG; domain generalization; proxy labels; cross-dataset; calibration; brain-computer interface; affective computing; machine learning benchmarking; few-shot learning; hypnotic depth |
 | License | **MIT** （若选 CC，则 `cc-by-4.0`） |
@@ -126,12 +126,12 @@ Versioned archive; GitHub repo is the continuously updated source of record.
 
 ## 6. 建议引用格式（How to cite）
 
-> Weng Zexiao (2026). *Multi-Source Domain Generalization with Few-Shot Calibration for Cross-Dataset EEG Hypnosis Depth Classification under Proxy Labels* (v1.0.0) [Software]. Zenodo. https://doi.org/10.5281/zenodo.21531272
+> Weng Zexiao, & Jung Minpo (2026). *Multi-Source Domain Generalization with Few-Shot Calibration for Cross-Dataset EEG Hypnosis Depth Classification under Proxy Labels* (v1.0.0) [Software]. Zenodo. https://doi.org/10.5281/zenodo.21531272
 
 **BibTeX**
 ```bibtex
 @software{weng2026hypnotise,
-  author = {Weng, Zexiao},
+  author = {Weng, Zexiao and Jung, Minpo},
   title  = {Multi-Source Domain Generalization with Few-Shot Calibration for Cross-Dataset EEG Hypnosis Depth Classification under Proxy Labels},
   year   = {2026},
   version = {v1.0.0},

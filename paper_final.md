@@ -1,9 +1,13 @@
 # Multi-Source Domain Generalization with Few-Shot Calibration for Cross-Dataset EEG Hypnosis Depth Classification under Proxy Labels
 
 **Date**: 2026-06-19  
-**Authors**: Weng Zexiao ¹
+**Authors**: Weng Zexiao ¹, Jung Minpo ¹*
 
-¹ Department of Computer Engineering, Youngsan University, Yangsan, Republic of Korea. Email: wengzexiao@office.ysu.ac.kr. ORCID: https://orcid.org/0009-0009-8600-8954
+¹ Department of Computer Engineering, Youngsan University, Yangsan, Republic of Korea.
+
+*Corresponding author: Jung Minpo, Associate Professor, Department of Computer Engineering, Youngsan University, Yangsan, Republic of Korea. Email: minpo@ysu.ac.kr.
+
+Weng Zexiao: wengzexiao@office.ysu.ac.kr. ORCID: https://orcid.org/0009-0009-8600-8954
 
 ---
 

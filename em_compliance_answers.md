@@ -52,10 +52,10 @@
 ## E. 作者 / ORCID / 贡献（Authors, ORCID, Contributions）
 
 **Q9. ORCID — Provide ORCID for corresponding author (required) and all authors.**
-> 标准回复：Corresponding author ORCID: **0009-0009-8600-8954** (Weng Zexiao). All authors' ORCID provided in the manuscript.
+> 标准回复：Corresponding author: **Jung Minpo** (ORCID: to be added). First author ORCID: **0009-0009-8600-8954** (Weng Zexiao). All available ORCID provided in the manuscript.
 
 **Q10. Authors' contributions — Confirm CRediT roles declared.**
-> 标准回复：Yes. Weng Zexiao: Conceptualization, Data curation, Formal analysis, Investigation, Methodology, Resources, Software, Validation, Visualization, Writing – original draft, Writing – review & editing.
+> 标准回复：Yes. Weng Zexiao: Conceptualization, Data curation, Formal analysis, Investigation, Methodology, Resources, Software, Validation, Visualization, Writing – original draft, Writing – review & editing. Jung Minpo: Supervision, Writing – review & editing.
 
 **Q11. Sex and gender reporting — How were sex/gender variables handled?**
 > 标准回复：Sex/gender characteristics of the source datasets are reported where disclosed by the original collectors; we declare in §3.1 that the three-class state labels are *proxies* derived from task conditions / event-phase markers / arousal self-reports, and that no validated clinical hypnotic-depth score was available. Sex/gender were not used as predictive features in this benchmarking study and are discussed as a limitation of proxy-labeled secondary data.
@@ -65,10 +65,10 @@
 ## F. 基金 / 利益冲突（Funding & Competing Interests）
 
 **Q12. Funding — Was funding received?**
-> 标准回复：The author received no specific funding for this work.
+> 标准回复：The authors received no specific funding for this work.
 
 **Q13. Competing interests — Declared?**
-> 标准回复：The author has declared that no competing interests exist.
+> 标准回复：The authors have declared that no competing interests exist.
 
 ---
 
@@ -99,7 +99,7 @@ Animals: No. Clinical trial: No (observational/computational secondary analysis)
 Data: Public repositories — GitHub https://github.com/korose523/Hypnotise + Zenodo DOI 10.5281/zenodo.21531272.
 Code: Public GitHub repository (above), MIT license, reproducible runner run_exp101_reproducible.py.
 Reporting: STROBE + TRIPOD-AI checklist uploaded as Supplementary File S1.
-ORCID (corresponding): 0009-0009-8600-8954.
+ORCID (corresponding): Jung Minpo — to be added. First author ORCID: 0009-0009-8600-8954 (Weng Zexiao).
 Funding: No specific funding received. Competing interests: None declared.
 Originality: Original, not previously published, not under consideration elsewhere; all authors approve.
 ```
