@@ -3,7 +3,7 @@
 **Date**: 2026-06-19  
 **Authors**: Weng Zexiao ¹
 
-¹ Department of Computer Engineering, Youngsan University, Yangsan, Republic of Korea. Email: wengzexiao@office.ysu.ac.kr
+¹ Department of Computer Engineering, Youngsan University, Yangsan, Republic of Korea. Email: wengzexiao@office.ysu.ac.kr. ORCID: https://orcid.org/0009-0009-8600-8954
 
 ---
 

@@ -12,7 +12,7 @@
 |---|---|
 | Upload type | **Software** |
 | Title | Multi-Source Domain Generalization with Few-Shot Calibration for Cross-Dataset EEG Hypnosis Depth Classification under Proxy Labels |
-| Authors / Creators | **Weng, Zexiao** — Department of Computer Engineering, Youngsan University, Yangsan, Republic of Korea; ORCID: *[待填，如 0000-0000-0000-0000]* |
+| Authors / Creators | **Weng, Zexiao** — Department of Computer Engineering, Youngsan University, Yangsan, Republic of Korea; ORCID: https://orcid.org/0009-0009-8600-8954 |
 | Description | 见下方 §2（可整段粘贴；支持 HTML，此处用纯文本/Markdown 亦可） |
 | Keywords | EEG; domain generalization; proxy labels; cross-dataset; calibration; brain-computer interface; affective computing; machine learning benchmarking; few-shot learning; hypnotic depth |
 | License | **MIT** （若选 CC，则 `cc-by-4.0`） |
@@ -96,7 +96,7 @@ Versioned archive; GitHub repo is the continuously updated source of record.
       {
         "name": "Weng, Zexiao",
         "affiliation": "Department of Computer Engineering, Youngsan University, Yangsan, Republic of Korea",
-        "orcid": "0000-0000-0000-0000",
+        "orcid": "0009-0009-8600-8954",
         "email": "wengzexiao@office.ysu.ac.kr"
       }
     ],
