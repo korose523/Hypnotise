@@ -18,7 +18,7 @@ This repository implements a complete pipeline for **cross-dataset three-level E
 | Version | Date | Key Changes |
 |---------|------|-------------|
 | **v6.5** | 2026-06-19 | Full 52-subject ds004572 processing (190,929 windows); Mahalanobis WFSC (Weighted Feature-Space Calibration) benchmark (exp103); EEGNet-v4 baseline (exp104); SHAP feature importance (analyze_shap_rf); all results integrated into paper_final.md and README.md |
-| v6.4 | 2026-06-18 | Subject-level split IDs repaired for MAHNOB/SEED/SEED_IV; ds006437 reprocessed with event-phase-aware labels; ds004572 labels fixed to task-condition; single reproducible runner `run_exp101_reproducible.py`; all 8 datasets in standard pipeline |
+| v6.4 | 2026-06-18 | Subject-level split IDs repaired for MAHNOB/SEED/SEED-IV; ds006437 reprocessed with event-phase-aware labels; ds004572 labels fixed to task-condition; single reproducible runner `run_exp101_reproducible.py`; all 8 datasets in standard pipeline |
 | v6.3 | 2026-06-07 | 138/160 20-seed experiments complete (legacy run), all P0 fixes claimed, paper updated |
 | v6.2 | 2026-06-07 | MAHNOB real-subject grouping from session.xml, 5-seed preliminary results |
 | v5.2 | 2026-06-03 | Single-pass verification, ds006437 label leak patched, MAHNOB real arousal labels recovered |
@@ -29,11 +29,11 @@ This repository implements a complete pipeline for **cross-dataset three-level E
 
 - **63-dimensional feature space**: 14 channels × 3 bands Log-Bandpower + 7 asymmetry pairs × 3 bands DASM
 - **8 datasets unified** (712,832 total windows, 697,906 valid labeled windows):
-  - 5 emotion proxy: DREAMER, DEAP, MAHNOB-HCI, SEED, SEED_IV
+  - 5 emotion proxy: DREAMER, DEAP, MAHNOB-HCI, SEED, SEED-IV
   - 1 affective video: FACED
   - 2 real hypnosis recordings with **proxy depth labels**: ds004572 (task-condition), ds006437 (event-phase-aware)
 - **Real MAHNOB self-assessment labels**: 1-9 feltArsl extracted from session.xml metadata (527 sessions, 27 real subjects, 100% window coverage)
-- **Subject-level split guaranteed**: MAHNOB/SEED/SEED_IV now use real participant IDs, eliminating trial/session leakage in calibration/test splits
+- **Subject-level split guaranteed**: MAHNOB/SEED/SEED-IV now use real participant IDs, eliminating trial/session leakage in calibration/test splits
 - **Multi-Source LODO**: Leave-One-Domain-Out — 7 source domains train, 1 target domain evaluates
 - **Limited target-domain calibration**: 20% target-domain subjects added to training set for domain adaptation
 - **Event-phase-aware ds006437 labels**: A/F→Awake, I/P→Light, S/D/C/L/R/N/B→Deep from EEGLAB event markers (replaces session-aware split)
@@ -59,7 +59,7 @@ The PLOS ONE submission manuscript is **`paper_en_submission_v5.docx`** (manuscr
 | FACED | 33.33% ± 0.00 | 33.33% ± 0.00 | +0.00pp | 0.167 | Subject-group proxy | 20 |
 | MAHNOB | 37.33% ± 0.83 | 37.31% ± 0.74 | -0.01pp | 0.195 | feltArsl (1-9) real | 20 |
 | SEED | 33.82% ± 0.39 | 33.82% ± 0.39 | +0.00pp | 0.168 | Trial-structure proxy | 20 |
-| SEED_IV | 25.36% ± 0.20 | 25.36% ± 0.20 | +0.00pp | 0.135 | ReadMe emotion→arousal | 20 |
+| SEED-IV | 25.36% ± 0.20 | 25.36% ± 0.20 | +0.00pp | 0.135 | ReadMe emotion→arousal | 20 |
 | ds004572 | 44.42% ± 0.29 | 44.89% ± 0.21 | +0.46pp | 0.224 | Task-condition proxy | 20 |
 | ds006437 | 29.05% ± 4.30 | 60.18% ± 4.83 | +31.13pp | 0.220 | Event-phase-aware proxy | 20 |
 | **Overall** | **40.02%** ± 12.61 | **43.93%** ± 13.53 | **+3.91pp** | — | — | 160 |
@@ -80,7 +80,7 @@ A 5-seed benchmark comparing calibration-aware Mahalanobis weighting against fix
 | FACED | 33.54 ± 1.32 | 33.54 ± 1.32 | 0.3333 ± 0.0000 | 0.3333 ± 0.0000 | +0.0000 |
 | MAHNOB | 36.10 ± 0.64 | 36.12 ± 0.66 | 0.3391 ± 0.0034 | 0.3403 ± 0.0036 | -0.0012 |
 | SEED | 33.56 ± 0.00 | 33.56 ± 0.00 | 0.3333 ± 0.0000 | 0.3333 ± 0.0000 | +0.0000 |
-| SEED_IV | 25.01 ± 0.00 | 25.01 ± 0.00 | 0.3333 ± 0.0000 | 0.3333 ± 0.0000 | +0.0000 |
+| SEED-IV | 25.01 ± 0.00 | 25.01 ± 0.00 | 0.3333 ± 0.0000 | 0.3333 ± 0.0000 | +0.0000 |
 | ds004572 | 44.73 ± 0.31 | 44.77 ± 0.31 | 0.3422 ± 0.0066 | 0.3438 ± 0.0069 | -0.0016 |
 | ds006437 | 72.88 ± 4.64 | 72.84 ± 4.51 | 0.4328 ± 0.0269 | 0.4321 ± 0.0260 | +0.0007 |
 
@@ -97,7 +97,7 @@ End-to-end EEGNet-v4 trained on raw 2-second windows under the same LODO/calibra
 | FACED | 33.74 ± 1.15 | 33.33 ± 0.00 | 16.81 ± 0.43 | 17.03 ± 1.02 | 0.000 ± 0.000 |
 | MAHNOB | 39.36 ± 1.23 | 33.33 ± 0.00 | 18.83 ± 0.42 | 22.24 ± 1.20 | 0.000 ± 0.000 |
 | SEED | 32.59 ± 0.00 | 33.33 ± 0.00 | 16.39 ± 0.00 | 16.02 ± 0.00 | 0.000 ± 0.000 |
-| SEED_IV | 25.00 ± 0.02 | 33.33 ± 0.00 | 13.33 ± 0.01 | 10.00 ± 0.01 | 0.000 ± 0.000 |
+| SEED-IV | 25.00 ± 0.02 | 33.33 ± 0.00 | 13.33 ± 0.01 | 10.00 ± 0.01 | 0.000 ± 0.000 |
 | ds004572 | 44.79 ± 0.01 | 33.33 ± 0.00 | 20.62 ± 0.00 | 27.71 ± 0.01 | 0.000 ± 0.000 |
 | ds006437 | 73.05 ± 0.81 | 33.33 ± 0.00 | 28.14 ± 0.18 | 61.68 ± 1.08 | 0.000 ± 0.000 |
 
@@ -114,11 +114,11 @@ TreeSHAP rankings of the 63 RF features per dataset:
 | FACED ⚠️ | AF3_Beta (0.0000) | AF3_Alpha (0.0000) | AF3_Theta (0.0000) |
 | MAHNOB | AF3_Theta (0.0014) | AF3_Beta (0.0010) | AF3_Alpha (0.0009) |
 | SEED ⚠️ | AF3_Beta (0.0000) | AF3_Alpha (0.0000) | AF3_Theta (0.0000) |
-| SEED_IV ⚠️ | AF3_Beta (0.0000) | AF3_Alpha (0.0000) | AF3_Theta (0.0000) |
+| SEED-IV ⚠️ | AF3_Beta (0.0000) | AF3_Alpha (0.0000) | AF3_Theta (0.0000) |
 | ds004572 | AF3_Theta (0.0033) | AF3_Beta (0.0028) | AF3_Alpha (0.0017) |
 | ds006437 | AF3_Alpha (0.0077) | AF3_Theta (0.0074) | AF3_Beta (0.0050) |
 
-AF3 theta/alpha/beta bandpower dominates the non-degenerate datasets. SEED, SEED_IV, and FACED have zero SHAP values because the RF predicts a single class for all windows.
+AF3 theta/alpha/beta bandpower dominates the non-degenerate datasets. SEED, SEED-IV, and FACED have zero SHAP values because the RF predicts a single class for all windows.
 
 
 Fixed parameters:
@@ -132,7 +132,7 @@ Fixed parameters:
 
 ### Key Findings (v6.5 pipeline fixes)
 
-1. **Subject-level split integrity restored**: MAHNOB (527 sessions → 27 subjects), SEED (360 file-trial IDs → 10 subjects), SEED_IV (1,080 file-trial IDs → 15 subjects) now use real participant IDs for LOSO calibration/test splits, eliminating subject leakage.
+1. **Subject-level split integrity restored**: MAHNOB (527 sessions → 27 subjects), SEED (360 file-trial IDs → 10 subjects), SEED-IV (1,080 file-trial IDs → 15 subjects) now use real participant IDs for LOSO calibration/test splits, eliminating subject leakage.
 2. **ds006437 re-labeled with event-phase awareness**: A/F→Awake, I/P→Light, S/D/C/L/R/N/B→Deep from EEGLAB `.set` event markers, replacing the session-aware split which mixed induction and deep phases within a session.
 3. **ds004572 labels aligned to task-condition**: baseline→Awake, induction→Light, experience→Deep, matching prep01 trial IDs.
 4. **Single reproducible runner**: `run_exp101_reproducible.py` is the only script needed to regenerate `multi_8ds.json` from the preprocessed data.
@@ -168,7 +168,7 @@ universal_bci_hypnosis/
 ├── run_exp101_reproducible.py           # SINGLE reproducible runner for multi_8ds.json
 ├── run_exp101_v2_mitigation.py          # v2 mitigation: FACED exclusion + SMOTE oversampling
 ├── run_exp104_v2_focal.py               # v2 EEGNet with focal loss for label collapse
-├── repair_subject_ids.py                # Repair MAHNOB/SEED/SEED_IV subject IDs in processed files
+├── repair_subject_ids.py                # Repair MAHNOB/SEED/SEED-IV subject IDs in processed files
 ├── reprocess_ds006437_event_labels.py    # Reprocess ds006437 with event-phase-aware labels
 ├── reprocess_ds004572.py                 # Reprocess ds004572 features and task-condition labels
 ├── run_exp104_eegnet_reproducible.py     # Reproducible EEGNet-v4 baseline
@@ -243,12 +243,12 @@ All 8 datasets are in the project `data/` folder (total ~62 GB). Paths are confi
 | 2 | DEAP | `data/DEAP/data_preprocessed_python/` | 3.3 GB | SAM Arousal (1-9) | Emotion proxy |
 | 3 | MAHNOB-HCI | `data/MAHNOB/Sessions/` | 3.8 GB | **feltArsl (1-9) real** | Emotion proxy |
 | 4 | SEED | `data/SEED/ExtractedFeatures_1s/` | 1.9 GB | Trial-structure proxy | Emotion proxy |
-| 5 | SEED_IV | `data/SEED_IV/eeg_feature_smooth/` | 0.3 GB | ReadMe emotion→arousal | Emotion proxy |
+| 5 | SEED-IV | `data/SEED-IV/eeg_feature_smooth/` | 0.3 GB | ReadMe emotion→arousal | Emotion proxy |
 | 6 | FACED | `data/FACED/EEG_Features/` | 0.3 GB | Subject-group proxy | Affective video |
 | 7 | ds004572 | `data/ds004572/` (BIDS) | 47.3 GB | Task-condition proxy | Real hypnosis recording |
 | 8 | ds006437 | `data/ds006437/` (BIDS) | 4.7 GB | Event-phase-aware proxy [FIXED] | Real hypnosis recording |
 
-**Dataset sources**: DREAMER ([IEEE DataPort](https://ieee-dataport.org/)), DEAP ([QMUL](http://www.eecs.qmul.ac.uk/mmv/datasets/deap/)), MAHNOB-HCI ([mahnob-db.eu](https://mahnob-db.eu/hci-tagging/)), SEED/SEED_IV ([BCMI Cloud](https://cloud.bcmi.sjtu.edu.cn)), FACED ([GitHub](https://github.com/FACED-Dataset/FACED)), ds004572/ds006437 ([OpenNeuro](https://openneuro.org)).
+**Dataset sources**: DREAMER ([IEEE DataPort](https://ieee-dataport.org/)), DEAP ([QMUL](http://www.eecs.qmul.ac.uk/mmv/datasets/deap/)), MAHNOB-HCI ([mahnob-db.eu](https://mahnob-db.eu/hci-tagging/)), SEED/SEED-IV ([BCMI Cloud](https://cloud.bcmi.sjtu.edu.cn)), FACED ([GitHub](https://github.com/FACED-Dataset/FACED)), ds004572/ds006437 ([OpenNeuro](https://openneuro.org)).
 
 **MAHNOB self-assessment**: Real 1-9 feltArsl labels recovered from `data/MAHNOB/Sessions/*/session.xml` (see `fix_mahnob_labels.py`). Also saved as `data/MAHNOB/mahnob_self_assessment.json`.
 
@@ -350,7 +350,7 @@ AF3-AF4, F7-F8, F3-F4, FC5-FC6, T7-T8, P7-P8, O1-O2 (all left-minus-right)
 | DEAP | SAM Arousal (1-9) | ≤3=Deep, 4-6=Light, ≥7=Awake | Proxy |
 | MAHNOB | **feltArsl (1-9) real** | ≤3=Deep, 4-6=Light, ≥7=Awake | **Real self-report** |
 | SEED | de_movingAve trial structure | Trial-group based | Proxy |
-| SEED_IV | ReadMe emotion labels (0-3) | {2,3}→Awake, 0→Light, 1→Deep | Proxy (ReadMe-derived) |
+| SEED-IV | ReadMe emotion labels (0-3) | {2,3}→Awake, 0→Light, 1→Deep | Proxy (ReadMe-derived) |
 | FACED | PSD/DE features | Subject-group based | Proxy |
 | ds004572 | Task condition | Baseline→Awake, Induction→Light, Experience→Deep | Task-condition proxy |
 | ds006437 | EEGLAB event markers | A/F→Awake, I/P→Light, S/D/C/L/R/N/B→Deep | [FIXED] event-phase-aware proxy |
@@ -385,9 +385,9 @@ AF3-AF4, F7-F8, F3-F4, FC5-FC6, T7-T8, P7-P8, O1-O2 (all left-minus-right)
 1. **ds004572 resolved**: All 52 subjects processed (190,929 windows) and included in v6.5 results
 2. **Mahalanobis WFSC benchmarked**: No improvement over fixed-weight; see `results/exp103_mahal_vs_fixed/`
 3. **EEGNet-v4 benchmarked**: Results mirror RF collapse; see `results/exp104_eegnet/`
-4. **SHAP analyzed**: AF3 spectral features dominate; SEED/SEED_IV/FACED produce zero SHAP values due to single-class collapse
+4. **SHAP analyzed**: AF3 spectral features dominate; SEED/SEED-IV/FACED produce zero SHAP values due to single-class collapse
 5. **ds006437 approximation**: Event-phase-aware labels use hypnotherapy button-press event markers; real per-session hypnosis depth scores are not available in the BIDS structure
-6. **Proxy labels**: DREAMER, SEED, SEED_IV, FACED, ds006437, and ds004572 use proxy/task-condition/session labels — not validated clinical hypnosis depth annotations
+6. **Proxy labels**: DREAMER, SEED, SEED-IV, FACED, ds006437, and ds004572 use proxy/task-condition/session labels — not validated clinical hypnosis depth annotations
 7. **Simplified calibration**: Current calibration uses sample concatenation; Mahalanobis dynamic-weighting shows no gain in this feature space
 
 ---
@@ -404,7 +404,7 @@ All numbers in this README and in `paper_final.md` are generated directly from t
 - `processed/prep02_features/ds004572_features.npz` — 190,929 × 63 features
 - `processed/prep03_labels/ds004572_labels.npz` — 190,929 labels with matching subject IDs
 
-Degenerate results (e.g., single-class collapse on SEED/SEED_IV/FACED and majority-class EEGNet accuracy on ds006437) are reported transparently rather than hidden.
+Degenerate results (e.g., single-class collapse on SEED/SEED-IV/FACED and majority-class EEGNet accuracy on ds006437) are reported transparently rather than hidden.
 
 ---
 
