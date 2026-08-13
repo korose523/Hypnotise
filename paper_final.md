@@ -393,7 +393,7 @@ All datasets used in this study are publicly available through their respective 
 The complete source code, experiment scripts, configuration files, and result JSON files for this study are deposited in a public GitHub repository:
 
 - **Repository (canonical, public):** https://github.com/korose523/Hypnotise
-- **Permanent archive / DOI:** Zenodo software archive, published: `https://doi.org/10.5281/zenodo.21531272` (concept DOI, always resolves to the latest version; current versioned record `https://doi.org/10.5281/zenodo.21531272` [v1.0.11, with both authors], https://zenodo.org/record/21531272). The GitHub repository above is the continuously updated source of record.
+- **Permanent archive / DOI:** Zenodo software archive, published: `https://doi.org/10.5281/zenodo.21531272` (concept DOI, always resolves to the latest version; current versioned record `https://doi.org/10.5281/zenodo.21531272` [v1.0.12, with both authors], https://zenodo.org/record/21531272). The GitHub repository above is the continuously updated source of record.
 
 A single script, `run_exp101_reproducible.py`, regenerates the main `multi_8ds.json` result file from the preprocessed data with fixed parameters (MAX_SRC=8000, MAX_TGT=8000, n_estimators=200, 20 seeds). This addresses the reviewer request for a fully reproducible experiment pipeline. The complete set of scripts is:
 
