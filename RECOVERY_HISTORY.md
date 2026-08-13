@@ -60,7 +60,7 @@
 
 | 项 | 状态 |
 |---|---|
-| **Zenodo 归档** | ✅ 已发布：概念 DOI `10.5281/zenodo.21531272`，版本记录 `10.5281/zenodo.21531273`（v1.0.0） |
+| **Zenodo 归档** | ✅ 已发布：概念 DOI `10.5281/zenodo.21531272`，版本记录 `10.5281/zenodo.21531272`（v1.0.0） |
 | **IRB 豁免** | `YSUIRB-202607-HR-219-02`（Youngsan Univ IRB，2026-07-22） |
 | OSF 草稿 | 备用方案，**未使用**（保留为备选，`osf_archive_draft.md`） |
 | Figshare 草稿 | 备用方案，**未使用**（保留为备选，`figshare_archive_draft.md`） |

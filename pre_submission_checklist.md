@@ -3,7 +3,7 @@
 > **稿件**：*Multi-Source Domain Generalization with Few-Shot Calibration for Cross-Dataset EEG Hypnosis Depth Classification under Proxy Labels*
 > **通讯作者**：Jung Minpo — Associate Professor, Department of Computer Engineering, Youngsan University｜minpo@ysu.ac.kr
 > **第一作者**：Weng Zexiao — Department of Computer Engineering, Youngsan University｜wengzexiao@office.ysu.ac.kr｜ORCID 0009-0009-8600-8954
-> **Zenodo 归档**：概念 DOI `10.5281/zenodo.21531272`（v1.0.0 记录 `10.5281/zenodo.21531273`，https://zenodo.org/record/21531273）
+> **Zenodo 归档**：概念 DOI `10.5281/zenodo.21531272`（v1.0.0 记录 `10.5281/zenodo.21531272`，https://zenodo.org/record/21531272）
 > **IRB 豁免**：YSUIRB-202607-HR-219-02（Youngsan University IRB，2026-07-22）
 > 模拟评审结论：需小修 7.2/10，全部 blocker 与中低优先项已闭环。
 
@@ -73,7 +73,7 @@
 # 本地校验 Zenodo 记录仍可访问、DOI 正确
 python - <<'PY'
 import requests
-r = requests.get("https://zenodo.org/api/records/21531273", timeout=20)
+r = requests.get("https://zenodo.org/api/records/21531272", timeout=20)
 print(r.status_code, r.json().get("doi"))
 PY
 
