@@ -26,11 +26,13 @@ TARBALL = r"E:\universal_bci_hypnosis\hypnotise-v1.0.12.tar.gz"
 FNAME = "hypnotise-v1.0.12.tar.gz"
 VERSION = "v1.0.12"
 CHANGELOG = (
-    "<p>v1.0.12: applied a systematic terminology-consistency and technical-expression "
-    "review of the manuscript (21 fixes: en/us spelling unification; within-/cross-dataset "
-    "terminology unification; first-use definitions for WFSC, ZS and RF; eigendecomposition "
-    "renamed to generalized eigenvalue decomposition; Table 14 reproducibility filename "
-    "correction). Companion code at GitHub tag v1.0.12.</p>"
+    "<p>v1.0.12: applied a systematic terminology-consistency and technical-expression review "
+    "of the manuscript plus a full audit pass. Changes include: en/US spelling unification; "
+    "within-/cross-dataset terminology unification; first-use definitions for WFSC, ZS and RF; "
+    "eigendecomposition renamed to generalized eigenvalue decomposition; Table 14 reproducibility "
+    "filename correction; dataset name normalized to SEED-IV (D10); and complete page numbers for "
+    "AAAI references [12] (pp. 3490-3497) and [14] (pp. 2058-2065). Companion code at GitHub tag "
+    "v1.0.12.</p>"
 )
 
 
