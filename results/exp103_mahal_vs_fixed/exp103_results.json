@@ -1,0 +1,3758 @@
+{
+  "summary": {
+    "DREAMER": {
+      "mahalanobis": {
+        "accuracy_mean": 0.49918537401569046,
+        "accuracy_std": 0.0056900899390596605,
+        "balanced_accuracy_mean": 0.33669080592361644,
+        "balanced_accuracy_std": 0.006152386779334181,
+        "macro_f1_mean": 0.2844158495505891,
+        "macro_f1_std": 0.04176052859398034,
+        "weighted_f1_mean": 0.41751367460282995,
+        "weighted_f1_std": 0.057251163553670575,
+        "cohens_kappa_mean": 0.009691753119743995,
+        "cohens_kappa_std": 0.017162452677886398,
+        "auc_roc_mean": 0.49326539430896077,
+        "auc_roc_std": 0.024379992883592883,
+        "Awake_precision_mean": 0.43707587882443455,
+        "Awake_precision_std": 0.02422195857491453,
+        "Awake_recall_mean": 0.18262778020750806,
+        "Awake_recall_std": 0.16755768359640866,
+        "Awake_f1_mean": 0.22437209585293982,
+        "Awake_f1_std": 0.15778167209026894,
+        "Light Hypnosis_precision_mean": 0.5153960667873818,
+        "Light Hypnosis_precision_std": 0.02017338319673932,
+        "Light Hypnosis_recall_mean": 0.8274446375633413,
+        "Light Hypnosis_recall_std": 0.15138121730554863,
+        "Light Hypnosis_f1_mean": 0.6288754527988274,
+        "Light Hypnosis_f1_std": 0.03525467529448246,
+        "Deep Hypnosis_precision_mean": 0.0,
+        "Deep Hypnosis_precision_std": 0.0,
+        "Deep Hypnosis_recall_mean": 0.0,
+        "Deep Hypnosis_recall_std": 0.0,
+        "Deep Hypnosis_f1_mean": 0.0,
+        "Deep Hypnosis_f1_std": 0.0,
+        "confusion_matrix_mean": [
+          [
+            5530.4,
+            25453.2,
+            0.4
+          ],
+          [
+            6296.0,
+            29643.4,
+            15.8
+          ],
+          [
+            758.0,
+            2765.2,
+            0.0
+          ]
+        ]
+      },
+      "fixed": {
+        "accuracy_mean": 0.5015104029493683,
+        "accuracy_std": 0.0069426297253954395,
+        "balanced_accuracy_mean": 0.33862150212776265,
+        "balanced_accuracy_std": 0.008894632224041417,
+        "macro_f1_mean": 0.2876207040745855,
+        "macro_f1_std": 0.044089834075694896,
+        "weighted_f1_mean": 0.4217856597612064,
+        "weighted_f1_std": 0.06033448423451186,
+        "cohens_kappa_mean": 0.014945457648749327,
+        "cohens_kappa_std": 0.024348286869114742,
+        "auc_roc_mean": 0.48961190871077775,
+        "auc_roc_std": 0.020493966374294546,
+        "Awake_precision_mean": 0.4453178890318295,
+        "Awake_precision_std": 0.017905554684066613,
+        "Awake_recall_mean": 0.19091064340698222,
+        "Awake_recall_std": 0.17090498101662988,
+        "Awake_f1_mean": 0.23308914507782957,
+        "Awake_f1_std": 0.16238684728163627,
+        "Light Hypnosis_precision_mean": 0.5176088085032666,
+        "Light Hypnosis_precision_std": 0.02278479056852484,
+        "Light Hypnosis_recall_mean": 0.8249538629763057,
+        "Light Hypnosis_recall_std": 0.14833986278656505,
+        "Light Hypnosis_f1_mean": 0.6297729671459269,
+        "Light Hypnosis_f1_std": 0.031111980147404912,
+        "Deep Hypnosis_precision_mean": 0.0,
+        "Deep Hypnosis_precision_std": 0.0,
+        "Deep Hypnosis_recall_mean": 0.0,
+        "Deep Hypnosis_recall_std": 0.0,
+        "Deep Hypnosis_f1_mean": 0.0,
+        "Deep Hypnosis_f1_std": 0.0,
+        "confusion_matrix_mean": [
+          [
+            5784.4,
+            25199.2,
+            0.4
+          ],
+          [
+            6390.4,
+            29553.2,
+            11.6
+          ],
+          [
+            784.2,
+            2739.0,
+            0.0
+          ]
+        ]
+      },
+      "diff_bacc": -0.0019306962041462095,
+      "n_seeds": 5
+    },
+    "DEAP": {
+      "mahalanobis": {
+        "accuracy_mean": 0.5628379416282642,
+        "accuracy_std": 0.09200116045645197,
+        "balanced_accuracy_mean": 0.41151479294674853,
+        "balanced_accuracy_std": 0.1124572783011868,
+        "macro_f1_mean": 0.30192731206734186,
+        "macro_f1_std": 0.0448064813993823,
+        "weighted_f1_mean": 0.5222899665270181,
+        "weighted_f1_std": 0.07883685148496103,
+        "cohens_kappa_mean": 0.01921705289951985,
+        "cohens_kappa_std": 0.06909128349248883,
+        "auc_roc_mean": NaN,
+        "auc_roc_std": NaN,
+        "Awake_precision_mean": 0.2428719402883503,
+        "Awake_precision_std": 0.11971836435670434,
+        "Awake_recall_mean": 0.29118164362519205,
+        "Awake_recall_std": 0.2753447024128914,
+        "Awake_f1_mean": 0.22294266064459167,
+        "Awake_f1_std": 0.16186367226506593,
+        "Light Hypnosis_precision_mean": 0.6903368648381888,
+        "Light Hypnosis_precision_std": 0.06889617308952956,
+        "Light Hypnosis_recall_mean": 0.7304129704301076,
+        "Light Hypnosis_recall_std": 0.2521350885676071,
+        "Light Hypnosis_f1_mean": 0.6828392755574337,
+        "Light Hypnosis_f1_std": 0.1149336922411969,
+        "Deep Hypnosis_precision_mean": 0.0,
+        "Deep Hypnosis_precision_std": 0.0,
+        "Deep Hypnosis_recall_mean": 0.0,
+        "Deep Hypnosis_recall_std": 0.0,
+        "Deep Hypnosis_f1_mean": 0.0,
+        "Deep Hypnosis_f1_std": 0.0,
+        "confusion_matrix_mean": [
+          [
+            3790.2,
+            11089.8,
+            0.0
+          ],
+          [
+            10188.4,
+            25522.4,
+            1.2
+          ],
+          [
+            372.8,
+            1115.2,
+            0.0
+          ]
+        ]
+      },
+      "fixed": {
+        "accuracy_mean": 0.5829185867895545,
+        "accuracy_std": 0.07594409546824406,
+        "balanced_accuracy_mean": 0.42939754298121235,
+        "balanced_accuracy_std": 0.12280316210626101,
+        "macro_f1_mean": 0.3160687813204234,
+        "macro_f1_std": 0.048323811398017696,
+        "weighted_f1_mean": 0.5426413311040635,
+        "weighted_f1_std": 0.0773019903863215,
+        "cohens_kappa_mean": 0.05297357456549876,
+        "cohens_kappa_std": 0.07672341874256124,
+        "auc_roc_mean": NaN,
+        "auc_roc_std": NaN,
+        "Awake_precision_mean": 0.26599862257372753,
+        "Awake_precision_std": 0.1271322647637498,
+        "Awake_recall_mean": 0.31323540706605224,
+        "Awake_recall_std": 0.2908663855633173,
+        "Awake_f1_mean": 0.24573417498265684,
+        "Awake_f1_std": 0.17321384246313534,
+        "Light Hypnosis_precision_mean": 0.7065128963187958,
+        "Light Hypnosis_precision_std": 0.0809764603101244,
+        "Light Hypnosis_recall_mean": 0.7501430417700579,
+        "Light Hypnosis_recall_std": 0.2310136918680867,
+        "Light Hypnosis_f1_mean": 0.7024721689786134,
+        "Light Hypnosis_f1_std": 0.09531365357817595,
+        "Deep Hypnosis_precision_mean": 0.0,
+        "Deep Hypnosis_precision_std": 0.0,
+        "Deep Hypnosis_recall_mean": 0.0,
+        "Deep Hypnosis_recall_std": 0.0,
+        "Deep Hypnosis_f1_mean": 0.0,
+        "Deep Hypnosis_f1_std": 0.0,
+        "confusion_matrix_mean": [
+          [
+            4091.0,
+            10789.0,
+            0.0
+          ],
+          [
+            9443.8,
+            26267.4,
+            0.8
+          ],
+          [
+            434.8,
+            1053.2,
+            0.0
+          ]
+        ]
+      },
+      "diff_bacc": -0.017882750034463823,
+      "n_seeds": 5
+    },
+    "MAHNOB": {
+      "mahalanobis": {
+        "accuracy_mean": 0.36095325090236596,
+        "accuracy_std": 0.006398117105254676,
+        "balanced_accuracy_mean": 0.33910094830185905,
+        "balanced_accuracy_std": 0.003409390856518461,
+        "macro_f1_mean": 0.21561766265700114,
+        "macro_f1_std": 0.008786525800882192,
+        "weighted_f1_mean": 0.22964176636450118,
+        "weighted_f1_std": 0.00893940691499648,
+        "cohens_kappa_mean": 0.008858281658714584,
+        "cohens_kappa_std": 0.004759959908488583,
+        "auc_roc_mean": 0.4907570338456739,
+        "auc_roc_std": 0.008387191706279943,
+        "Awake_precision_mean": 0.2783827843429306,
+        "Awake_precision_std": 0.03587080802417015,
+        "Awake_recall_mean": 0.02106363706328264,
+        "Awake_recall_std": 0.020563331236426292,
+        "Awake_f1_mean": 0.037632350890521866,
+        "Awake_f1_std": 0.03502047706769302,
+        "Light Hypnosis_precision_mean": 0.4588572071025176,
+        "Light Hypnosis_precision_std": 0.0378482194311196,
+        "Light Hypnosis_recall_mean": 0.05084738452923622,
+        "Light Hypnosis_recall_std": 0.01977815152340812,
+        "Light Hypnosis_f1_mean": 0.09002829615406846,
+        "Light Hypnosis_f1_std": 0.02924457673274995,
+        "Deep Hypnosis_precision_mean": 0.3579222923132842,
+        "Deep Hypnosis_precision_std": 0.007378886614259019,
+        "Deep Hypnosis_recall_mean": 0.9453918233130582,
+        "Deep Hypnosis_recall_std": 0.01839840347883045,
+        "Deep Hypnosis_f1_mean": 0.5191923409264132,
+        "Deep Hypnosis_f1_std": 0.008317286628193811,
+        "confusion_matrix_mean": [
+          [
+            283.8,
+            712.8,
+            13043.0
+          ],
+          [
+            380.0,
+            1267.2,
+            23441.4
+          ],
+          [
+            305.8,
+            869.8,
+            20337.0
+          ]
+        ]
+      },
+      "fixed": {
+        "accuracy_mean": 0.3611735683882758,
+        "accuracy_std": 0.006598593352770376,
+        "balanced_accuracy_mean": 0.3402900003542668,
+        "balanced_accuracy_std": 0.0035731177995749347,
+        "macro_f1_mean": 0.2185049502876429,
+        "macro_f1_std": 0.009293818175103549,
+        "weighted_f1_mean": 0.23096325303623044,
+        "weighted_f1_std": 0.008694313859541367,
+        "cohens_kappa_mean": 0.010266306633809518,
+        "cohens_kappa_std": 0.0046965761826572435,
+        "auc_roc_mean": 0.49199975094102577,
+        "auc_roc_std": 0.009687930483447876,
+        "Awake_precision_mean": 0.31303222768498024,
+        "Awake_precision_std": 0.03038121893973264,
+        "Awake_recall_mean": 0.02813945387380193,
+        "Awake_recall_std": 0.023471353241260737,
+        "Awake_f1_mean": 0.04942883253748033,
+        "Awake_f1_std": 0.03996418118888351,
+        "Light Hypnosis_precision_mean": 0.4673983587024023,
+        "Light Hypnosis_precision_std": 0.04073983301812295,
+        "Light Hypnosis_recall_mean": 0.04890930181592505,
+        "Light Hypnosis_recall_std": 0.019616536266890736,
+        "Light Hypnosis_f1_mean": 0.0870340622976815,
+        "Light Hypnosis_f1_std": 0.029244373516736036,
+        "Deep Hypnosis_precision_mean": 0.3580037411258573,
+        "Deep Hypnosis_precision_std": 0.007285131728103708,
+        "Deep Hypnosis_recall_mean": 0.9438212453730737,
+        "Deep Hypnosis_recall_std": 0.01685418029122506,
+        "Deep Hypnosis_f1_mean": 0.5190519560277669,
+        "Deep Hypnosis_f1_std": 0.00834117659444805,
+        "confusion_matrix_mean": [
+          [
+            378.6,
+            669.0,
+            12992.0
+          ],
+          [
+            451.0,
+            1218.4,
+            23419.2
+          ],
+          [
+            396.2,
+            812.0,
+            20304.4
+          ]
+        ]
+      },
+      "diff_bacc": -0.0011890520524077686,
+      "n_seeds": 5
+    },
+    "SEED": {
+      "mahalanobis": {
+        "accuracy_mean": 0.335592221567472,
+        "accuracy_std": 0.0,
+        "balanced_accuracy_mean": 0.3333333333333333,
+        "balanced_accuracy_std": 0.0,
+        "macro_f1_mean": 0.1675123170821384,
+        "macro_f1_std": 0.0,
+        "weighted_f1_mean": 0.16864749188852884,
+        "weighted_f1_std": 1.962615573354719e-17,
+        "cohens_kappa_mean": 0.0,
+        "cohens_kappa_std": 0.0,
+        "auc_roc_mean": 0.5,
+        "auc_roc_std": 0.0,
+        "Awake_precision_mean": 0.0,
+        "Awake_precision_std": 0.0,
+        "Awake_recall_mean": 0.0,
+        "Awake_recall_std": 0.0,
+        "Awake_f1_mean": 0.0,
+        "Awake_f1_std": 0.0,
+        "Light Hypnosis_precision_mean": 0.0,
+        "Light Hypnosis_precision_std": 0.0,
+        "Light Hypnosis_recall_mean": 0.0,
+        "Light Hypnosis_recall_std": 0.0,
+        "Light Hypnosis_f1_mean": 0.0,
+        "Light Hypnosis_f1_std": 0.0,
+        "Deep Hypnosis_precision_mean": 0.335592221567472,
+        "Deep Hypnosis_precision_std": 0.0,
+        "Deep Hypnosis_recall_mean": 1.0,
+        "Deep Hypnosis_recall_std": 0.0,
+        "Deep Hypnosis_f1_mean": 0.5025369512464152,
+        "Deep Hypnosis_f1_std": 0.0,
+        "confusion_matrix_mean": [
+          [
+            0.0,
+            0.0,
+            22060.8
+          ],
+          [
+            0.0,
+            0.0,
+            21235.2
+          ],
+          [
+            0.0,
+            0.0,
+            21868.8
+          ]
+        ]
+      },
+      "fixed": {
+        "accuracy_mean": 0.335592221567472,
+        "accuracy_std": 0.0,
+        "balanced_accuracy_mean": 0.3333333333333333,
+        "balanced_accuracy_std": 0.0,
+        "macro_f1_mean": 0.1675123170821384,
+        "macro_f1_std": 0.0,
+        "weighted_f1_mean": 0.16864749188852884,
+        "weighted_f1_std": 1.962615573354719e-17,
+        "cohens_kappa_mean": 0.0,
+        "cohens_kappa_std": 0.0,
+        "auc_roc_mean": 0.5,
+        "auc_roc_std": 0.0,
+        "Awake_precision_mean": 0.0,
+        "Awake_precision_std": 0.0,
+        "Awake_recall_mean": 0.0,
+        "Awake_recall_std": 0.0,
+        "Awake_f1_mean": 0.0,
+        "Awake_f1_std": 0.0,
+        "Light Hypnosis_precision_mean": 0.0,
+        "Light Hypnosis_precision_std": 0.0,
+        "Light Hypnosis_recall_mean": 0.0,
+        "Light Hypnosis_recall_std": 0.0,
+        "Light Hypnosis_f1_mean": 0.0,
+        "Light Hypnosis_f1_std": 0.0,
+        "Deep Hypnosis_precision_mean": 0.335592221567472,
+        "Deep Hypnosis_precision_std": 0.0,
+        "Deep Hypnosis_recall_mean": 1.0,
+        "Deep Hypnosis_recall_std": 0.0,
+        "Deep Hypnosis_f1_mean": 0.5025369512464152,
+        "Deep Hypnosis_f1_std": 0.0,
+        "confusion_matrix_mean": [
+          [
+            0.0,
+            0.0,
+            22060.8
+          ],
+          [
+            0.0,
+            0.0,
+            21235.2
+          ],
+          [
+            0.0,
+            0.0,
+            21868.8
+          ]
+        ]
+      },
+      "diff_bacc": 0.0,
+      "n_seeds": 5
+    },
+    "SEED_IV": {
+      "mahalanobis": {
+        "accuracy_mean": 0.25005988023952097,
+        "accuracy_std": 4.3374600167683436e-05,
+        "balanced_accuracy_mean": 0.3333333333333333,
+        "balanced_accuracy_std": 0.0,
+        "macro_f1_mean": 0.1333588804980205,
+        "macro_f1_std": 1.8504931722285067e-05,
+        "weighted_f1_mean": 0.10004311898498039,
+        "weighted_f1_std": 3.1234405205338256e-05,
+        "cohens_kappa_mean": 0.0,
+        "cohens_kappa_std": 0.0,
+        "auc_roc_mean": 0.5,
+        "auc_roc_std": 0.0,
+        "Awake_precision_mean": 0.0,
+        "Awake_precision_std": 0.0,
+        "Awake_recall_mean": 0.0,
+        "Awake_recall_std": 0.0,
+        "Awake_f1_mean": 0.0,
+        "Awake_f1_std": 0.0,
+        "Light Hypnosis_precision_mean": 0.0,
+        "Light Hypnosis_precision_std": 0.0,
+        "Light Hypnosis_recall_mean": 0.0,
+        "Light Hypnosis_recall_std": 0.0,
+        "Light Hypnosis_f1_mean": 0.0,
+        "Light Hypnosis_f1_std": 0.0,
+        "Deep Hypnosis_precision_mean": 0.25005988023952097,
+        "Deep Hypnosis_precision_std": 4.3374600167683436e-05,
+        "Deep Hypnosis_recall_mean": 1.0,
+        "Deep Hypnosis_recall_std": 0.0,
+        "Deep Hypnosis_f1_mean": 0.40007664149406147,
+        "Deep Hypnosis_f1_std": 5.551479516684882e-05,
+        "confusion_matrix_mean": [
+          [
+            0.0,
+            0.0,
+            15031.2
+          ],
+          [
+            0.0,
+            0.0,
+            7512.0
+          ],
+          [
+            0.0,
+            0.0,
+            7516.8
+          ]
+        ]
+      },
+      "fixed": {
+        "accuracy_mean": 0.25005988023952097,
+        "accuracy_std": 4.3374600167683436e-05,
+        "balanced_accuracy_mean": 0.3333333333333333,
+        "balanced_accuracy_std": 0.0,
+        "macro_f1_mean": 0.1333588804980205,
+        "macro_f1_std": 1.8504931722285067e-05,
+        "weighted_f1_mean": 0.10004311898498039,
+        "weighted_f1_std": 3.1234405205338256e-05,
+        "cohens_kappa_mean": 0.0,
+        "cohens_kappa_std": 0.0,
+        "auc_roc_mean": 0.5,
+        "auc_roc_std": 0.0,
+        "Awake_precision_mean": 0.0,
+        "Awake_precision_std": 0.0,
+        "Awake_recall_mean": 0.0,
+        "Awake_recall_std": 0.0,
+        "Awake_f1_mean": 0.0,
+        "Awake_f1_std": 0.0,
+        "Light Hypnosis_precision_mean": 0.0,
+        "Light Hypnosis_precision_std": 0.0,
+        "Light Hypnosis_recall_mean": 0.0,
+        "Light Hypnosis_recall_std": 0.0,
+        "Light Hypnosis_f1_mean": 0.0,
+        "Light Hypnosis_f1_std": 0.0,
+        "Deep Hypnosis_precision_mean": 0.25005988023952097,
+        "Deep Hypnosis_precision_std": 4.3374600167683436e-05,
+        "Deep Hypnosis_recall_mean": 1.0,
+        "Deep Hypnosis_recall_std": 0.0,
+        "Deep Hypnosis_f1_mean": 0.40007664149406147,
+        "Deep Hypnosis_f1_std": 5.551479516684882e-05,
+        "confusion_matrix_mean": [
+          [
+            0.0,
+            0.0,
+            15031.2
+          ],
+          [
+            0.0,
+            0.0,
+            7512.0
+          ],
+          [
+            0.0,
+            0.0,
+            7516.8
+          ]
+        ]
+      },
+      "diff_bacc": 0.0,
+      "n_seeds": 5
+    },
+    "FACED": {
+      "mahalanobis": {
+        "accuracy_mean": 0.3353535353535354,
+        "accuracy_std": 0.013170105869096246,
+        "balanced_accuracy_mean": 0.3333333333333333,
+        "balanced_accuracy_std": 0.0,
+        "macro_f1_mean": 0.1673843661220957,
+        "macro_f1_std": 0.004908796608052692,
+        "weighted_f1_mean": 0.16855397234078356,
+        "weighted_f1_std": 0.011614462410203034,
+        "cohens_kappa_mean": 0.0,
+        "cohens_kappa_std": 0.0,
+        "auc_roc_mean": 0.5,
+        "auc_roc_std": 0.0,
+        "Awake_precision_mean": 0.0,
+        "Awake_precision_std": 0.0,
+        "Awake_recall_mean": 0.0,
+        "Awake_recall_std": 0.0,
+        "Awake_f1_mean": 0.0,
+        "Awake_f1_std": 0.0,
+        "Light Hypnosis_precision_mean": 0.0,
+        "Light Hypnosis_precision_std": 0.0,
+        "Light Hypnosis_recall_mean": 0.0,
+        "Light Hypnosis_recall_std": 0.0,
+        "Light Hypnosis_f1_mean": 0.0,
+        "Light Hypnosis_f1_std": 0.0,
+        "Deep Hypnosis_precision_mean": 0.3353535353535354,
+        "Deep Hypnosis_precision_std": 0.013170105869096246,
+        "Deep Hypnosis_recall_mean": 1.0,
+        "Deep Hypnosis_recall_std": 0.0,
+        "Deep Hypnosis_f1_mean": 0.5021530983662871,
+        "Deep Hypnosis_f1_std": 0.014726389824158062,
+        "confusion_matrix_mean": [
+          [
+            0.0,
+            0.0,
+            26712.0
+          ],
+          [
+            0.0,
+            0.0,
+            28560.0
+          ],
+          [
+            0.0,
+            0.0,
+            27888.0
+          ]
+        ]
+      },
+      "fixed": {
+        "accuracy_mean": 0.3353535353535354,
+        "accuracy_std": 0.013170105869096246,
+        "balanced_accuracy_mean": 0.3333333333333333,
+        "balanced_accuracy_std": 0.0,
+        "macro_f1_mean": 0.1673843661220957,
+        "macro_f1_std": 0.004908796608052692,
+        "weighted_f1_mean": 0.16855397234078356,
+        "weighted_f1_std": 0.011614462410203034,
+        "cohens_kappa_mean": 0.0,
+        "cohens_kappa_std": 0.0,
+        "auc_roc_mean": 0.5,
+        "auc_roc_std": 0.0,
+        "Awake_precision_mean": 0.0,
+        "Awake_precision_std": 0.0,
+        "Awake_recall_mean": 0.0,
+        "Awake_recall_std": 0.0,
+        "Awake_f1_mean": 0.0,
+        "Awake_f1_std": 0.0,
+        "Light Hypnosis_precision_mean": 0.0,
+        "Light Hypnosis_precision_std": 0.0,
+        "Light Hypnosis_recall_mean": 0.0,
+        "Light Hypnosis_recall_std": 0.0,
+        "Light Hypnosis_f1_mean": 0.0,
+        "Light Hypnosis_f1_std": 0.0,
+        "Deep Hypnosis_precision_mean": 0.3353535353535354,
+        "Deep Hypnosis_precision_std": 0.013170105869096246,
+        "Deep Hypnosis_recall_mean": 1.0,
+        "Deep Hypnosis_recall_std": 0.0,
+        "Deep Hypnosis_f1_mean": 0.5021530983662871,
+        "Deep Hypnosis_f1_std": 0.014726389824158062,
+        "confusion_matrix_mean": [
+          [
+            0.0,
+            0.0,
+            26712.0
+          ],
+          [
+            0.0,
+            0.0,
+            28560.0
+          ],
+          [
+            0.0,
+            0.0,
+            27888.0
+          ]
+        ]
+      },
+      "diff_bacc": 0.0,
+      "n_seeds": 5
+    },
+    "ds006437": {
+      "mahalanobis": {
+        "accuracy_mean": 0.728758705197071,
+        "accuracy_std": 0.04640644636391064,
+        "balanced_accuracy_mean": 0.43284273943710805,
+        "balanced_accuracy_std": 0.026921485932001648,
+        "macro_f1_mean": 0.4271794772288656,
+        "macro_f1_std": 0.029676318441574923,
+        "weighted_f1_mean": 0.6961210432188182,
+        "weighted_f1_std": 0.0291759423274798,
+        "cohens_kappa_mean": 0.23384160873004092,
+        "cohens_kappa_std": 0.07774607288857587,
+        "auc_roc_mean": 0.6511924826748123,
+        "auc_roc_std": 0.038811223791504666,
+        "Awake_precision_mean": 0.4710658105020077,
+        "Awake_precision_std": 0.13160599979668722,
+        "Awake_recall_mean": 0.3943853778010648,
+        "Awake_recall_std": 0.07860530112626779,
+        "Awake_f1_mean": 0.41643805590549726,
+        "Awake_f1_std": 0.07733051687698232,
+        "Light Hypnosis_precision_mean": 0.790936760400783,
+        "Light Hypnosis_precision_std": 0.015068641506103845,
+        "Light Hypnosis_recall_mean": 0.8847583328406283,
+        "Light Hypnosis_recall_std": 0.07829147217708177,
+        "Light Hypnosis_f1_mean": 0.8337173479862745,
+        "Light Hypnosis_f1_std": 0.03585732381720342,
+        "Deep Hypnosis_precision_mean": 0.1307462578085353,
+        "Deep Hypnosis_precision_std": 0.13112690966529966,
+        "Deep Hypnosis_recall_mean": 0.01938450766963089,
+        "Deep Hypnosis_recall_std": 0.023110432447621634,
+        "Deep Hypnosis_f1_mean": 0.031383027794824936,
+        "Deep Hypnosis_f1_std": 0.03531285077011896,
+        "confusion_matrix_mean": [
+          [
+            3451.8,
+            5253.0,
+            44.4
+          ],
+          [
+            4041.0,
+            32468.6,
+            275.4
+          ],
+          [
+            490.8,
+            3339.0,
+            68.4
+          ]
+        ]
+      },
+      "fixed": {
+        "accuracy_mean": 0.7283661598727471,
+        "accuracy_std": 0.04506235378175512,
+        "balanced_accuracy_mean": 0.4321230707523903,
+        "balanced_accuracy_std": 0.02604623597837129,
+        "macro_f1_mean": 0.42609299702575615,
+        "macro_f1_std": 0.02858385889973549,
+        "weighted_f1_mean": 0.6954248922142173,
+        "weighted_f1_std": 0.027843349384803182,
+        "cohens_kappa_mean": 0.23180604216339126,
+        "cohens_kappa_std": 0.07499191381421139,
+        "auc_roc_mean": 0.6521995922652892,
+        "auc_roc_std": 0.036156178007795414,
+        "Awake_precision_mean": 0.4678777917001353,
+        "Awake_precision_std": 0.1279002249727418,
+        "Awake_recall_mean": 0.39349397413821546,
+        "Awake_recall_std": 0.08010713836030467,
+        "Awake_f1_mean": 0.41449765074602957,
+        "Awake_f1_std": 0.07611334212623592,
+        "Light Hypnosis_precision_mean": 0.7903795080743209,
+        "Light Hypnosis_precision_std": 0.01424846245369048,
+        "Light Hypnosis_recall_mean": 0.884534132031861,
+        "Light Hypnosis_recall_std": 0.07723034194859703,
+        "Light Hypnosis_f1_mean": 0.8333256806855507,
+        "Light Hypnosis_f1_std": 0.034930280238929856,
+        "Deep Hypnosis_precision_mean": 0.13071440303500476,
+        "Deep Hypnosis_precision_std": 0.12757389025898302,
+        "Deep Hypnosis_recall_mean": 0.018341106087094723,
+        "Deep Hypnosis_recall_std": 0.02131482399399934,
+        "Deep Hypnosis_f1_mean": 0.03045565964568809,
+        "Deep Hypnosis_f1_std": 0.03369102936943488,
+        "confusion_matrix_mean": [
+          [
+            3444.0,
+            5267.4,
+            37.8
+          ],
+          [
+            4076.0,
+            32461.6,
+            247.4
+          ],
+          [
+            481.0,
+            3352.4,
+            64.8
+          ]
+        ]
+      },
+      "diff_bacc": 0.0007196686847177336,
+      "n_seeds": 5
+    },
+    "ds004572": {
+      "mahalanobis": {
+        "accuracy_mean": 0.44726210191848514,
+        "accuracy_std": 0.003066711353183548,
+        "balanced_accuracy_mean": 0.34222251352453414,
+        "balanced_accuracy_std": 0.006553306202498793,
+        "macro_f1_mean": 0.24908474215565124,
+        "macro_f1_std": 0.027596536046057114,
+        "weighted_f1_mean": 0.3137812010019597,
+        "weighted_f1_std": 0.02262847383601428,
+        "cohens_kappa_mean": 0.0165154620539548,
+        "cohens_kappa_std": 0.011699886015295211,
+        "auc_roc_mean": 0.5234308019215892,
+        "auc_roc_std": 0.007906777158581887,
+        "Awake_precision_mean": 0.2331550966127222,
+        "Awake_precision_std": 0.010659658313242185,
+        "Awake_recall_mean": 0.0344773323990694,
+        "Awake_recall_std": 0.03123406999261828,
+        "Awake_f1_mean": 0.05586876199619504,
+        "Awake_f1_std": 0.04659875544422135,
+        "Light Hypnosis_precision_mean": 0.4407097880345233,
+        "Light Hypnosis_precision_std": 0.030969056934952444,
+        "Light Hypnosis_recall_mean": 0.04412071286231859,
+        "Light Hypnosis_recall_std": 0.029868721626918737,
+        "Light Hypnosis_f1_mean": 0.07776796224191904,
+        "Light Hypnosis_f1_std": 0.048101040990891006,
+        "Deep Hypnosis_precision_mean": 0.45387621463649824,
+        "Deep Hypnosis_precision_std": 0.004404702273879459,
+        "Deep Hypnosis_recall_mean": 0.9480694953122146,
+        "Deep Hypnosis_recall_std": 0.036583124272780716,
+        "Deep Hypnosis_f1_mean": 0.6136175022288397,
+        "Deep Hypnosis_f1_std": 0.00398897350124194,
+        "confusion_matrix_mean": [
+          [
+            971.0,
+            1133.0,
+            26072.4
+          ],
+          [
+            1661.2,
+            2506.4,
+            52607.6
+          ],
+          [
+            1482.8,
+            2096.8,
+            65346.0
+          ]
+        ]
+      },
+      "fixed": {
+        "accuracy_mean": 0.4476976892313161,
+        "accuracy_std": 0.0031167443985400606,
+        "balanced_accuracy_mean": 0.34380875919099796,
+        "balanced_accuracy_std": 0.006923036223254358,
+        "macro_f1_mean": 0.2541401492273042,
+        "macro_f1_std": 0.028697419043633165,
+        "weighted_f1_mean": 0.3180473685694009,
+        "weighted_f1_std": 0.02378416400526658,
+        "cohens_kappa_mean": 0.019289375228943896,
+        "cohens_kappa_std": 0.012419181257995042,
+        "auc_roc_mean": 0.5188953965004152,
+        "auc_roc_std": 0.008612753316366045,
+        "Awake_precision_mean": 0.2522210491354177,
+        "Awake_precision_std": 0.015650939204000867,
+        "Awake_recall_mean": 0.039319382261252464,
+        "Awake_recall_std": 0.03307061706478911,
+        "Awake_f1_mean": 0.0629806005881852,
+        "Awake_f1_std": 0.04811772379679242,
+        "Light Hypnosis_precision_mean": 0.4450782923190474,
+        "Light Hypnosis_precision_std": 0.04111519861951002,
+        "Light Hypnosis_recall_mean": 0.049336171527730496,
+        "Light Hypnosis_recall_std": 0.032082292885366195,
+        "Light Hypnosis_f1_mean": 0.08589209358720704,
+        "Light Hypnosis_f1_std": 0.05129799091506456,
+        "Deep Hypnosis_precision_mean": 0.4550634490171389,
+        "Deep Hypnosis_precision_std": 0.004939713310209234,
+        "Deep Hypnosis_recall_mean": 0.9427707237840108,
+        "Deep Hypnosis_recall_std": 0.03836113090358867,
+        "Deep Hypnosis_f1_mean": 0.6135477535065206,
+        "Deep Hypnosis_f1_std": 0.003871527835075651,
+        "confusion_matrix_mean": [
+          [
+            1107.4,
+            1301.4,
+            25767.6
+          ],
+          [
+            1863.2,
+            2802.2,
+            52109.8
+          ],
+          [
+            1602.8,
+            2342.0,
+            64980.8
+          ]
+        ]
+      },
+      "diff_bacc": -0.0015862456664638147,
+      "n_seeds": 5
+    }
+  },
+  "per_seed": {
+    "DREAMER": {
+      "42": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.5044970917860689,
+          "balanced_accuracy": 0.33879957480726136,
+          "macro_f1": 0.27717410500515793,
+          "weighted_f1": 0.40808754074455894,
+          "cohens_kappa": 0.01617408745429527,
+          "confusion_matrix": [
+            [
+              3538,
+              28189,
+              1
+            ],
+            [
+              3333,
+              32024,
+              33
+            ],
+            [
+              574,
+              2798,
+              0
+            ]
+          ],
+          "Awake_precision": 0.47521826729348554,
+          "Awake_recall": 0.11151033787191124,
+          "Awake_f1": 0.18063462078472417,
+          "Light Hypnosis_precision": 0.50822872196918,
+          "Light Hypnosis_recall": 0.9048883865498728,
+          "Light Hypnosis_f1": 0.6508876942307497,
+          "Deep Hypnosis_precision": 0.0,
+          "Deep Hypnosis_recall": 0.0,
+          "Deep Hypnosis_f1": 0.0,
+          "auc_roc": 0.4601353290531703,
+          "kappa": 0.01617408745429527
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.5037877713150801,
+          "balanced_accuracy": 0.33896785315285416,
+          "macro_f1": 0.2834129974922194,
+          "weighted_f1": 0.41628309997902,
+          "cohens_kappa": 0.016384833332309334,
+          "confusion_matrix": [
+            [
+              4126,
+              27601,
+              1
+            ],
+            [
+              3994,
+              31386,
+              10
+            ],
+            [
+              651,
+              2721,
+              0
+            ]
+          ],
+          "Awake_precision": 0.4704138638695702,
+          "Awake_recall": 0.13004286434694906,
+          "Awake_f1": 0.20375811748438233,
+          "Light Hypnosis_precision": 0.5086212484604914,
+          "Light Hypnosis_recall": 0.8868606951116135,
+          "Light Hypnosis_f1": 0.6464808749922758,
+          "Deep Hypnosis_precision": 0.0,
+          "Deep Hypnosis_recall": 0.0,
+          "Deep Hypnosis_f1": 0.0,
+          "auc_roc": 0.46450732599162947,
+          "kappa": 0.016384833332309334
+        },
+        "per_source": {}
+      },
+      "123": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.5049826812787462,
+          "balanced_accuracy": 0.3379444883373918,
+          "macro_f1": 0.3189092861992287,
+          "weighted_f1": 0.46884295534720205,
+          "cohens_kappa": 0.013626785160875343,
+          "confusion_matrix": [
+            [
+              8344,
+              21526,
+              0
+            ],
+            [
+              9843,
+              27229,
+              0
+            ],
+            [
+              1187,
+              2315,
+              0
+            ]
+          ],
+          "Awake_precision": 0.43068029317642204,
+          "Awake_recall": 0.2793438232340141,
+          "Awake_f1": 0.338883924945171,
+          "Light Hypnosis_precision": 0.5331701586058352,
+          "Light Hypnosis_recall": 0.7344896417781615,
+          "Light Hypnosis_f1": 0.6178439336525152,
+          "Deep Hypnosis_precision": 0.0,
+          "Deep Hypnosis_recall": 0.0,
+          "Deep Hypnosis_f1": 0.0,
+          "auc_roc": 0.5115315389124201,
+          "kappa": 0.013626785160875343
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.5008091533700528,
+          "balanced_accuracy": 0.336165998567523,
+          "macro_f1": 0.319021741577046,
+          "weighted_f1": 0.4681943015971715,
+          "cohens_kappa": 0.00861625067863181,
+          "confusion_matrix": [
+            [
+              8743,
+              21127,
+              0
+            ],
+            [
+              10536,
+              26536,
+              0
+            ],
+            [
+              1248,
+              2254,
+              0
+            ]
+          ],
+          "Awake_precision": 0.42592682808008964,
+          "Awake_recall": 0.2927017073987278,
+          "Awake_f1": 0.34696509712879736,
+          "Light Hypnosis_precision": 0.531602460083739,
+          "Light Hypnosis_recall": 0.7157962883038411,
+          "Light Hypnosis_f1": 0.6101001276023406,
+          "Deep Hypnosis_precision": 0.0,
+          "Deep Hypnosis_recall": 0.0,
+          "Deep Hypnosis_f1": 0.0,
+          "auc_roc": 0.4973327862539579,
+          "kappa": 0.00861625067863181
+        },
+        "per_source": {}
+      },
+      "456": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.4939282167683359,
+          "balanced_accuracy": 0.32968105150160315,
+          "macro_f1": 0.24953047816023602,
+          "weighted_f1": 0.3707572409287292,
+          "cohens_kappa": -0.010417831147215173,
+          "confusion_matrix": [
+            [
+              1753,
+              29768,
+              1
+            ],
+            [
+              2358,
+              33064,
+              0
+            ],
+            [
+              168,
+              3378,
+              0
+            ]
+          ],
+          "Awake_precision": 0.4096751577471372,
+          "Awake_recall": 0.05561195355624643,
+          "Awake_f1": 0.09793022541269797,
+          "Light Hypnosis_precision": 0.4993807581936263,
+          "Light Hypnosis_recall": 0.933431200948563,
+          "Light Hypnosis_f1": 0.6506612090680101,
+          "Deep Hypnosis_precision": 0.0,
+          "Deep Hypnosis_recall": 0.0,
+          "Deep Hypnosis_f1": 0.0,
+          "auc_roc": 0.4741333346421723,
+          "kappa": -0.010417831147215173
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.4963399063696978,
+          "balanced_accuracy": 0.3316091368548902,
+          "macro_f1": 0.25449898697079015,
+          "weighted_f1": 0.37744755566823895,
+          "cohens_kappa": -0.004939392441026369,
+          "confusion_matrix": [
+            [
+              2035,
+              29486,
+              1
+            ],
+            [
+              2469,
+              32952,
+              1
+            ],
+            [
+              188,
+              3358,
+              0
+            ]
+          ],
+          "Awake_precision": 0.43371696504688834,
+          "Awake_recall": 0.06455808641583656,
+          "Awake_f1": 0.11238747445739217,
+          "Light Hypnosis_precision": 0.5008207185847164,
+          "Light Hypnosis_recall": 0.930269324148834,
+          "Light Hypnosis_f1": 0.6511094864549783,
+          "Deep Hypnosis_precision": 0.0,
+          "Deep Hypnosis_recall": 0.0,
+          "Deep Hypnosis_f1": 0.0,
+          "auc_roc": 0.47118315716000664,
+          "kappa": -0.004939392441026369
+        },
+        "per_source": {}
+      },
+      "789": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.49287377207427174,
+          "balanced_accuracy": 0.33182114890821396,
+          "macro_f1": 0.24086497185879016,
+          "weighted_f1": 0.3559508869730113,
+          "cohens_kappa": -0.003755976636175218,
+          "confusion_matrix": [
+            [
+              1201,
+              30729,
+              0
+            ],
+            [
+              1434,
+              33519,
+              41
+            ],
+            [
+              170,
+              3350,
+              0
+            ]
+          ],
+          "Awake_precision": 0.4281639928698752,
+          "Awake_recall": 0.03761352959599123,
+          "Awake_f1": 0.06915215200806103,
+          "Light Hypnosis_precision": 0.495857865617326,
+          "Light Hypnosis_recall": 0.9578499171286506,
+          "Light Hypnosis_f1": 0.6534427635683094,
+          "Deep Hypnosis_precision": 0.0,
+          "Deep Hypnosis_recall": 0.0,
+          "Deep Hypnosis_f1": 0.0,
+          "auc_roc": 0.5091716190481569,
+          "kappa": -0.003755976636175218
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.49453466583385386,
+          "balanced_accuracy": 0.3327052823987013,
+          "macro_f1": 0.2373998292474251,
+          "weighted_f1": 0.3513726097583347,
+          "cohens_kappa": -0.0011884739775473996,
+          "confusion_matrix": [
+            [
+              949,
+              30981,
+              0
+            ],
+            [
+              1059,
+              33888,
+              47
+            ],
+            [
+              147,
+              3373,
+              0
+            ]
+          ],
+          "Awake_precision": 0.4403712296983759,
+          "Awake_recall": 0.029721265267773255,
+          "Awake_f1": 0.05568431861522664,
+          "Light Hypnosis_precision": 0.49658568037279094,
+          "Light Hypnosis_recall": 0.9683945819283306,
+          "Light Hypnosis_f1": 0.6565151691270487,
+          "Deep Hypnosis_precision": 0.0,
+          "Deep Hypnosis_recall": 0.0,
+          "Deep Hypnosis_f1": 0.0,
+          "auc_roc": 0.5053648029917086,
+          "kappa": -0.0011884739775473996
+        },
+        "per_source": {}
+      },
+      "2024": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.4996451081710295,
+          "balanced_accuracy": 0.3452077660636119,
+          "macro_f1": 0.33560040652953255,
+          "weighted_f1": 0.48392974902064845,
+          "cohens_kappa": 0.03283170076693975,
+          "confusion_matrix": [
+            [
+              12816,
+              17054,
+              0
+            ],
+            [
+              14512,
+              22381,
+              5
+            ],
+            [
+              1691,
+              1985,
+              0
+            ]
+          ],
+          "Awake_precision": 0.44164168303525275,
+          "Awake_recall": 0.4290592567793773,
+          "Awake_f1": 0.43525955611404504,
+          "Light Hypnosis_precision": 0.5403428295509416,
+          "Light Hypnosis_recall": 0.6065640414114586,
+          "Light Hypnosis_f1": 0.5715416634745525,
+          "Deep Hypnosis_precision": 0.0,
+          "Deep Hypnosis_recall": 0.0,
+          "Deep Hypnosis_f1": 0.0,
+          "auc_roc": 0.5113551498888841,
+          "kappa": 0.03283170076693975
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.5120805178581568,
+          "balanced_accuracy": 0.3536592396648448,
+          "macro_f1": 0.34376996508544694,
+          "weighted_f1": 0.4956307318032668,
+          "cohens_kappa": 0.05585407065137926,
+          "confusion_matrix": [
+            [
+              13069,
+              16801,
+              0
+            ],
+            [
+              13894,
+              23004,
+              0
+            ],
+            [
+              1687,
+              1989,
+              0
+            ]
+          ],
+          "Awake_precision": 0.4561605584642234,
+          "Awake_recall": 0.43752929360562437,
+          "Awake_f1": 0.4466507177033493,
+          "Light Hypnosis_precision": 0.5504139350145953,
+          "Light Hypnosis_recall": 0.62344842538891,
+          "Light Hypnosis_f1": 0.5846591775529915,
+          "Deep Hypnosis_precision": 0.0,
+          "Deep Hypnosis_recall": 0.0,
+          "Deep Hypnosis_f1": 0.0,
+          "auc_roc": 0.5096714711565862,
+          "kappa": 0.05585407065137926
+        },
+        "per_source": {}
+      }
+    },
+    "DEAP": {
+      "42": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.5937403993855607,
+          "balanced_accuracy": 0.32560853125369255,
+          "macro_f1": 0.2730443137414912,
+          "weighted_f1": 0.4896839505750984,
+          "cohens_kappa": -0.001338669984044083,
+          "confusion_matrix": [
+            [
+              666,
+              16694,
+              0
+            ],
+            [
+              1984,
+              30256,
+              0
+            ],
+            [
+              1864,
+              616,
+              0
+            ]
+          ],
+          "Awake_precision": 0.14754098360655737,
+          "Awake_recall": 0.03836405529953917,
+          "Awake_f1": 0.060894212306848314,
+          "Light Hypnosis_precision": 0.6360845982424421,
+          "Light Hypnosis_recall": 0.9384615384615385,
+          "Light Hypnosis_f1": 0.7582387289176252,
+          "Deep Hypnosis_precision": 0.0,
+          "Deep Hypnosis_recall": 0.0,
+          "Deep Hypnosis_f1": 0.0,
+          "auc_roc": 0.4207163960244607,
+          "kappa": -0.001338669984044083
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.6026881720430107,
+          "balanced_accuracy": 0.3339891291504195,
+          "macro_f1": 0.2869678037962048,
+          "weighted_f1": 0.5058428926781154,
+          "cohens_kappa": 0.029221736682662813,
+          "confusion_matrix": [
+            [
+              1068,
+              16292,
+              0
+            ],
+            [
+              1920,
+              30320,
+              0
+            ],
+            [
+              2174,
+              306,
+              0
+            ]
+          ],
+          "Awake_precision": 0.20689655172413793,
+          "Awake_recall": 0.06152073732718894,
+          "Awake_f1": 0.09484060030192701,
+          "Light Hypnosis_precision": 0.6462338548105205,
+          "Light Hypnosis_recall": 0.9404466501240695,
+          "Light Hypnosis_f1": 0.7660628110866874,
+          "Deep Hypnosis_precision": 0.0,
+          "Deep Hypnosis_recall": 0.0,
+          "Deep Hypnosis_f1": 0.0,
+          "auc_roc": 0.5422223070876323,
+          "kappa": 0.029221736682662813
+        },
+        "per_source": {}
+      },
+      "123": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.4572964669738863,
+          "balanced_accuracy": 0.5073765120967741,
+          "macro_f1": 0.2940813366676966,
+          "weighted_f1": 0.4909324965408495,
+          "cohens_kappa": 0.009782985879400852,
+          "confusion_matrix": [
+            [
+              7477,
+              4923,
+              0
+            ],
+            [
+              23339,
+              16339,
+              2
+            ],
+            [
+              0,
+              0,
+              0
+            ]
+          ],
+          "Awake_precision": 0.24263369678089305,
+          "Awake_recall": 0.602983870967742,
+          "Awake_f1": 0.3460292484265087,
+          "Light Hypnosis_precision": 0.7684601636722792,
+          "Light Hypnosis_recall": 0.41176915322580643,
+          "Light Hypnosis_f1": 0.536214761576581,
+          "Deep Hypnosis_precision": 0.0,
+          "Deep Hypnosis_recall": 0.0,
+          "Deep Hypnosis_f1": 0.0,
+          "auc_roc": NaN,
+          "kappa": 0.009782985879400852
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.5015937019969278,
+          "balanced_accuracy": 0.5558518145161291,
+          "macro_f1": 0.32228457362277435,
+          "weighted_f1": 0.5341786169772346,
+          "cohens_kappa": 0.0752149106511194,
+          "confusion_matrix": [
+            [
+              8177,
+              4223,
+              0
+            ],
+            [
+              21732,
+              17946,
+              2
+            ],
+            [
+              0,
+              0,
+              0
+            ]
+          ],
+          "Awake_precision": 0.273395967768899,
+          "Awake_recall": 0.6594354838709677,
+          "Awake_f1": 0.3865371433973859,
+          "Light Hypnosis_precision": 0.8095087735125626,
+          "Light Hypnosis_recall": 0.4522681451612903,
+          "Light Hypnosis_f1": 0.5803165774709372,
+          "Deep Hypnosis_precision": 0.0,
+          "Deep Hypnosis_recall": 0.0,
+          "Deep Hypnosis_f1": 0.0,
+          "auc_roc": NaN,
+          "kappa": 0.0752149106511194
+        },
+        "per_source": {}
+      },
+      "456": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.5818548387096775,
+          "balanced_accuracy": 0.31623094647288197,
+          "macro_f1": 0.25553259074328677,
+          "weighted_f1": 0.4651116391314832,
+          "cohens_kappa": -0.058060441162180565,
+          "confusion_matrix": [
+            [
+              330,
+              17030,
+              0
+            ],
+            [
+              2267,
+              29973,
+              0
+            ],
+            [
+              0,
+              2480,
+              0
+            ]
+          ],
+          "Awake_precision": 0.12706969580284944,
+          "Awake_recall": 0.019009216589861752,
+          "Awake_f1": 0.03307110287117302,
+          "Light Hypnosis_precision": 0.6057231776569731,
+          "Light Hypnosis_recall": 0.9296836228287841,
+          "Light Hypnosis_f1": 0.7335266693586873,
+          "Deep Hypnosis_precision": 0.0,
+          "Deep Hypnosis_recall": 0.0,
+          "Deep Hypnosis_f1": 0.0,
+          "auc_roc": 0.50269423081007,
+          "kappa": -0.058060441162180565
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.5844662058371736,
+          "balanced_accuracy": 0.3168040293040293,
+          "macro_f1": 0.2534259008475652,
+          "weighted_f1": 0.46377920008894086,
+          "cohens_kappa": -0.05620319886213121,
+          "confusion_matrix": [
+            [
+              236,
+              17124,
+              0
+            ],
+            [
+              2037,
+              30203,
+              0
+            ],
+            [
+              0,
+              2480,
+              0
+            ]
+          ],
+          "Awake_precision": 0.10382754069511659,
+          "Awake_recall": 0.013594470046082949,
+          "Awake_f1": 0.02404115519788112,
+          "Light Hypnosis_precision": 0.60640070672797,
+          "Light Hypnosis_recall": 0.9368176178660049,
+          "Light Hypnosis_f1": 0.7362365473448146,
+          "Deep Hypnosis_precision": 0.0,
+          "Deep Hypnosis_recall": 0.0,
+          "Deep Hypnosis_f1": 0.0,
+          "auc_roc": 0.4677296644028819,
+          "kappa": -0.05620319886213121
+        },
+        "per_source": {}
+      },
+      "789": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.690284178187404,
+          "balanced_accuracy": 0.557372311827957,
+          "macro_f1": 0.3711247496276832,
+          "weighted_f1": 0.6609874461873596,
+          "cohens_kappa": 0.13140808665148618,
+          "confusion_matrix": [
+            [
+              3679,
+              11201,
+              0
+            ],
+            [
+              4925,
+              32271,
+              4
+            ],
+            [
+              0,
+              0,
+              0
+            ]
+          ],
+          "Awake_precision": 0.42759181775918176,
+          "Awake_recall": 0.247244623655914,
+          "Awake_f1": 0.31331970703457673,
+          "Light Hypnosis_precision": 0.7423398969451601,
+          "Light Hypnosis_recall": 0.8675,
+          "Light Hypnosis_f1": 0.8000545418484728,
+          "Deep Hypnosis_precision": 0.0,
+          "Deep Hypnosis_recall": 0.0,
+          "Deep Hypnosis_f1": 0.0,
+          "auc_roc": NaN,
+          "kappa": 0.13140808665148618
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.6973694316436252,
+          "balanced_accuracy": 0.5682190860215054,
+          "macro_f1": 0.379732629246349,
+          "weighted_f1": 0.6701021999464506,
+          "cohens_kappa": 0.15544311161804436,
+          "confusion_matrix": [
+            [
+              3971,
+              10909,
+              0
+            ],
+            [
+              4850,
+              32348,
+              2
+            ],
+            [
+              0,
+              0,
+              0
+            ]
+          ],
+          "Awake_precision": 0.4501757170388845,
+          "Awake_recall": 0.26686827956989245,
+          "Awake_f1": 0.3350913463566938,
+          "Light Hypnosis_precision": 0.7478096030700233,
+          "Light Hypnosis_recall": 0.8695698924731183,
+          "Light Hypnosis_f1": 0.8041065413823533,
+          "Deep Hypnosis_precision": 0.0,
+          "Deep Hypnosis_recall": 0.0,
+          "Deep Hypnosis_f1": 0.0,
+          "auc_roc": NaN,
+          "kappa": 0.15544311161804436
+        },
+        "per_source": {}
+      },
+      "2024": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.4910138248847926,
+          "balanced_accuracy": 0.3509856630824373,
+          "macro_f1": 0.3158535695565514,
+          "weighted_f1": 0.5047343002002999,
+          "cohens_kappa": 0.014293303112936862,
+          "confusion_matrix": [
+            [
+              6799,
+              5601,
+              0
+            ],
+            [
+              18427,
+              18773,
+              0
+            ],
+            [
+              0,
+              2480,
+              0
+            ]
+          ],
+          "Awake_precision": 0.2695235074922699,
+          "Awake_recall": 0.5483064516129033,
+          "Awake_f1": 0.3613990325838516,
+          "Light Hypnosis_precision": 0.6990764876740895,
+          "Light Hypnosis_recall": 0.5046505376344086,
+          "Light Hypnosis_f1": 0.5861616760858026,
+          "Deep Hypnosis_precision": 0.0,
+          "Deep Hypnosis_recall": 0.0,
+          "Deep Hypnosis_f1": 0.0,
+          "auc_roc": 0.44227293023097564,
+          "kappa": 0.014293303112936862
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.5284754224270354,
+          "balanced_accuracy": 0.37212365591397845,
+          "macro_f1": 0.3379329990892237,
+          "weighted_f1": 0.5393037458295763,
+          "cohens_kappa": 0.06119131273779843,
+          "confusion_matrix": [
+            [
+              7003,
+              5397,
+              0
+            ],
+            [
+              16680,
+              20520,
+              0
+            ],
+            [
+              0,
+              2480,
+              0
+            ]
+          ],
+          "Awake_precision": 0.29569733564159945,
+          "Awake_recall": 0.564758064516129,
+          "Awake_f1": 0.3881606296593964,
+          "Light Hypnosis_precision": 0.722611543472902,
+          "Light Hypnosis_recall": 0.5516129032258065,
+          "Light Hypnosis_f1": 0.6256383676082747,
+          "Deep Hypnosis_precision": 0.0,
+          "Deep Hypnosis_recall": 0.0,
+          "Deep Hypnosis_f1": 0.0,
+          "auc_roc": 0.4493029939937661,
+          "kappa": 0.06119131273779843
+        },
+        "per_source": {}
+      }
+    },
+    "MAHNOB": {
+      "42": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.37169417379200637,
+          "balanced_accuracy": 0.34359175119132396,
+          "macro_f1": 0.2285209355070942,
+          "weighted_f1": 0.2409627431544016,
+          "cohens_kappa": 0.014427280423042754,
+          "confusion_matrix": [
+            [
+              710,
+              347,
+              12312
+            ],
+            [
+              847,
+              829,
+              23179
+            ],
+            [
+              689,
+              543,
+              20892
+            ]
+          ],
+          "Awake_precision": 0.3161175422974176,
+          "Awake_recall": 0.053107936270476476,
+          "Awake_f1": 0.0909382004482869,
+          "Light Hypnosis_precision": 0.48225712623618383,
+          "Light Hypnosis_recall": 0.033353450010058336,
+          "Light Hypnosis_f1": 0.06239181154511929,
+          "Deep Hypnosis_precision": 0.3705372186652005,
+          "Deep Hypnosis_recall": 0.944313867293437,
+          "Deep Hypnosis_f1": 0.5322327945278765,
+          "auc_roc": 0.49598869036615706,
+          "kappa": 0.014427280423042754
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.37220786107244647,
+          "balanced_accuracy": 0.34419529406648003,
+          "macro_f1": 0.22919894048353565,
+          "weighted_f1": 0.24144958283048204,
+          "cohens_kappa": 0.015261031690079419,
+          "confusion_matrix": [
+            [
+              724,
+              339,
+              12306
+            ],
+            [
+              794,
+              830,
+              23231
+            ],
+            [
+              719,
+              497,
+              20908
+            ]
+          ],
+          "Awake_precision": 0.3236477425122932,
+          "Awake_recall": 0.054155135013837986,
+          "Awake_f1": 0.0927848263488402,
+          "Light Hypnosis_precision": 0.49819927971188477,
+          "Light Hypnosis_recall": 0.03339368336350835,
+          "Light Hypnosis_f1": 0.06259190829908375,
+          "Deep Hypnosis_precision": 0.3704136770307379,
+          "Deep Hypnosis_recall": 0.9450370638220936,
+          "Deep Hypnosis_f1": 0.532220086802683,
+          "auc_roc": 0.49851507645150567,
+          "kappa": 0.015261031690079419
+        },
+        "per_source": {}
+      },
+      "123": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.35527275137535624,
+          "balanced_accuracy": 0.3403875404145482,
+          "macro_f1": 0.21272614639569465,
+          "weighted_f1": 0.222226642301206,
+          "cohens_kappa": 0.010292504481705489,
+          "confusion_matrix": [
+            [
+              345,
+              593,
+              12066
+            ],
+            [
+              447,
+              1083,
+              24827
+            ],
+            [
+              374,
+              601,
+              20012
+            ]
+          ],
+          "Awake_precision": 0.29588336192109777,
+          "Awake_recall": 0.02653029836973239,
+          "Awake_f1": 0.048694424841213835,
+          "Light Hypnosis_precision": 0.4756258234519104,
+          "Light Hypnosis_recall": 0.04108965360245855,
+          "Light Hypnosis_f1": 0.07564433889781379,
+          "Deep Hypnosis_precision": 0.3516738423688604,
+          "Deep Hypnosis_recall": 0.9535426692714537,
+          "Deep Hypnosis_f1": 0.5138396754480563,
+          "auc_roc": 0.49960043007898874,
+          "kappa": 0.010292504481705489
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.3547922052097833,
+          "balanced_accuracy": 0.34286075928566295,
+          "macro_f1": 0.222038012682825,
+          "weighted_f1": 0.22699608421077694,
+          "cohens_kappa": 0.012667945039717354,
+          "confusion_matrix": [
+            [
+              622,
+              537,
+              11845
+            ],
+            [
+              710,
+              1011,
+              24636
+            ],
+            [
+              654,
+              555,
+              19778
+            ]
+          ],
+          "Awake_precision": 0.31319234642497484,
+          "Awake_recall": 0.04783143648108274,
+          "Awake_f1": 0.08298865910607071,
+          "Light Hypnosis_precision": 0.48074179743223966,
+          "Light Hypnosis_recall": 0.038357931479303414,
+          "Light Hypnosis_f1": 0.07104708362614195,
+          "Deep Hypnosis_precision": 0.35155264046641427,
+          "Deep Hypnosis_recall": 0.9423929098966026,
+          "Deep Hypnosis_f1": 0.5120782953162624,
+          "auc_roc": 0.49753346324971437,
+          "kappa": 0.012667945039717354
+        },
+        "per_source": {}
+      },
+      "456": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.36052666184496024,
+          "balanced_accuracy": 0.3385610455009605,
+          "macro_f1": 0.2043634427163216,
+          "weighted_f1": 0.220027814344298,
+          "cohens_kappa": 0.009202894178967691,
+          "confusion_matrix": [
+            [
+              64,
+              566,
+              13921
+            ],
+            [
+              143,
+              1142,
+              23527
+            ],
+            [
+              74,
+              672,
+              20727
+            ]
+          ],
+          "Awake_precision": 0.2277580071174377,
+          "Awake_recall": 0.004398323139303141,
+          "Awake_f1": 0.008629989212513484,
+          "Light Hypnosis_precision": 0.47983193277310926,
+          "Light Hypnosis_recall": 0.0460261163952926,
+          "Light Hypnosis_f1": 0.08399529273315681,
+          "Deep Hypnosis_precision": 0.35628706489041684,
+          "Deep Hypnosis_recall": 0.9652586969682857,
+          "Deep Hypnosis_f1": 0.5204650462032945,
+          "auc_roc": 0.48056977295659115,
+          "kappa": 0.009202894178967691
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.36044447366690774,
+          "balanced_accuracy": 0.33891401264801285,
+          "macro_f1": 0.20379956681092737,
+          "weighted_f1": 0.21860655429665807,
+          "cohens_kappa": 0.009551539176191892,
+          "confusion_matrix": [
+            [
+              96,
+              498,
+              13957
+            ],
+            [
+              144,
+              1049,
+              23619
+            ],
+            [
+              93,
+              597,
+              20783
+            ]
+          ],
+          "Awake_precision": 0.2882882882882883,
+          "Awake_recall": 0.006597484708954711,
+          "Awake_f1": 0.012899758129535071,
+          "Light Hypnosis_precision": 0.48927238805970147,
+          "Light Hypnosis_recall": 0.042277930033854584,
+          "Light Hypnosis_f1": 0.07783053865558688,
+          "Deep Hypnosis_precision": 0.356123305745472,
+          "Deep Hypnosis_recall": 0.9678666232012294,
+          "Deep Hypnosis_f1": 0.5206684036476601,
+          "auc_roc": 0.48067238377433547,
+          "kappa": 0.009551539176191892
+        },
+        "per_source": {}
+      },
+      "789": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.3602472220395818,
+          "balanced_accuracy": 0.3387915307703246,
+          "macro_f1": 0.21443230887948336,
+          "weighted_f1": 0.22876860985947078,
+          "cohens_kappa": 0.009085905336055244,
+          "confusion_matrix": [
+            [
+              265,
+              684,
+              13000
+            ],
+            [
+              413,
+              1248,
+              23708
+            ],
+            [
+              359,
+              756,
+              20403
+            ]
+          ],
+          "Awake_precision": 0.25554484088717455,
+          "Awake_recall": 0.018997777618467274,
+          "Awake_f1": 0.035366341919124515,
+          "Light Hypnosis_precision": 0.4642857142857143,
+          "Light Hypnosis_recall": 0.04919389806456699,
+          "Light Hypnosis_f1": 0.08896175642442171,
+          "Deep Hypnosis_precision": 0.35725166780480117,
+          "Deep Hypnosis_recall": 0.9481829166279394,
+          "Deep Hypnosis_f1": 0.5189688282949039,
+          "auc_roc": 0.4944905627155456,
+          "kappa": 0.009085905336055244
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.36052666184496024,
+          "balanced_accuracy": 0.3404148407261341,
+          "macro_f1": 0.21981499515273806,
+          "weighted_f1": 0.23201971078270484,
+          "cohens_kappa": 0.011089845963867306,
+          "confusion_matrix": [
+            [
+              417,
+              638,
+              12894
+            ],
+            [
+              564,
+              1213,
+              23592
+            ],
+            [
+              497,
+              718,
+              20303
+            ]
+          ],
+          "Awake_precision": 0.2821380243572395,
+          "Awake_recall": 0.029894616101512655,
+          "Awake_f1": 0.0540610617748104,
+          "Light Hypnosis_precision": 0.4721681588166602,
+          "Light Hypnosis_recall": 0.047814261500256215,
+          "Light Hypnosis_f1": 0.08683513494165652,
+          "Deep Hypnosis_precision": 0.35751642043353465,
+          "Deep Hypnosis_recall": 0.9435356445766335,
+          "Deep Hypnosis_f1": 0.5185487887417473,
+          "auc_roc": 0.5009604739231194,
+          "kappa": 0.011089845963867306
+        },
+        "per_source": {}
+      },
+      "2024": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.35702544545992504,
+          "balanced_accuracy": 0.3341728736321379,
+          "macro_f1": 0.21804547978641187,
+          "weighted_f1": 0.23622302216312946,
+          "cohens_kappa": 0.0012828238738017417,
+          "confusion_matrix": [
+            [
+              35,
+              1374,
+              13916
+            ],
+            [
+              50,
+              2034,
+              21966
+            ],
+            [
+              33,
+              1777,
+              19651
+            ]
+          ],
+          "Awake_precision": 0.2966101694915254,
+          "Awake_recall": 0.0022838499184339315,
+          "Awake_f1": 0.004532798031470569,
+          "Light Hypnosis_precision": 0.3922854387656702,
+          "Light Hypnosis_recall": 0.08457380457380458,
+          "Light Hypnosis_f1": 0.1391482811698307,
+          "Deep Hypnosis_precision": 0.3538616678371419,
+          "Deep Hypnosis_recall": 0.915660966404175,
+          "Deep Hypnosis_f1": 0.5104553601579344,
+          "auc_roc": 0.4831357131110871,
+          "kappa": 0.0012828238738017417
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.35789664014728123,
+          "balanced_accuracy": 0.3350650950450443,
+          "macro_f1": 0.2176732363081885,
+          "weighted_f1": 0.23574433306053022,
+          "cohens_kappa": 0.0027611712991916226,
+          "confusion_matrix": [
+            [
+              34,
+              1333,
+              13958
+            ],
+            [
+              43,
+              1989,
+              22018
+            ],
+            [
+              18,
+              1693,
+              19750
+            ]
+          ],
+          "Awake_precision": 0.35789473684210527,
+          "Awake_recall": 0.0022185970636215335,
+          "Awake_f1": 0.004409857328145266,
+          "Light Hypnosis_precision": 0.39661016949152544,
+          "Light Hypnosis_recall": 0.0827027027027027,
+          "Light Hypnosis_f1": 0.13686564596593842,
+          "Deep Hypnosis_precision": 0.3544126619531278,
+          "Deep Hypnosis_recall": 0.9202739853688086,
+          "Deep Hypnosis_f1": 0.5117442056304818,
+          "auc_roc": 0.48231735730645386,
+          "kappa": 0.0027611712991916226
+        },
+        "per_source": {}
+      }
+    },
+    "SEED": {
+      "42": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.335592221567472,
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.1675123170821384,
+          "weighted_f1": 0.16864749188852884,
+          "cohens_kappa": 0.0,
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              22980
+            ],
+            [
+              0,
+              0,
+              22120
+            ],
+            [
+              0,
+              0,
+              22780
+            ]
+          ],
+          "Awake_precision": 0.0,
+          "Awake_recall": 0.0,
+          "Awake_f1": 0.0,
+          "Light Hypnosis_precision": 0.0,
+          "Light Hypnosis_recall": 0.0,
+          "Light Hypnosis_f1": 0.0,
+          "Deep Hypnosis_precision": 0.335592221567472,
+          "Deep Hypnosis_recall": 1.0,
+          "Deep Hypnosis_f1": 0.5025369512464152,
+          "auc_roc": 0.5,
+          "kappa": 0.0
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.335592221567472,
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.1675123170821384,
+          "weighted_f1": 0.16864749188852884,
+          "cohens_kappa": 0.0,
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              22980
+            ],
+            [
+              0,
+              0,
+              22120
+            ],
+            [
+              0,
+              0,
+              22780
+            ]
+          ],
+          "Awake_precision": 0.0,
+          "Awake_recall": 0.0,
+          "Awake_f1": 0.0,
+          "Light Hypnosis_precision": 0.0,
+          "Light Hypnosis_recall": 0.0,
+          "Light Hypnosis_f1": 0.0,
+          "Deep Hypnosis_precision": 0.335592221567472,
+          "Deep Hypnosis_recall": 1.0,
+          "Deep Hypnosis_f1": 0.5025369512464152,
+          "auc_roc": 0.5,
+          "kappa": 0.0
+        },
+        "per_source": {}
+      },
+      "123": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.335592221567472,
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.1675123170821384,
+          "weighted_f1": 0.16864749188852884,
+          "cohens_kappa": 0.0,
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              22980
+            ],
+            [
+              0,
+              0,
+              22120
+            ],
+            [
+              0,
+              0,
+              22780
+            ]
+          ],
+          "Awake_precision": 0.0,
+          "Awake_recall": 0.0,
+          "Awake_f1": 0.0,
+          "Light Hypnosis_precision": 0.0,
+          "Light Hypnosis_recall": 0.0,
+          "Light Hypnosis_f1": 0.0,
+          "Deep Hypnosis_precision": 0.335592221567472,
+          "Deep Hypnosis_recall": 1.0,
+          "Deep Hypnosis_f1": 0.5025369512464152,
+          "auc_roc": 0.5,
+          "kappa": 0.0
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.335592221567472,
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.1675123170821384,
+          "weighted_f1": 0.16864749188852884,
+          "cohens_kappa": 0.0,
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              22980
+            ],
+            [
+              0,
+              0,
+              22120
+            ],
+            [
+              0,
+              0,
+              22780
+            ]
+          ],
+          "Awake_precision": 0.0,
+          "Awake_recall": 0.0,
+          "Awake_f1": 0.0,
+          "Light Hypnosis_precision": 0.0,
+          "Light Hypnosis_recall": 0.0,
+          "Light Hypnosis_f1": 0.0,
+          "Deep Hypnosis_precision": 0.335592221567472,
+          "Deep Hypnosis_recall": 1.0,
+          "Deep Hypnosis_f1": 0.5025369512464152,
+          "auc_roc": 0.5,
+          "kappa": 0.0
+        },
+        "per_source": {}
+      },
+      "456": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.335592221567472,
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.1675123170821384,
+          "weighted_f1": 0.16864749188852884,
+          "cohens_kappa": 0.0,
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              20682
+            ],
+            [
+              0,
+              0,
+              19908
+            ],
+            [
+              0,
+              0,
+              20502
+            ]
+          ],
+          "Awake_precision": 0.0,
+          "Awake_recall": 0.0,
+          "Awake_f1": 0.0,
+          "Light Hypnosis_precision": 0.0,
+          "Light Hypnosis_recall": 0.0,
+          "Light Hypnosis_f1": 0.0,
+          "Deep Hypnosis_precision": 0.335592221567472,
+          "Deep Hypnosis_recall": 1.0,
+          "Deep Hypnosis_f1": 0.5025369512464152,
+          "auc_roc": 0.5,
+          "kappa": 0.0
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.335592221567472,
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.1675123170821384,
+          "weighted_f1": 0.16864749188852884,
+          "cohens_kappa": 0.0,
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              20682
+            ],
+            [
+              0,
+              0,
+              19908
+            ],
+            [
+              0,
+              0,
+              20502
+            ]
+          ],
+          "Awake_precision": 0.0,
+          "Awake_recall": 0.0,
+          "Awake_f1": 0.0,
+          "Light Hypnosis_precision": 0.0,
+          "Light Hypnosis_recall": 0.0,
+          "Light Hypnosis_f1": 0.0,
+          "Deep Hypnosis_precision": 0.335592221567472,
+          "Deep Hypnosis_recall": 1.0,
+          "Deep Hypnosis_f1": 0.5025369512464152,
+          "auc_roc": 0.5,
+          "kappa": 0.0
+        },
+        "per_source": {}
+      },
+      "789": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.335592221567472,
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.1675123170821384,
+          "weighted_f1": 0.16864749188852882,
+          "cohens_kappa": 0.0,
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              21831
+            ],
+            [
+              0,
+              0,
+              21014
+            ],
+            [
+              0,
+              0,
+              21641
+            ]
+          ],
+          "Awake_precision": 0.0,
+          "Awake_recall": 0.0,
+          "Awake_f1": 0.0,
+          "Light Hypnosis_precision": 0.0,
+          "Light Hypnosis_recall": 0.0,
+          "Light Hypnosis_f1": 0.0,
+          "Deep Hypnosis_precision": 0.335592221567472,
+          "Deep Hypnosis_recall": 1.0,
+          "Deep Hypnosis_f1": 0.5025369512464152,
+          "auc_roc": 0.5,
+          "kappa": 0.0
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.335592221567472,
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.1675123170821384,
+          "weighted_f1": 0.16864749188852882,
+          "cohens_kappa": 0.0,
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              21831
+            ],
+            [
+              0,
+              0,
+              21014
+            ],
+            [
+              0,
+              0,
+              21641
+            ]
+          ],
+          "Awake_precision": 0.0,
+          "Awake_recall": 0.0,
+          "Awake_f1": 0.0,
+          "Light Hypnosis_precision": 0.0,
+          "Light Hypnosis_recall": 0.0,
+          "Light Hypnosis_f1": 0.0,
+          "Deep Hypnosis_precision": 0.335592221567472,
+          "Deep Hypnosis_recall": 1.0,
+          "Deep Hypnosis_f1": 0.5025369512464152,
+          "auc_roc": 0.5,
+          "kappa": 0.0
+        },
+        "per_source": {}
+      },
+      "2024": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.335592221567472,
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.1675123170821384,
+          "weighted_f1": 0.16864749188852882,
+          "cohens_kappa": 0.0,
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              21831
+            ],
+            [
+              0,
+              0,
+              21014
+            ],
+            [
+              0,
+              0,
+              21641
+            ]
+          ],
+          "Awake_precision": 0.0,
+          "Awake_recall": 0.0,
+          "Awake_f1": 0.0,
+          "Light Hypnosis_precision": 0.0,
+          "Light Hypnosis_recall": 0.0,
+          "Light Hypnosis_f1": 0.0,
+          "Deep Hypnosis_precision": 0.335592221567472,
+          "Deep Hypnosis_recall": 1.0,
+          "Deep Hypnosis_f1": 0.5025369512464152,
+          "auc_roc": 0.5,
+          "kappa": 0.0
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.335592221567472,
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.1675123170821384,
+          "weighted_f1": 0.16864749188852882,
+          "cohens_kappa": 0.0,
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              21831
+            ],
+            [
+              0,
+              0,
+              21014
+            ],
+            [
+              0,
+              0,
+              21641
+            ]
+          ],
+          "Awake_precision": 0.0,
+          "Awake_recall": 0.0,
+          "Awake_f1": 0.0,
+          "Light Hypnosis_precision": 0.0,
+          "Light Hypnosis_recall": 0.0,
+          "Light Hypnosis_f1": 0.0,
+          "Deep Hypnosis_precision": 0.335592221567472,
+          "Deep Hypnosis_recall": 1.0,
+          "Deep Hypnosis_f1": 0.5025369512464152,
+          "auc_roc": 0.5,
+          "kappa": 0.0
+        },
+        "per_source": {}
+      }
+    },
+    "SEED_IV": {
+      "42": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.2500998003992016,
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.13337591143754324,
+          "weighted_f1": 0.10007186648577346,
+          "cohens_kappa": 0.0,
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              15032
+            ],
+            [
+              0,
+              0,
+              7510
+            ],
+            [
+              0,
+              0,
+              7518
+            ]
+          ],
+          "Awake_precision": 0.0,
+          "Awake_recall": 0.0,
+          "Awake_f1": 0.0,
+          "Light Hypnosis_precision": 0.0,
+          "Light Hypnosis_recall": 0.0,
+          "Light Hypnosis_f1": 0.0,
+          "Deep Hypnosis_precision": 0.2500998003992016,
+          "Deep Hypnosis_recall": 1.0,
+          "Deep Hypnosis_f1": 0.4001277343126297,
+          "auc_roc": 0.5,
+          "kappa": 0.0
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.2500998003992016,
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.13337591143754324,
+          "weighted_f1": 0.10007186648577346,
+          "cohens_kappa": 0.0,
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              15032
+            ],
+            [
+              0,
+              0,
+              7510
+            ],
+            [
+              0,
+              0,
+              7518
+            ]
+          ],
+          "Awake_precision": 0.0,
+          "Awake_recall": 0.0,
+          "Awake_f1": 0.0,
+          "Light Hypnosis_precision": 0.0,
+          "Light Hypnosis_recall": 0.0,
+          "Light Hypnosis_f1": 0.0,
+          "Deep Hypnosis_precision": 0.2500998003992016,
+          "Deep Hypnosis_recall": 1.0,
+          "Deep Hypnosis_f1": 0.4001277343126297,
+          "auc_roc": 0.5,
+          "kappa": 0.0
+        },
+        "per_source": {}
+      },
+      "123": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.2500998003992016,
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.13337591143754324,
+          "weighted_f1": 0.10007186648577346,
+          "cohens_kappa": 0.0,
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              15031
+            ],
+            [
+              0,
+              0,
+              7511
+            ],
+            [
+              0,
+              0,
+              7518
+            ]
+          ],
+          "Awake_precision": 0.0,
+          "Awake_recall": 0.0,
+          "Awake_f1": 0.0,
+          "Light Hypnosis_precision": 0.0,
+          "Light Hypnosis_recall": 0.0,
+          "Light Hypnosis_f1": 0.0,
+          "Deep Hypnosis_precision": 0.2500998003992016,
+          "Deep Hypnosis_recall": 1.0,
+          "Deep Hypnosis_f1": 0.4001277343126297,
+          "auc_roc": 0.5,
+          "kappa": 0.0
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.2500998003992016,
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.13337591143754324,
+          "weighted_f1": 0.10007186648577346,
+          "cohens_kappa": 0.0,
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              15031
+            ],
+            [
+              0,
+              0,
+              7511
+            ],
+            [
+              0,
+              0,
+              7518
+            ]
+          ],
+          "Awake_precision": 0.0,
+          "Awake_recall": 0.0,
+          "Awake_f1": 0.0,
+          "Light Hypnosis_precision": 0.0,
+          "Light Hypnosis_recall": 0.0,
+          "Light Hypnosis_f1": 0.0,
+          "Deep Hypnosis_precision": 0.2500998003992016,
+          "Deep Hypnosis_recall": 1.0,
+          "Deep Hypnosis_f1": 0.4001277343126297,
+          "auc_roc": 0.5,
+          "kappa": 0.0
+        },
+        "per_source": {}
+      },
+      "456": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.25006653359946773,
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.13336171949153294,
+          "weighted_f1": 0.10004790872433662,
+          "cohens_kappa": 0.0,
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              15029
+            ],
+            [
+              0,
+              0,
+              7514
+            ],
+            [
+              0,
+              0,
+              7517
+            ]
+          ],
+          "Awake_precision": 0.0,
+          "Awake_recall": 0.0,
+          "Awake_f1": 0.0,
+          "Light Hypnosis_precision": 0.0,
+          "Light Hypnosis_recall": 0.0,
+          "Light Hypnosis_f1": 0.0,
+          "Deep Hypnosis_precision": 0.25006653359946773,
+          "Deep Hypnosis_recall": 1.0,
+          "Deep Hypnosis_f1": 0.4000851584745988,
+          "auc_roc": 0.5,
+          "kappa": 0.0
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.25006653359946773,
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.13336171949153294,
+          "weighted_f1": 0.10004790872433662,
+          "cohens_kappa": 0.0,
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              15029
+            ],
+            [
+              0,
+              0,
+              7514
+            ],
+            [
+              0,
+              0,
+              7517
+            ]
+          ],
+          "Awake_precision": 0.0,
+          "Awake_recall": 0.0,
+          "Awake_f1": 0.0,
+          "Light Hypnosis_precision": 0.0,
+          "Light Hypnosis_recall": 0.0,
+          "Light Hypnosis_f1": 0.0,
+          "Deep Hypnosis_precision": 0.25006653359946773,
+          "Deep Hypnosis_recall": 1.0,
+          "Deep Hypnosis_f1": 0.4000851584745988,
+          "auc_roc": 0.5,
+          "kappa": 0.0
+        },
+        "per_source": {}
+      },
+      "789": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.25,
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.13333333333333333,
+          "weighted_f1": 0.1,
+          "cohens_kappa": 0.0,
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              15038
+            ],
+            [
+              0,
+              0,
+              7507
+            ],
+            [
+              0,
+              0,
+              7515
+            ]
+          ],
+          "Awake_precision": 0.0,
+          "Awake_recall": 0.0,
+          "Awake_f1": 0.0,
+          "Light Hypnosis_precision": 0.0,
+          "Light Hypnosis_recall": 0.0,
+          "Light Hypnosis_f1": 0.0,
+          "Deep Hypnosis_precision": 0.25,
+          "Deep Hypnosis_recall": 1.0,
+          "Deep Hypnosis_f1": 0.4,
+          "auc_roc": 0.5,
+          "kappa": 0.0
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.25,
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.13333333333333333,
+          "weighted_f1": 0.1,
+          "cohens_kappa": 0.0,
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              15038
+            ],
+            [
+              0,
+              0,
+              7507
+            ],
+            [
+              0,
+              0,
+              7515
+            ]
+          ],
+          "Awake_precision": 0.0,
+          "Awake_recall": 0.0,
+          "Awake_f1": 0.0,
+          "Light Hypnosis_precision": 0.0,
+          "Light Hypnosis_recall": 0.0,
+          "Light Hypnosis_f1": 0.0,
+          "Deep Hypnosis_precision": 0.25,
+          "Deep Hypnosis_recall": 1.0,
+          "Deep Hypnosis_f1": 0.4,
+          "auc_roc": 0.5,
+          "kappa": 0.0
+        },
+        "per_source": {}
+      },
+      "2024": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.25003326679973387,
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.13334752679014975,
+          "weighted_f1": 0.1000239532290185,
+          "cohens_kappa": 0.0,
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              15026
+            ],
+            [
+              0,
+              0,
+              7518
+            ],
+            [
+              0,
+              0,
+              7516
+            ]
+          ],
+          "Awake_precision": 0.0,
+          "Awake_recall": 0.0,
+          "Awake_f1": 0.0,
+          "Light Hypnosis_precision": 0.0,
+          "Light Hypnosis_recall": 0.0,
+          "Light Hypnosis_f1": 0.0,
+          "Deep Hypnosis_precision": 0.25003326679973387,
+          "Deep Hypnosis_recall": 1.0,
+          "Deep Hypnosis_f1": 0.4000425803704492,
+          "auc_roc": 0.5,
+          "kappa": 0.0
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.25003326679973387,
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.13334752679014975,
+          "weighted_f1": 0.1000239532290185,
+          "cohens_kappa": 0.0,
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              15026
+            ],
+            [
+              0,
+              0,
+              7518
+            ],
+            [
+              0,
+              0,
+              7516
+            ]
+          ],
+          "Awake_precision": 0.0,
+          "Awake_recall": 0.0,
+          "Awake_f1": 0.0,
+          "Light Hypnosis_precision": 0.0,
+          "Light Hypnosis_recall": 0.0,
+          "Light Hypnosis_f1": 0.0,
+          "Deep Hypnosis_precision": 0.25003326679973387,
+          "Deep Hypnosis_recall": 1.0,
+          "Deep Hypnosis_f1": 0.4000425803704492,
+          "auc_roc": 0.5,
+          "kappa": 0.0
+        },
+        "per_source": {}
+      }
+    },
+    "FACED": {
+      "42": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.35353535353535354,
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.17412935323383083,
+          "weighted_f1": 0.18468264736921453,
+          "cohens_kappa": 0.0,
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              25200
+            ],
+            [
+              0,
+              0,
+              28560
+            ],
+            [
+              0,
+              0,
+              29400
+            ]
+          ],
+          "Awake_precision": 0.0,
+          "Awake_recall": 0.0,
+          "Awake_f1": 0.0,
+          "Light Hypnosis_precision": 0.0,
+          "Light Hypnosis_recall": 0.0,
+          "Light Hypnosis_f1": 0.0,
+          "Deep Hypnosis_precision": 0.35353535353535354,
+          "Deep Hypnosis_recall": 1.0,
+          "Deep Hypnosis_f1": 0.5223880597014925,
+          "auc_roc": 0.5,
+          "kappa": 0.0
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.35353535353535354,
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.17412935323383083,
+          "weighted_f1": 0.18468264736921453,
+          "cohens_kappa": 0.0,
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              25200
+            ],
+            [
+              0,
+              0,
+              28560
+            ],
+            [
+              0,
+              0,
+              29400
+            ]
+          ],
+          "Awake_precision": 0.0,
+          "Awake_recall": 0.0,
+          "Awake_f1": 0.0,
+          "Light Hypnosis_precision": 0.0,
+          "Light Hypnosis_recall": 0.0,
+          "Light Hypnosis_f1": 0.0,
+          "Deep Hypnosis_precision": 0.35353535353535354,
+          "Deep Hypnosis_recall": 1.0,
+          "Deep Hypnosis_f1": 0.5223880597014925,
+          "auc_roc": 0.5,
+          "kappa": 0.0
+        },
+        "per_source": {}
+      },
+      "123": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.3333333333333333,
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "weighted_f1": 0.16666666666666666,
+          "cohens_kappa": 0.0,
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              24360
+            ],
+            [
+              0,
+              0,
+              31080
+            ],
+            [
+              0,
+              0,
+              27720
+            ]
+          ],
+          "Awake_precision": 0.0,
+          "Awake_recall": 0.0,
+          "Awake_f1": 0.0,
+          "Light Hypnosis_precision": 0.0,
+          "Light Hypnosis_recall": 0.0,
+          "Light Hypnosis_f1": 0.0,
+          "Deep Hypnosis_precision": 0.3333333333333333,
+          "Deep Hypnosis_recall": 1.0,
+          "Deep Hypnosis_f1": 0.5,
+          "auc_roc": 0.5,
+          "kappa": 0.0
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.3333333333333333,
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "weighted_f1": 0.16666666666666666,
+          "cohens_kappa": 0.0,
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              24360
+            ],
+            [
+              0,
+              0,
+              31080
+            ],
+            [
+              0,
+              0,
+              27720
+            ]
+          ],
+          "Awake_precision": 0.0,
+          "Awake_recall": 0.0,
+          "Awake_f1": 0.0,
+          "Light Hypnosis_precision": 0.0,
+          "Light Hypnosis_recall": 0.0,
+          "Light Hypnosis_f1": 0.0,
+          "Deep Hypnosis_precision": 0.3333333333333333,
+          "Deep Hypnosis_recall": 1.0,
+          "Deep Hypnosis_f1": 0.5,
+          "auc_roc": 0.5,
+          "kappa": 0.0
+        },
+        "per_source": {}
+      },
+      "456": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.32323232323232326,
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16284987277353688,
+          "weighted_f1": 0.15791502814403577,
+          "cohens_kappa": 0.0,
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              28560
+            ],
+            [
+              0,
+              0,
+              27720
+            ],
+            [
+              0,
+              0,
+              26880
+            ]
+          ],
+          "Awake_precision": 0.0,
+          "Awake_recall": 0.0,
+          "Awake_f1": 0.0,
+          "Light Hypnosis_precision": 0.0,
+          "Light Hypnosis_recall": 0.0,
+          "Light Hypnosis_f1": 0.0,
+          "Deep Hypnosis_precision": 0.32323232323232326,
+          "Deep Hypnosis_recall": 1.0,
+          "Deep Hypnosis_f1": 0.48854961832061067,
+          "auc_roc": 0.5,
+          "kappa": 0.0
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.32323232323232326,
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16284987277353688,
+          "weighted_f1": 0.15791502814403577,
+          "cohens_kappa": 0.0,
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              28560
+            ],
+            [
+              0,
+              0,
+              27720
+            ],
+            [
+              0,
+              0,
+              26880
+            ]
+          ],
+          "Awake_precision": 0.0,
+          "Awake_recall": 0.0,
+          "Awake_f1": 0.0,
+          "Light Hypnosis_precision": 0.0,
+          "Light Hypnosis_recall": 0.0,
+          "Light Hypnosis_f1": 0.0,
+          "Deep Hypnosis_precision": 0.32323232323232326,
+          "Deep Hypnosis_recall": 1.0,
+          "Deep Hypnosis_f1": 0.48854961832061067,
+          "auc_roc": 0.5,
+          "kappa": 0.0
+        },
+        "per_source": {}
+      },
+      "789": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.3434343434343434,
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.17042606516290726,
+          "weighted_f1": 0.17559049137996505,
+          "cohens_kappa": 0.0,
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              25200
+            ],
+            [
+              0,
+              0,
+              29400
+            ],
+            [
+              0,
+              0,
+              28560
+            ]
+          ],
+          "Awake_precision": 0.0,
+          "Awake_recall": 0.0,
+          "Awake_f1": 0.0,
+          "Light Hypnosis_precision": 0.0,
+          "Light Hypnosis_recall": 0.0,
+          "Light Hypnosis_f1": 0.0,
+          "Deep Hypnosis_precision": 0.3434343434343434,
+          "Deep Hypnosis_recall": 1.0,
+          "Deep Hypnosis_f1": 0.5112781954887218,
+          "auc_roc": 0.5,
+          "kappa": 0.0
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.3434343434343434,
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.17042606516290726,
+          "weighted_f1": 0.17559049137996505,
+          "cohens_kappa": 0.0,
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              25200
+            ],
+            [
+              0,
+              0,
+              29400
+            ],
+            [
+              0,
+              0,
+              28560
+            ]
+          ],
+          "Awake_precision": 0.0,
+          "Awake_recall": 0.0,
+          "Awake_f1": 0.0,
+          "Light Hypnosis_precision": 0.0,
+          "Light Hypnosis_recall": 0.0,
+          "Light Hypnosis_f1": 0.0,
+          "Deep Hypnosis_precision": 0.3434343434343434,
+          "Deep Hypnosis_recall": 1.0,
+          "Deep Hypnosis_f1": 0.5112781954887218,
+          "auc_roc": 0.5,
+          "kappa": 0.0
+        },
+        "per_source": {}
+      },
+      "2024": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.32323232323232326,
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16284987277353688,
+          "weighted_f1": 0.15791502814403577,
+          "cohens_kappa": 0.0,
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              30240
+            ],
+            [
+              0,
+              0,
+              26040
+            ],
+            [
+              0,
+              0,
+              26880
+            ]
+          ],
+          "Awake_precision": 0.0,
+          "Awake_recall": 0.0,
+          "Awake_f1": 0.0,
+          "Light Hypnosis_precision": 0.0,
+          "Light Hypnosis_recall": 0.0,
+          "Light Hypnosis_f1": 0.0,
+          "Deep Hypnosis_precision": 0.32323232323232326,
+          "Deep Hypnosis_recall": 1.0,
+          "Deep Hypnosis_f1": 0.48854961832061067,
+          "auc_roc": 0.5,
+          "kappa": 0.0
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.32323232323232326,
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16284987277353688,
+          "weighted_f1": 0.15791502814403577,
+          "cohens_kappa": 0.0,
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              30240
+            ],
+            [
+              0,
+              0,
+              26040
+            ],
+            [
+              0,
+              0,
+              26880
+            ]
+          ],
+          "Awake_precision": 0.0,
+          "Awake_recall": 0.0,
+          "Awake_f1": 0.0,
+          "Light Hypnosis_precision": 0.0,
+          "Light Hypnosis_recall": 0.0,
+          "Light Hypnosis_f1": 0.0,
+          "Deep Hypnosis_precision": 0.32323232323232326,
+          "Deep Hypnosis_recall": 1.0,
+          "Deep Hypnosis_f1": 0.48854961832061067,
+          "auc_roc": 0.5,
+          "kappa": 0.0
+        },
+        "per_source": {}
+      }
+    },
+    "ds006437": {
+      "42": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.7358070724079865,
+          "balanced_accuracy": 0.4506953883256178,
+          "macro_f1": 0.45143415601326176,
+          "weighted_f1": 0.7171213282741147,
+          "cohens_kappa": 0.26938206561278344,
+          "confusion_matrix": [
+            [
+              3725,
+              4797,
+              200
+            ],
+            [
+              4034,
+              32791,
+              794
+            ],
+            [
+              812,
+              2542,
+              189
+            ]
+          ],
+          "Awake_precision": 0.4346050635865127,
+          "Awake_recall": 0.42708094473744557,
+          "Awake_f1": 0.4308101543977332,
+          "Light Hypnosis_precision": 0.8171193620732619,
+          "Light Hypnosis_recall": 0.8716605970387304,
+          "Light Hypnosis_f1": 0.8435092412764151,
+          "Deep Hypnosis_precision": 0.15976331360946747,
+          "Deep Hypnosis_recall": 0.05334462320067739,
+          "Deep Hypnosis_f1": 0.0799830723656369,
+          "auc_roc": 0.672548317758566,
+          "kappa": 0.26938206561278344
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.7347646539972736,
+          "balanced_accuracy": 0.44783790054521466,
+          "macro_f1": 0.4479528954023629,
+          "weighted_f1": 0.7149038389616262,
+          "cohens_kappa": 0.2629188256728733,
+          "confusion_matrix": [
+            [
+              3684,
+              4885,
+              153
+            ],
+            [
+              4150,
+              32794,
+              675
+            ],
+            [
+              798,
+              2570,
+              175
+            ]
+          ],
+          "Awake_precision": 0.4267840593141798,
+          "Awake_recall": 0.4223801880302683,
+          "Awake_f1": 0.4245707041604241,
+          "Light Hypnosis_precision": 0.8147780069070039,
+          "Light Hypnosis_recall": 0.8717403439751189,
+          "Light Hypnosis_f1": 0.8422972209379976,
+          "Deep Hypnosis_precision": 0.1744765702891326,
+          "Deep Hypnosis_recall": 0.04939316963025685,
+          "Deep Hypnosis_f1": 0.07699076110866696,
+          "auc_roc": 0.6733657492192887,
+          "kappa": 0.2629188256728733
+        },
+        "per_source": {}
+      },
+      "123": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.7277354751225618,
+          "balanced_accuracy": 0.44779269555762635,
+          "macro_f1": 0.4322454701707547,
+          "weighted_f1": 0.6857817182815905,
+          "cohens_kappa": 0.2666519655475639,
+          "confusion_matrix": [
+            [
+              3940,
+              4851,
+              4
+            ],
+            [
+              3604,
+              30944,
+              11
+            ],
+            [
+              663,
+              3918,
+              0
+            ]
+          ],
+          "Awake_precision": 0.4800779822103083,
+          "Awake_recall": 0.4479818078453667,
+          "Awake_f1": 0.4634748853076109,
+          "Light Hypnosis_precision": 0.7791906932238813,
+          "Light Hypnosis_recall": 0.8953962788275124,
+          "Light Hypnosis_f1": 0.8332615252046531,
+          "Deep Hypnosis_precision": 0.0,
+          "Deep Hypnosis_recall": 0.0,
+          "Deep Hypnosis_f1": 0.0,
+          "auc_roc": 0.6848893514881936,
+          "kappa": 0.2666519655475639
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.7276103056221968,
+          "balanced_accuracy": 0.44705670396068675,
+          "macro_f1": 0.43175704091392064,
+          "weighted_f1": 0.6854538414057207,
+          "cohens_kappa": 0.26514218243465126,
+          "confusion_matrix": [
+            [
+              3916,
+              4875,
+              4
+            ],
+            [
+              3585,
+              30962,
+              12
+            ],
+            [
+              652,
+              3929,
+              0
+            ]
+          ],
+          "Awake_precision": 0.480313994848522,
+          "Awake_recall": 0.44525298465036955,
+          "Awake_f1": 0.4621194241208402,
+          "Light Hypnosis_precision": 0.7786048383040789,
+          "Light Hypnosis_recall": 0.8959171272316907,
+          "Light Hypnosis_f1": 0.8331516986209216,
+          "Deep Hypnosis_precision": 0.0,
+          "Deep Hypnosis_recall": 0.0,
+          "Deep Hypnosis_f1": 0.0,
+          "auc_roc": 0.6832164757961481,
+          "kappa": 0.26514218243465126
+        },
+        "per_source": {}
+      },
+      "456": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.7685668196006955,
+          "balanced_accuracy": 0.45828233639777366,
+          "macro_f1": 0.4572234647546751,
+          "weighted_f1": 0.7209354374376278,
+          "cohens_kappa": 0.31733867579388053,
+          "confusion_matrix": [
+            [
+              3766,
+              5017,
+              1
+            ],
+            [
+              1856,
+              32920,
+              19
+            ],
+            [
+              308,
+              3846,
+              0
+            ]
+          ],
+          "Awake_precision": 0.6350758853288364,
+          "Awake_recall": 0.42873406193078323,
+          "Awake_f1": 0.5118934348239772,
+          "Light Hypnosis_precision": 0.7878802383744585,
+          "Light Hypnosis_recall": 0.9461129472625377,
+          "Light Hypnosis_f1": 0.8597769594400481,
+          "Deep Hypnosis_precision": 0.0,
+          "Deep Hypnosis_recall": 0.0,
+          "Deep Hypnosis_f1": 0.0,
+          "auc_roc": 0.6804342653344936,
+          "kappa": 0.31733867579388053
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.7669327299771647,
+          "balanced_accuracy": 0.45776204550671623,
+          "macro_f1": 0.45614500496199817,
+          "weighted_f1": 0.7197026471080179,
+          "cohens_kappa": 0.3147543381018135,
+          "confusion_matrix": [
+            [
+              3774,
+              5005,
+              5
+            ],
+            [
+              1941,
+              32834,
+              20
+            ],
+            [
+              306,
+              3848,
+              0
+            ]
+          ],
+          "Awake_precision": 0.6268061783756851,
+          "Awake_recall": 0.4296448087431694,
+          "Awake_f1": 0.5098277608915907,
+          "Light Hypnosis_precision": 0.7876316357617482,
+          "Light Hypnosis_recall": 0.9436413277769794,
+          "Light Hypnosis_f1": 0.858607253994404,
+          "Deep Hypnosis_precision": 0.0,
+          "Deep Hypnosis_recall": 0.0,
+          "Deep Hypnosis_f1": 0.0,
+          "auc_roc": 0.6787517168076244,
+          "kappa": 0.3147543381018135
+        },
+        "per_source": {}
+      },
+      "789": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.7602869007172518,
+          "balanced_accuracy": 0.4063290528943487,
+          "macro_f1": 0.40854384862737475,
+          "weighted_f1": 0.7067737190520095,
+          "cohens_kappa": 0.19876809156438546,
+          "confusion_matrix": [
+            [
+              2229,
+              6491,
+              1
+            ],
+            [
+              1714,
+              35994,
+              97
+            ],
+            [
+              274,
+              3488,
+              43
+            ]
+          ],
+          "Awake_precision": 0.5285748162200616,
+          "Awake_recall": 0.2555899552803578,
+          "Awake_f1": 0.34456639356933066,
+          "Light Hypnosis_precision": 0.7829378113240381,
+          "Light Hypnosis_recall": 0.9520962835603756,
+          "Light Hypnosis_f1": 0.8592709303158347,
+          "Deep Hypnosis_precision": 0.3049645390070922,
+          "Deep Hypnosis_recall": 0.011300919842312747,
+          "Deep Hypnosis_f1": 0.021794221996958945,
+          "auc_roc": 0.612639096918039,
+          "kappa": 0.19876809156438546
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.7592537402396138,
+          "balanced_accuracy": 0.4050189449097155,
+          "macro_f1": 0.4072446699678764,
+          "weighted_f1": 0.7055691960414069,
+          "cohens_kappa": 0.1946618780978676,
+          "confusion_matrix": [
+            [
+              2192,
+              6527,
+              2
+            ],
+            [
+              1719,
+              35976,
+              110
+            ],
+            [
+              265,
+              3494,
+              46
+            ]
+          ],
+          "Awake_precision": 0.524904214559387,
+          "Awake_recall": 0.2513473225547529,
+          "Awake_f1": 0.33992401333643485,
+          "Light Hypnosis_precision": 0.7821379655194904,
+          "Light Hypnosis_recall": 0.9516201560640127,
+          "Light Hypnosis_f1": 0.8585952602563185,
+          "Deep Hypnosis_precision": 0.2911392405063291,
+          "Deep Hypnosis_recall": 0.012089356110381078,
+          "Deep Hypnosis_f1": 0.0232147363108756,
+          "auc_roc": 0.6155148389221722,
+          "kappa": 0.1946618780978676
+        },
+        "per_source": {}
+      },
+      "2024": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.6513972581368591,
+          "balanced_accuracy": 0.40111422401017366,
+          "macro_f1": 0.3864504465782617,
+          "weighted_f1": 0.6499930130487483,
+          "cohens_kappa": 0.11706724513159139,
+          "confusion_matrix": [
+            [
+              3599,
+              5109,
+              16
+            ],
+            [
+              8997,
+              29694,
+              456
+            ],
+            [
+              397,
+              2901,
+              110
+            ]
+          ],
+          "Awake_precision": 0.27699530516431925,
+          "Awake_recall": 0.4125401192113709,
+          "Awake_f1": 0.33144541142883455,
+          "Light Hypnosis_precision": 0.787555697008275,
+          "Light Hypnosis_recall": 0.7585255575139858,
+          "Light Hypnosis_f1": 0.7727680836944216,
+          "Deep Hypnosis_precision": 0.18900343642611683,
+          "Deep Hypnosis_recall": 0.03227699530516432,
+          "Deep Hypnosis_f1": 0.05513784461152882,
+          "auc_roc": 0.6054513818747692,
+          "kappa": 0.11706724513159139
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.6532693695274869,
+          "balanced_accuracy": 0.4029397588396186,
+          "macro_f1": 0.38736537388262265,
+          "weighted_f1": 0.651494937554315,
+          "cohens_kappa": 0.12155298650975055,
+          "confusion_matrix": [
+            [
+              3654,
+              5045,
+              25
+            ],
+            [
+              8985,
+              29742,
+              420
+            ],
+            [
+              384,
+              2921,
+              103
+            ]
+          ],
+          "Awake_precision": 0.2805805114029026,
+          "Awake_recall": 0.4188445667125172,
+          "Awake_f1": 0.3360463512208581,
+          "Light Hypnosis_precision": 0.7887450938792829,
+          "Light Hypnosis_recall": 0.7597517051115028,
+          "Light Hypnosis_f1": 0.773976969618112,
+          "Deep Hypnosis_precision": 0.18795620437956204,
+          "Deep Hypnosis_recall": 0.03022300469483568,
+          "Deep Hypnosis_f1": 0.052072800808897875,
+          "auc_roc": 0.6101491805812125,
+          "kappa": 0.12155298650975055
+        },
+        "per_source": {}
+      }
+    },
+    "ds004572": {
+      "42": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.4452489804400343,
+          "balanced_accuracy": 0.35181884272692737,
+          "macro_f1": 0.28931083121718704,
+          "weighted_f1": 0.34637436483654366,
+          "cohens_kappa": 0.03329932563657689,
+          "confusion_matrix": [
+            [
+              2183,
+              2210,
+              23763
+            ],
+            [
+              3647,
+              4902,
+              48343
+            ],
+            [
+              3404,
+              4058,
+              61478
+            ]
+          ],
+          "Awake_precision": 0.23640892354342646,
+          "Awake_recall": 0.0775323199318085,
+          "Awake_f1": 0.11676918962289382,
+          "Light Hypnosis_precision": 0.4388540734109221,
+          "Light Hypnosis_recall": 0.08616325669689939,
+          "Light Hypnosis_f1": 0.14404513531779847,
+          "Deep Hypnosis_precision": 0.4602197868008145,
+          "Deep Hypnosis_recall": 0.8917609515520742,
+          "Deep Hypnosis_f1": 0.6071181687108689,
+          "auc_roc": 0.5336282209367513,
+          "kappa": 0.03329932563657689
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.44599579187988675,
+          "balanced_accuracy": 0.353825299850172,
+          "macro_f1": 0.2944875271584114,
+          "weighted_f1": 0.35096128564579826,
+          "cohens_kappa": 0.03700097988780282,
+          "confusion_matrix": [
+            [
+              2336,
+              2481,
+              23339
+            ],
+            [
+              3903,
+              5272,
+              47717
+            ],
+            [
+              3564,
+              4306,
+              61070
+            ]
+          ],
+          "Awake_precision": 0.23829439967356933,
+          "Awake_recall": 0.08296633044466543,
+          "Awake_f1": 0.12308016544166074,
+          "Light Hypnosis_precision": 0.4371838460900572,
+          "Light Hypnosis_recall": 0.09266680728397665,
+          "Light Hypnosis_f1": 0.15292018969993185,
+          "Deep Hypnosis_precision": 0.4622103143968636,
+          "Deep Hypnosis_recall": 0.885842761821874,
+          "Deep Hypnosis_f1": 0.6074622263336417,
+          "auc_roc": 0.5303536966792957,
+          "kappa": 0.03700097988780282
+        },
+        "per_source": {}
+      },
+      "123": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.4482819199812609,
+          "balanced_accuracy": 0.33634611618857124,
+          "macro_f1": 0.22749710801413614,
+          "weighted_f1": 0.2981795164860448,
+          "cohens_kappa": 0.006324302683356042,
+          "confusion_matrix": [
+            [
+              196,
+              785,
+              27205
+            ],
+            [
+              400,
+              1599,
+              54600
+            ],
+            [
+              295,
+              1508,
+              67101
+            ]
+          ],
+          "Awake_precision": 0.21997755331088664,
+          "Awake_recall": 0.006953806854466757,
+          "Awake_f1": 0.013481445816280909,
+          "Light Hypnosis_precision": 0.4108427543679342,
+          "Light Hypnosis_recall": 0.028251382533260306,
+          "Light Hypnosis_f1": 0.052867368699475954,
+          "Deep Hypnosis_precision": 0.4506265697822788,
+          "Deep Hypnosis_recall": 0.9738331591779867,
+          "Deep Hypnosis_f1": 0.6161425095266516,
+          "auc_roc": 0.5133313158441555,
+          "kappa": 0.006324302683356042
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.4494726362979784,
+          "balanced_accuracy": 0.3387055295906727,
+          "macro_f1": 0.23722878275544623,
+          "weighted_f1": 0.3077221758015853,
+          "cohens_kappa": 0.01077168026858577,
+          "confusion_matrix": [
+            [
+              290,
+              1259,
+              26637
+            ],
+            [
+              444,
+              2376,
+              53779
+            ],
+            [
+              332,
+              2159,
+              66413
+            ]
+          ],
+          "Awake_precision": 0.27204502814258913,
+          "Awake_recall": 0.010288795856098772,
+          "Awake_f1": 0.019827704088609326,
+          "Light Hypnosis_precision": 0.4100793924749741,
+          "Light Hypnosis_recall": 0.04197954027456315,
+          "Light Hypnosis_f1": 0.07616239001170003,
+          "Deep Hypnosis_precision": 0.45231527831695373,
+          "Deep Hypnosis_recall": 0.9638482526413561,
+          "Deep Hypnosis_f1": 0.6156962541660294,
+          "auc_roc": 0.5079289558371453,
+          "kappa": 0.01077168026858577
+        },
+        "per_source": {}
+      },
+      "456": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.45073643587128126,
+          "balanced_accuracy": 0.3450378731722381,
+          "macro_f1": 0.25983848192113507,
+          "weighted_f1": 0.32638711575725027,
+          "cohens_kappa": 0.022904801656587703,
+          "confusion_matrix": [
+            [
+              821,
+              1897,
+              25476
+            ],
+            [
+              1232,
+              3680,
+              51883
+            ],
+            [
+              1245,
+              2808,
+              64875
+            ]
+          ],
+          "Awake_precision": 0.24893875075803518,
+          "Awake_recall": 0.029119670851954316,
+          "Awake_f1": 0.0521402260891655,
+          "Light Hypnosis_precision": 0.4388789505068575,
+          "Light Hypnosis_recall": 0.06479443612994101,
+          "Light Hypnosis_f1": 0.11291807302853636,
+          "Deep Hypnosis_precision": 0.45611457176202597,
+          "Deep Hypnosis_recall": 0.9411995125348189,
+          "Deep Hypnosis_f1": 0.6144571466457033,
+          "auc_roc": 0.5269490762935264,
+          "kappa": 0.022904801656587703
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.45095083713949724,
+          "balanced_accuracy": 0.3465719510411616,
+          "macro_f1": 0.26529877987095113,
+          "weighted_f1": 0.3308082921626374,
+          "cohens_kappa": 0.025476111042694205,
+          "confusion_matrix": [
+            [
+              971,
+              1993,
+              25230
+            ],
+            [
+              1473,
+              3996,
+              51326
+            ],
+            [
+              1376,
+              3110,
+              64442
+            ]
+          ],
+          "Awake_precision": 0.25418848167539265,
+          "Awake_recall": 0.03443995176278641,
+          "Awake_f1": 0.06066096082963703,
+          "Light Hypnosis_precision": 0.4391691394658754,
+          "Light Hypnosis_recall": 0.07035830618892508,
+          "Light Hypnosis_f1": 0.12128570127780981,
+          "Deep Hypnosis_precision": 0.4570419438573597,
+          "Deep Hypnosis_recall": 0.9349175951717734,
+          "Deep Hypnosis_f1": 0.6139496775054066,
+          "auc_roc": 0.52174436898941,
+          "kappa": 0.025476111042694205
+        },
+        "per_source": {}
+      },
+      "789": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.4489692496605313,
+          "balanced_accuracy": 0.3361370280460898,
+          "macro_f1": 0.21999216008933276,
+          "weighted_f1": 0.29045160514644147,
+          "cohens_kappa": 0.005729027847091839,
+          "confusion_matrix": [
+            [
+              135,
+              298,
+              27761
+            ],
+            [
+              230,
+              977,
+              55588
+            ],
+            [
+              225,
+              711,
+              67992
+            ]
+          ],
+          "Awake_precision": 0.2288135593220339,
+          "Awake_recall": 0.004788252819748883,
+          "Awake_f1": 0.009380211228460255,
+          "Light Hypnosis_precision": 0.4919436052366566,
+          "Light Hypnosis_recall": 0.0172022185051501,
+          "Light Hypnosis_f1": 0.03324203399057519,
+          "Deep Hypnosis_precision": 0.44926358356294727,
+          "Deep Hypnosis_recall": 0.9864206128133705,
+          "Deep Hypnosis_f1": 0.6173542350489628,
+          "auc_roc": 0.5180755307817514,
+          "kappa": 0.005729027847091839
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.44892377060363703,
+          "balanced_accuracy": 0.33621284187810335,
+          "macro_f1": 0.21871339701755219,
+          "weighted_f1": 0.2884316419648085,
+          "cohens_kappa": 0.005510770398603482,
+          "confusion_matrix": [
+            [
+              185,
+              185,
+              27824
+            ],
+            [
+              276,
+              745,
+              55774
+            ],
+            [
+              246,
+              515,
+              68167
+            ]
+          ],
+          "Awake_precision": 0.26166902404526166,
+          "Awake_recall": 0.006561679790026247,
+          "Awake_f1": 0.012802325179059548,
+          "Light Hypnosis_precision": 0.5155709342560554,
+          "Light Hypnosis_recall": 0.013117351879566863,
+          "Light Hypnosis_f1": 0.025583791208791208,
+          "Deep Hypnosis_precision": 0.4491615326326887,
+          "Deep Hypnosis_recall": 0.9889594939647168,
+          "Deep Hypnosis_f1": 0.6177540746648058,
+          "auc_roc": 0.5132585342637991,
+          "kappa": 0.005510770398603482
+        },
+        "per_source": {}
+      },
+      "2024": {
+        "wfsc_mahalanobis": {
+          "accuracy": 0.44307392363931764,
+          "balanced_accuracy": 0.3417727074888444,
+          "macro_f1": 0.24878512953646517,
+          "weighted_f1": 0.3075134027835185,
+          "cohens_kappa": 0.014319852446161518,
+          "confusion_matrix": [
+            [
+              1520,
+              475,
+              26157
+            ],
+            [
+              2797,
+              1374,
+              52624
+            ],
+            [
+              2245,
+              1399,
+              65284
+            ]
+          ],
+          "Awake_precision": 0.23163669612922888,
+          "Awake_recall": 0.05399261153736857,
+          "Awake_f1": 0.08757273722417469,
+          "Light Hypnosis_precision": 0.42302955665024633,
+          "Light Hypnosis_recall": 0.024192270446342107,
+          "Light Hypnosis_f1": 0.0457672001732092,
+          "Deep Hypnosis_precision": 0.4531565612744247,
+          "Deep Hypnosis_recall": 0.9471332404828227,
+          "Deep Hypnosis_f1": 0.6130154512120116,
+          "auc_roc": 0.525169865751761,
+          "kappa": 0.014319852446161518
+        },
+        "wfsc_fixed": {
+          "accuracy": 0.44314541023558085,
+          "balanced_accuracy": 0.3437281735948801,
+          "macro_f1": 0.25497225933416034,
+          "weighted_f1": 0.3123134472721752,
+          "cohens_kappa": 0.017687334547033196,
+          "confusion_matrix": [
+            [
+              1755,
+              589,
+              25808
+            ],
+            [
+              3220,
+              1622,
+              51953
+            ],
+            [
+              2496,
+              1620,
+              64812
+            ]
+          ],
+          "Awake_precision": 0.23490831214027574,
+          "Awake_recall": 0.06234015345268542,
+          "Awake_f1": 0.0985318474019594,
+          "Light Hypnosis_precision": 0.4233881493082746,
+          "Light Hypnosis_recall": 0.02855885201162074,
+          "Light Hypnosis_f1": 0.053508395737802264,
+          "Deep Hypnosis_precision": 0.454588175881829,
+          "Deep Hypnosis_recall": 0.9402855153203342,
+          "Deep Hypnosis_f1": 0.6128765348627193,
+          "auc_roc": 0.5211914267324258,
+          "kappa": 0.017687334547033196
+        },
+        "per_source": {}
+      }
+    }
+  }
+}

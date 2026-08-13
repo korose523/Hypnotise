@@ -1,0 +1,170 @@
+{
+  "DREAMER": {
+    "n_samples": 85284,
+    "n_features": 63,
+    "top_20": [
+      {
+        "feature": "AF3_Beta",
+        "mean_abs_shap": 0.005701354320748586,
+        "rank": 1
+      },
+      {
+        "feature": "AF3_Theta",
+        "mean_abs_shap": 0.005381662856098079,
+        "rank": 2
+      },
+      {
+        "feature": "AF3_Alpha",
+        "mean_abs_shap": 0.0052136779857652115,
+        "rank": 3
+      }
+    ]
+  },
+  "DEAP": {
+    "n_samples": 64480,
+    "n_features": 63,
+    "top_20": [
+      {
+        "feature": "AF3_Alpha",
+        "mean_abs_shap": 0.010491626553817154,
+        "rank": 1
+      },
+      {
+        "feature": "AF3_Theta",
+        "mean_abs_shap": 0.009182731338466204,
+        "rank": 2
+      },
+      {
+        "feature": "AF3_Beta",
+        "mean_abs_shap": 0.005963172189366736,
+        "rank": 3
+      }
+    ]
+  },
+  "MAHNOB": {
+    "n_samples": 74478,
+    "n_features": 63,
+    "top_20": [
+      {
+        "feature": "AF3_Theta",
+        "mean_abs_shap": 0.0013910275099390241,
+        "rank": 1
+      },
+      {
+        "feature": "AF3_Beta",
+        "mean_abs_shap": 0.0009511272599886413,
+        "rank": 2
+      },
+      {
+        "feature": "AF3_Alpha",
+        "mean_abs_shap": 0.000869993057378501,
+        "rank": 3
+      }
+    ]
+  },
+  "SEED": {
+    "n_samples": 81456,
+    "n_features": 63,
+    "top_20": [
+      {
+        "feature": "AF3_Beta",
+        "mean_abs_shap": 0.0,
+        "rank": 1
+      },
+      {
+        "feature": "AF3_Alpha",
+        "mean_abs_shap": 0.0,
+        "rank": 2
+      },
+      {
+        "feature": "AF3_Theta",
+        "mean_abs_shap": 0.0,
+        "rank": 3
+      }
+    ]
+  },
+  "SEED_IV": {
+    "n_samples": 37575,
+    "n_features": 63,
+    "top_20": [
+      {
+        "feature": "AF3_Beta",
+        "mean_abs_shap": 0.0,
+        "rank": 1
+      },
+      {
+        "feature": "AF3_Alpha",
+        "mean_abs_shap": 0.0,
+        "rank": 2
+      },
+      {
+        "feature": "AF3_Theta",
+        "mean_abs_shap": 0.0,
+        "rank": 3
+      }
+    ]
+  },
+  "FACED": {
+    "n_samples": 103320,
+    "n_features": 63,
+    "top_20": [
+      {
+        "feature": "AF3_Beta",
+        "mean_abs_shap": 0.0,
+        "rank": 1
+      },
+      {
+        "feature": "AF3_Alpha",
+        "mean_abs_shap": 0.0,
+        "rank": 2
+      },
+      {
+        "feature": "AF3_Theta",
+        "mean_abs_shap": 0.0,
+        "rank": 3
+      }
+    ]
+  },
+  "ds006437": {
+    "n_samples": 60384,
+    "n_features": 63,
+    "top_20": [
+      {
+        "feature": "AF3_Alpha",
+        "mean_abs_shap": 0.007668671351375374,
+        "rank": 1
+      },
+      {
+        "feature": "AF3_Theta",
+        "mean_abs_shap": 0.007357144109163926,
+        "rank": 2
+      },
+      {
+        "feature": "AF3_Beta",
+        "mean_abs_shap": 0.005019896658712064,
+        "rank": 3
+      }
+    ]
+  },
+  "ds004572": {
+    "n_samples": 18470,
+    "n_features": 63,
+    "top_20": [
+      {
+        "feature": "AF3_Theta",
+        "mean_abs_shap": 0.0033366248681994666,
+        "rank": 1
+      },
+      {
+        "feature": "AF3_Beta",
+        "mean_abs_shap": 0.0028198553191365297,
+        "rank": 2
+      },
+      {
+        "feature": "AF3_Alpha",
+        "mean_abs_shap": 0.0017484004164657343,
+        "rank": 3
+      }
+    ]
+  }
+}
