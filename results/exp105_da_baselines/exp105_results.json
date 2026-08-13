@@ -1,0 +1,102 @@
+{
+  "DREAMER": {
+    "source": "SEED",
+    "target": "DREAMER",
+    "n_source": 8000,
+    "n_target": 7981,
+    "zs": {
+      "RF": {
+        "mean_acc": 0.3484,
+        "sd_acc": 0.2002,
+        "n_seeds": 20,
+        "status": "computed"
+      },
+      "CORAL": {
+        "mean_acc": 0.3484,
+        "sd_acc": 0.2002,
+        "n_seeds": 20,
+        "status": "computed"
+      },
+      "AdaBN": {
+        "mean_acc": 0.3484,
+        "sd_acc": 0.2002,
+        "n_seeds": 20,
+        "status": "computed"
+      }
+    },
+    "calib": {
+      "RF": {
+        "mean_acc": 0.471,
+        "sd_acc": 0.0264,
+        "n_seeds": 20,
+        "status": "computed"
+      },
+      "CORAL": {
+        "mean_acc": 0.4787,
+        "sd_acc": 0.025,
+        "n_seeds": 20,
+        "status": "computed"
+      },
+      "AdaBN": {
+        "mean_acc": 0.4711,
+        "sd_acc": 0.0264,
+        "n_seeds": 20,
+        "status": "computed"
+      }
+    },
+    "tca": {
+      "status": "timeout",
+      "reason": "8000x8000 generalized eigenproblem exceeds 120s budget"
+    }
+  },
+  "DEAP": {
+    "source": "SEED",
+    "target": "DEAP",
+    "n_source": 8000,
+    "n_target": 7982,
+    "zs": {
+      "RF": {
+        "mean_acc": 0.353,
+        "sd_acc": 0.2919,
+        "n_seeds": 20,
+        "status": "computed"
+      },
+      "CORAL": {
+        "mean_acc": 0.353,
+        "sd_acc": 0.2919,
+        "n_seeds": 20,
+        "status": "computed"
+      },
+      "AdaBN": {
+        "mean_acc": 0.353,
+        "sd_acc": 0.2919,
+        "n_seeds": 20,
+        "status": "computed"
+      }
+    },
+    "calib": {
+      "RF": {
+        "mean_acc": 0.6623,
+        "sd_acc": 0.1047,
+        "n_seeds": 20,
+        "status": "computed"
+      },
+      "CORAL": {
+        "mean_acc": 0.6037,
+        "sd_acc": 0.093,
+        "n_seeds": 20,
+        "status": "computed"
+      },
+      "AdaBN": {
+        "mean_acc": 0.6635,
+        "sd_acc": 0.0934,
+        "n_seeds": 20,
+        "status": "computed"
+      }
+    },
+    "tca": {
+      "status": "timeout",
+      "reason": "8000x8000 generalized eigenproblem exceeds 120s budget"
+    }
+  }
+}
