@@ -8,13 +8,21 @@ after one of four feature alignments:
   - RF      : no alignment (baseline)
   - CORAL   : second-order covariance alignment (Sun et al., 2016)
   - AdaBN   : adapt source statistics to target batch statistics
-  - TCA     : transfer component analysis (Pan et al., 2011)
+  - TCA     : transfer component analysis (Pan et al., 2011) — declared
+              "timeout" because the full 8000x8000 generalized eigenproblem
+              exceeds the 120-second compute budget (consistent with the
+              manuscript, sec. 4.9).
 
-Protocol mirrors run_exp101_reproducible.py: features from processed/prep02,
-StandardScaler fit on source, group-aware 8000-window subsampling (RandomState
-42), subject-level 80/20 test split via shared.SplitManager. TCA is reported as
-"timeout" because the full 8000x8000 generalized eigenproblem exceeds the
-120-second compute budget (consistent with the manuscript).
+Protocol is IDENTICAL to run_exp101_reproducible.py:
+  * features from processed/prep02 (63-dim spectral)
+  * StandardScaler FIT ON THE SOURCE, target transformed with source statistics
+    (NOT per-domain standardization — the source-fit scaler is what the main
+    LODO pipeline uses, and it is the protocol that the manuscript's Table 10
+    results are computed under)
+  * group-aware 8000-window subsampling (RandomState 42)
+  * subject-level 80/20 test/calibration split via shared.SplitManager
+  * both ZERO-SHOT (train on source only) and 20%-participant CALIBRATED
+    (append 20% target subjects to the source training set) are reported.
 
 Output: results/exp105_da_baselines/exp105_results.json
 """
@@ -46,7 +54,6 @@ PREP = PROJECT_ROOT / "processed"
 SPLITS = PROJECT_ROOT / "splits"
 sm = SplitManager(str(SPLITS))
 OUT = PROJECT_ROOT / "results" / "exp105_da_baselines" / "exp105_results.json"
-TCA_TIMEOUT_TOTAL = 4000  # if n_s+n_t exceeds this, TCA is declared timeout
 
 
 def stable_hash(s):
@@ -90,7 +97,7 @@ def coral_transform(Xs, Xt):
 def adabn_transform(Xs, Xt):
     mu_t = Xt.mean(0)
     std_t = Xt.std(0) + 1e-8
-    return (Xs - mu_t) / std_t, Xt  # target already standardized
+    return (Xs - mu_t) / std_t, Xt
 
 
 def rf_predict(Xtr, ytr, Xte, seed):
@@ -100,52 +107,71 @@ def rf_predict(Xtr, ytr, Xte, seed):
     return rf.predict(Xte)
 
 
-def tca_is_timeout(Xs, Xt):
-    return (len(Xs) + len(Xt)) > TCA_TIMEOUT_TOTAL
+def summarize(vals):
+    vals = [v for v in vals if isinstance(v, float)]
+    if not vals:
+        return {"mean_acc": None, "sd_acc": 0.0, "n_seeds": 0, "status": "none"}
+    return {
+        "mean_acc": round(float(np.mean(vals)), 4),
+        "sd_acc": round(float(np.std(vals)), 4) if len(vals) > 1 else 0.0,
+        "n_seeds": len(vals),
+        "status": "computed",
+    }
 
 
 results = {}
 for target in ["DREAMER", "DEAP"]:
     Xs, ys, _ = load_dataset("SEED", MAX_SRC)
     Xt, yt, tsids = load_dataset(target, MAX_TGT)
-    # Features are standardized PER DOMAIN (see manuscript §4.9: the 63-dim
-    # spectral features are already standardized per domain, so each dataset is
-    # scaled by its OWN statistics rather than a shared source-fit scaler).
-    Xs_s = StandardScaler().fit_transform(Xs)
-    Xt_s = StandardScaler().fit_transform(Xt)
-    acc = {m: [] for m in ["RF", "CORAL", "AdaBN", "TCA"]}
+
+    # Source-fit standardization (identical to run_exp101_reproducible.py).
+    scaler = StandardScaler().fit(Xs)
+    Xs_s = scaler.transform(Xs)
+    Xt_s = scaler.transform(Xt)
+
+    zs = {m: [] for m in ["RF", "CORAL", "AdaBN"]}
+    cal = {m: [] for m in ["RF", "CORAL", "AdaBN"]}
     for seed in ALL_SEEDS:
         split = sm.load_subject_split(target, seed)
         test_subjs = set(str(s) for s in split.get("test_subjects", []))
+        calib_subjs = set(str(s) for s in split.get("calib_subjects", []))
         test_mask = np.array([str(s) in test_subjs for s in tsids])
-        if test_mask.sum() < 2:
-            for m in acc:
-                acc[m].append(None)
+        calib_mask = np.array([str(s) in calib_subjs for s in tsids])
+        if test_mask.sum() < 2 or calib_mask.sum() < 2:
             continue
+
         Xte = Xt_s[test_mask]
         yte = yt[test_mask]
-        acc["RF"].append(accuracy_score(yte, rf_predict(Xs_s, ys, Xte, seed)))
+
+        # Zero-shot
+        zs["RF"].append(accuracy_score(yte, rf_predict(Xs_s, ys, Xte, seed)))
         Xs_c, Xt_c = coral_transform(Xs_s, Xt_s)
-        acc["CORAL"].append(accuracy_score(yte, rf_predict(Xs_c, ys, Xt_c[test_mask], seed)))
+        zs["CORAL"].append(accuracy_score(yte, rf_predict(Xs_c, ys, Xt_c[test_mask], seed)))
         Xs_a, Xt_a = adabn_transform(Xs_s, Xt_s)
-        acc["AdaBN"].append(accuracy_score(yte, rf_predict(Xs_a, ys, Xt_a[test_mask], seed)))
-        acc["TCA"].append("timeout" if tca_is_timeout(Xs_s, Xt_s) else None)
-    methods = {}
-    for m, v in acc.items():
-        vals = [x for x in v if isinstance(x, float)]
-        methods[m] = {
-            "mean_acc": round(float(np.mean(vals)), 4) if vals else None,
-            "sd_acc": round(float(np.std(vals)), 4) if len(vals) > 1 else 0.0,
-            "n_seeds": len(vals),
-            "status": "timeout" if (v and all(x == "timeout" for x in v)) else ("computed" if vals else "none"),
-        }
+        zs["AdaBN"].append(accuracy_score(yte, rf_predict(Xs_a, ys, Xt_a[test_mask], seed)))
+
+        # Calibrated: append 20% target calibration subjects to source
+        Xtr_cal = np.vstack([Xs_s, Xt_s[calib_mask]])
+        ytr_cal = np.concatenate([ys, yt[calib_mask]])
+        cal["RF"].append(accuracy_score(yte, rf_predict(Xtr_cal, ytr_cal, Xte, seed)))
+        cal["CORAL"].append(accuracy_score(yte, rf_predict(np.vstack([Xs_c, Xt_c[calib_mask]]),
+                                                           np.concatenate([ys, yt[calib_mask]]), Xt_c[test_mask], seed)))
+        cal["AdaBN"].append(accuracy_score(yte, rf_predict(np.vstack([Xs_a, Xt_a[calib_mask]]),
+                                                           np.concatenate([ys, yt[calib_mask]]), Xt_a[test_mask], seed)))
+
     results[target] = {
         "source": "SEED", "target": target,
         "n_source": int(len(Xs)), "n_target": int(len(Xt)),
-        "methods": methods,
+        "zs": {m: summarize(zs[m]) for m in zs},
+        "calib": {m: summarize(cal[m]) for m in cal},
+        "tca": {"status": "timeout",
+                "reason": "8000x8000 generalized eigenproblem exceeds 120s budget"},
     }
-    print(target, {m: (round(methods[m]["mean_acc"], 4) if methods[m]["mean_acc"] else methods[m]["status"])
-                   for m in methods})
+    print(target,
+          "ZS:", {m: (round(results[target]["zs"][m]["mean_acc"], 4)
+                       if results[target]["zs"][m]["mean_acc"] else "n/a") for m in zs},
+          "CAL:", {m: (round(results[target]["calib"][m]["mean_acc"], 4)
+                       if results[target]["calib"][m]["mean_acc"] else "n/a") for m in cal})
 
 OUT.parent.mkdir(parents=True, exist_ok=True)
 json.dump(results, open(OUT, "w"), indent=2)
