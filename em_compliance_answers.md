@@ -35,7 +35,7 @@
 > 标准回复：Yes — Available in a public repository.
 > - Raw EEG datasets: publicly available from their original repositories (MAHNOB-HCI, DEAP, SEED/SEED-IV, DREAMER, FACED, OpenNeuro ds004572, OpenNeuro ds006437).
 > - Derived, de-identified preprocessed matrices and per-participant splits: deposited in the public GitHub repository https://github.com/korose523/Hypnotise under `processed/` and `splits/`.
-> - Permanent versioned archive with DOI: Zenodo software archive (v1.0.12), https://doi.org/10.5281/zenodo.21531272 (concept DOI; versioned record https://doi.org/10.5281/zenodo.21531272).
+> - Permanent versioned archive with DOI: Zenodo software archive (v1.0.12), https://doi.org/10.5281/zenodo.21531272 (concept DOI; v1.0.12 versioned record https://doi.org/10.5281/zenodo.21922749).
 
 **Q7. Code availability — Is code available?**
 > 标准回复：Yes — Available in a public repository. Complete source code, experiment scripts, configuration files, and result JSONs are in the public GitHub repository https://github.com/korose523/Hypnotise (MIT license). A single script, `run_exp101_reproducible.py`, regenerates the main results with fixed parameters (MAX_SRC=8000, MAX_TGT=8000, n_estimators=200, 20 seeds).
