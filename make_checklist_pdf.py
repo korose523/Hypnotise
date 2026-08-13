@@ -8,8 +8,8 @@ from reportlab.lib.enums import TA_LEFT
 from reportlab.platypus import (SimpleDocTemplate, Paragraph, Spacer, Table,
                                 TableStyle)
 
-SRC = r"H:/universal_bci_hypnosis/reporting_checklist.md"
-OUT = r"H:/universal_bci_hypnosis/reporting_checklist_S1.pdf"
+SRC = r"E:/universal_bci_hypnosis/reporting_checklist.md"
+OUT = r"E:/universal_bci_hypnosis/reporting_checklist_S1.pdf"
 
 with open(SRC, encoding="utf-8") as f:
     lines = [ln.rstrip("\n") for ln in f]
