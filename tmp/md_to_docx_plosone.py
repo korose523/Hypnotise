@@ -16,7 +16,7 @@ from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
-SRC = r"H:/universal_bci_hypnosis/paper_final.md"
+SRC = r"E:/universal_bci_hypnosis/paper_final.md"
 OUT = r"C:/Users/Administrator/Downloads/paper_en_submission_v2.docx"
 
 # ---------- inline formatting ----------

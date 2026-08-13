@@ -1,0 +1,99 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Times-Roman /Encoding /WinAnsiEncoding >>
+endobj
+5 0 obj
+<< /Length 2658 >>
+stream
+BT
+54 788 Td
+/F1 11 Tf
+(Dear PLOS ONE Editorial Team,) Tj
+0 -15 Td
+0 -8 Td
+(Please find enclosed our manuscript entitled) Tj
+0 -15 Td
+/F1 7 Tf
+("Multi-source domain generalization with few-shot calibration for cross-dataset EEG state classification under proxy labels") Tj
+0 -15 Td
+/F1 11 Tf
+(for consideration as a Research Article. This study presents a multi-source domain) Tj
+0 -15 Td
+(generalization framework that aligns eight public EEG datasets to a common 14-channel) Tj
+0 -15 Td
+(representation and evaluates zero-shot transfer and few-shot calibration for cross-dataset EEG) Tj
+0 -15 Td
+(state classification under weak proxy-derived labels; we explicitly refrain from claiming) Tj
+0 -15 Td
+(clinical hypnosis-depth classification and instead frame the three-class labels) Tj
+0 -15 Td
+(\(Awake/Light/Deep\) as indicative EEG state categories derived from task conditions, event-phase) Tj
+0 -15 Td
+(markers, or arousal self-reports. The work meets PLOS ONE's publication criteria in that the) Tj
+0 -15 Td
+(methods are rigorous and reproducible, all quantitative claims are regenerated from a single) Tj
+0 -15 Td
+(fixed-seed script with deposited result files, and the conclusions are supported by the data) Tj
+0 -15 Td
+(without overstatement \(including an explicit caveat that aggregate calibration gain is driven) Tj
+0 -15 Td
+(by a single outlying dataset while balanced accuracy remains at chance\). We confirm this) Tj
+0 -15 Td
+(manuscript is original, not under consideration elsewhere, and approved by all authors; we) Tj
+0 -15 Td
+(further declare full compliance with PLOS ONE policies, including an approved IRB exemption) Tj
+0 -15 Td
+(\(YSUIRB-202607-HR-219-02\), a public Data and Code Availability Statement backed by an open) Tj
+0 -15 Td
+(GitHub repository, a STROBE/TRIPOD+AI-style reporting checklist provided as Supplementary File) Tj
+0 -15 Td
+(S1, a completed PLOS Human Participants Research Checklist provided as Supplementary File S2,) Tj
+0 -15 Td
+(and completed Funding, Competing Interests, and Author Contributions \(CRediT\) statements. We) Tj
+0 -15 Td
+(believe this cross-dataset benchmarking study will be of interest to the brain-computer) Tj
+0 -15 Td
+(interface, affective computing, and machine-learning reproducibility communities.) Tj
+0 -15 Td
+0 -8 Td
+(Sincerely,) Tj
+0 -15 Td
+0 -8 Td
+(Weng Zexiao) Tj
+0 -15 Td
+(Department of Computer Engineering, Youngsan University) Tj
+0 -15 Td
+(Email: wengzexiao@office.ysu.ac.kr) Tj
+0 -15 Td
+0 -8 Td
+(Jung Minpo \(Corresponding Author\)) Tj
+0 -15 Td
+(Associate Professor, Department of Computer Engineering, Youngsan University) Tj
+0 -15 Td
+(Email: minpo@ysu.ac.kr) Tj
+0 -15 Td
+ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000241 00000 n 
+0000000340 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+3050
+%%EOF
