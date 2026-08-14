@@ -12,7 +12,7 @@ endobj
 << /Type /Font /Subtype /Type1 /BaseFont /Times-Roman /Encoding /WinAnsiEncoding >>
 endobj
 5 0 obj
-<< /Length 2658 >>
+<< /Length 2902 >>
 stream
 BT
 54 788 Td
@@ -52,17 +52,23 @@ BT
 0 -15 Td
 (further declare full compliance with PLOS ONE policies, including an approved IRB exemption) Tj
 0 -15 Td
-(\(YSUIRB-202607-HR-219-02\), a public Data and Code Availability Statement backed by an open) Tj
+(\(YSUIRB-202607-HR-219-02\); we note that the manuscript title was revised during the review) Tj
 0 -15 Td
-(GitHub repository, a STROBE/TRIPOD+AI-style reporting checklist provided as Supplementary File) Tj
+(process and the IRB protocol was registered under the earlier title "Cross-Dataset EEG Hypnosis) Tj
 0 -15 Td
-(S1, a completed PLOS Human Participants Research Checklist provided as Supplementary File S2,) Tj
+(Depth Classification" for the same study, a public Data and Code Availability Statement backed) Tj
 0 -15 Td
-(and completed Funding, Competing Interests, and Author Contributions \(CRediT\) statements. We) Tj
+(by an open GitHub repository, a STROBE/TRIPOD+AI-style reporting checklist provided as) Tj
 0 -15 Td
-(believe this cross-dataset benchmarking study will be of interest to the brain-computer) Tj
+(Supplementary File S1, a completed PLOS Human Participants Research Checklist provided as) Tj
 0 -15 Td
-(interface, affective computing, and machine-learning reproducibility communities.) Tj
+(Supplementary File S2, and completed Funding, Competing Interests, and Author Contributions) Tj
+0 -15 Td
+(\(CRediT\) statements. We believe this cross-dataset benchmarking study will be of interest to) Tj
+0 -15 Td
+(the brain-computer interface, affective computing, and machine-learning reproducibility) Tj
+0 -15 Td
+(communities.) Tj
 0 -15 Td
 0 -8 Td
 (Sincerely,) Tj
@@ -95,5 +101,5 @@ xref
 trailer
 << /Size 6 /Root 1 0 R >>
 startxref
-3050
+3294
 %%EOF

@@ -1,12 +1,38 @@
 #!/usr/bin/env python3
 """Render plos_human_participants_checklist.md -> plos_human_participants_checklist_S2.pdf (Supplementary File S2)."""
+import re
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import mm
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_LEFT
 from reportlab.platypus import (SimpleDocTemplate, Paragraph, Spacer, Table,
-                                TableStyle)
+                                TableStyle, Flowable)
+
+
+class Checkbox(Flowable):
+    """Draws a real checkbox (square outline with a check) — font-independent."""
+    def __init__(self, size=4 * mm, checked=True):
+        Flowable.__init__(self)
+        self.size = size
+        self.checked = checked
+
+    def wrap(self, *a):
+        return (self.size, self.size)
+
+    def draw(self):
+        c = self.canv
+        c.setStrokeColor(colors.black)
+        c.setLineWidth(0.8)
+        c.rect(0, 0, self.size, self.size, stroke=1, fill=0)
+        if self.checked:
+            c.setLineWidth(1.3)
+            c.setStrokeColor(colors.black)
+            # check mark: two diagonal strokes inside the box
+            c.line(self.size * 0.22, self.size * 0.48,
+                   self.size * 0.42, self.size * 0.24)
+            c.line(self.size * 0.42, self.size * 0.24,
+                   self.size * 0.82, self.size * 0.80)
 
 SRC = r"E:/universal_bci_hypnosis/plos_human_participants_checklist.md"
 OUT = r"E:/universal_bci_hypnosis/plos_human_participants_checklist_S2.pdf"
@@ -31,7 +57,7 @@ for ln in lines:
         table_rows.append(cells)
         state = "table"
     elif ln.strip().startswith("- ["):
-        confirms.append(ln.strip()[4:].strip())
+        confirms.append(re.sub(r"^\s*-\s*\[[ xX]\]\s*", "", ln.strip()))
         state = "confirms"
     elif ln.strip().startswith("-") and state in ("table", "notes", "confirms"):
         notes.append(ln.strip()[1:].strip())
@@ -82,7 +108,16 @@ flow.append(tbl)
 flow.append(Spacer(1, 8))
 flow.append(Paragraph("<b>Confirmations</b>", BODY))
 for c in confirms:
-    flow.append(Paragraph("&#9744; " + c, BODY))
+    row = Table([[Checkbox(), Paragraph(c, BODY)]],
+                colWidths=[6 * mm, (A4[0] - 36 * mm - 6 * mm)])
+    row.setStyle(TableStyle([
+        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+        ("LEFTPADDING", (0, 0), (-1, -1), 0),
+        ("RIGHTPADDING", (0, 0), (0, 0), 1.5 * mm),
+        ("TOPPADDING", (0, 0), (-1, -1), 2),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 2),
+    ]))
+    flow.append(row)
 
 doc.build(flow)
 print("PDF written:", OUT)

@@ -3,12 +3,12 @@
 This checklist adapts the **STROBE** statement (observational studies) and the
 **TRIPOD+AI** checklist (prediction-model reporting) to the cross-dataset
 machine-learning benchmarking design of this study. Items are mapped to the
-sections of `paper_final.md`.
+sections of `paper_en_submission_v6.docx`.
 
 | # | Reporting item | Addressed in | Status |
 |---|----------------|--------------|--------|
 | 1 | Study design explicitly described (LODO/LOSO benchmarking) | §1, §3.2 | ✅ |
-| 2 | Data sources & eligibility, public repositories named | §3.1, §8.2 | ✅ |
+| 2 | Data sources & eligibility, public repositories named | §3.1, §6.2 | ✅ |
 | 3 | **Proxy (non-validated) labels** explicitly declared & derived | §3.1 | ✅ |
 | 4 | Participant-level (not trial-level) partitioning to avoid leakage | §3.2, §4.2 | ✅ |
 | 5 | Handling of missing / degenerate data disclosed | §3.5, §4.4 | ✅ |
@@ -20,11 +20,11 @@ sections of `paper_final.md`.
 | 11 | **Multiple-comparison control**: Holm–Bonferroni over 8 targets | §4.1 | ✅ |
 | 12 | Significance testing (Wilcoxon signed-rank) described & corrected | §4.1 | ✅ |
 | 13 | Model limitations (label collapse, class imbalance) discussed | §4.4–§4.5, §5 | ✅ |
-| 14 | Reproducibility: single-script regeneration, fixed seeds | §3.5, §8.1 | ✅ |
-| 15 | Code availability (public repo + DOI plan) | §8.1 | ✅ |
-| 16 | Data availability (raw accessions + derived intermediates) | §8.2 | ✅ |
-| 17 | Ethics / IRB exemption stated | §6 | ✅ |
-| 18 | Funding / Competing interests / Author contributions declared | §7 (Author Statements) | ✅ |
+| 14 | Reproducibility: single-script regeneration, fixed seeds | §3.5, §6.1 | ✅ |
+| 15 | Code availability (public repo + DOI plan) | §6.1 | ✅ |
+| 16 | Data availability (raw accessions + derived intermediates) | §6.2 | ✅ |
+| 17 | Ethics / IRB exemption stated | §3.7 | ✅ |
+| 18 | Funding / Competing interests / Author contributions declared | Author Contributions | ✅ |
 
 **Notes**
 - STROBE and TRIPOD+AI are reporting frameworks, not study-design mandates;
